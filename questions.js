@@ -21,13 +21,12 @@ const TESTS = {
     outOf: 120,
     questions: [
       {
-        q: "Water flows from a tap at a rate of 0.45 litres per second.\nHow much water flows in 2 hours, in m^{3}?",
-        options: ["0.0324", "0.054", "0.324", "3.24", "32.4", "54", "324", "3 240"],
-        answer: 3,
+        q: "A force of 36 N acts evenly on a square face of side 3 cm.\nUsing pressure = force / area, what is the pressure on the face, in N/m^{2}?",
+        options: ["0.4", "4", "12", "40", "400", "4 000", "12 000", "40 000"],
+        answer: 7,
         topic: "M1 Units",
         marks: 3,
-        solution: "2 hours = 7200 s, so the volume is 0.45 × 7200 = 3240 litres. 1 m^{3} = 1000 litres, so 3240 ÷ 1000 = 3.24 m^{3}.",
-        solutionImage: "solutions/m1-q01-units.jpg",
+        solutionImage: "solutions/m1-q01.jpg",
       },
       {
         q: "Find the value of (16^{3/4} × 27^{−2/3}) / (8^{−1/3} × 9^{1/2}).",
