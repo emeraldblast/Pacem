@@ -466,6 +466,8 @@ sup { font-size: 0.72em; line-height: 0; }
 [data-theme="dark"] .review-item .option.right { background: #173a26; color: var(--text); }
 [data-theme="dark"] .review-item .option.wrong { background: #48201d; color: var(--text); }
 
+.solution-sheet { display: block; width: 100%; max-width: 760px; height: auto; margin-top: 16px; border-radius: 12px; }
+
 .solution { margin-top: 16px; padding: 14px 16px; background: var(--hover); border-radius: 12px; white-space: pre-line; }
 
 .solution strong { display: block; margin-bottom: 4px; }

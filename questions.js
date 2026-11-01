@@ -11,6 +11,7 @@
 //     topic: "M1 Units",                       // optional: short code, then the name, for the results
 //     marks: 3,                                // optional, otherwise 1
 //     solution: "Worked answer",               // optional, shown after the test
+//     solutionImage: "solutions/x.png",        // optional, shown instead of solution, which becomes its alt text
 //   },
 const TESTS = {
   math: {
@@ -25,6 +26,7 @@ const TESTS = {
         topic: "M1 Units",
         marks: 3,
         solution: "1. Time for the first part = 72 ÷ 48 = 1.5 h.\n2. Time for the second part = 108 ÷ 72 = 1.5 h.\n3. Total distance = 72 + 108 = 180 km; total time = 3 h.\n4. Average speed = total distance ÷ total time = 180 ÷ 3 = 60 km/h.",
+        solutionImage: "solutions/math-q1.png",
       },
       {
         q: "A metal sample has a mass of 2.4 kg and a volume of 800 cm³. What is its density in g/cm³?",
@@ -33,6 +35,7 @@ const TESTS = {
         topic: "M1 Units",
         marks: 3,
         solution: "1. Convert mass: 2.4 kg = 2400 g.\n2. Density = mass ÷ volume = 2400 ÷ 800.\n3. Therefore density = 3 g/cm³.",
+        solutionImage: "solutions/math-q2.png",
       },
       {
         q: "A tank has a capacity of 0.75 m³ and is initially 25% full. Water enters at 12 litres per minute. How long will it take to fill the tank?",
@@ -41,6 +44,7 @@ const TESTS = {
         topic: "M1 Units",
         marks: 3,
         solution: "1. Convert the capacity: 0.75 m³ = 750 L.\n2. The unfilled fraction is 100% − 25% = 75%.\n3. Water required = 0.75 × 750 = 562.5 L.\n4. Time = 562.5 ÷ 12 = 46.875 minutes.",
+        solutionImage: "solutions/math-q3.png",
       },
       {
         q: "A machine applies a force of 540 N uniformly over a rectangular contact area of 0.018 m². Find the pressure exerted.",
@@ -49,6 +53,7 @@ const TESTS = {
         topic: "M1 Units",
         marks: 3,
         solution: "1. Pressure = force ÷ area.\n2. P = 540 ÷ 0.018 = 30,000.\n3. The pressure is 30,000 Pa.",
+        solutionImage: "solutions/math-q4.png",
       },
       {
         q: "Evaluate (5/6 − 1/4) ÷ (7/9).",
@@ -57,6 +62,7 @@ const TESTS = {
         topic: "M2 Number",
         marks: 3,
         solution: "1. Find a common denominator: 5/6 − 1/4 = 10/12 − 3/12 = 7/12.\n2. Dividing by 7/9 is multiplying by 9/7.\n3. (7/12) × (9/7) = 9/12 = 3/4.",
+        solutionImage: "solutions/math-q5.png",
       },
       {
         q: "Two positive integers have an HCF of 18 and an LCM of 540. One integer is 90. Find the other integer.",
@@ -65,6 +71,7 @@ const TESTS = {
         topic: "M2 Number",
         marks: 3,
         solution: "1. For two positive integers a and b, a × b = HCF(a,b) × LCM(a,b).\n2. Let the missing integer be n. Then 90n = 18 × 540.\n3. n = (18 × 540) ÷ 90 = 108.",
+        solutionImage: "solutions/math-q6.png",
       },
       {
         q: "Simplify 4/(√3 − 1), giving an exact answer with a rational denominator.",
@@ -73,6 +80,7 @@ const TESTS = {
         topic: "M2 Number",
         marks: 4,
         solution: "1. Multiply numerator and denominator by the conjugate √3 + 1.\n2. 4/(√3−1) = 4(√3+1)/[(√3−1)(√3+1)].\n3. The denominator is 3 − 1 = 2.\n4. The result is 2(√3 + 1).",
+        solutionImage: "solutions/math-q7.png",
       },
       {
         q: "A rectangle has a length of 12.4 cm and a width of 7.8 cm, each correct to the nearest 0.1 cm. What is the upper bound for its area?",
@@ -81,6 +89,7 @@ const TESTS = {
         topic: "M2 Number",
         marks: 4,
         solution: "1. A measurement correct to the nearest 0.1 cm has an upper bound 0.05 cm above the stated value.\n2. Upper length = 12.45 cm and upper width = 7.85 cm.\n3. For positive dimensions, the maximum area is the product of the upper bounds.\n4. Area upper bound = 12.45 × 7.85 = 97.7325 cm².",
+        solutionImage: "solutions/math-q8.png",
       },
       {
         q: "Evaluate [(6.0 × 10^{−3})(2.5 × 10^{7})] ÷ (1.5 × 10^{2}), giving the answer in standard form.",
@@ -89,6 +98,7 @@ const TESTS = {
         topic: "M2 Number",
         marks: 4,
         solution: "1. Combine the numerical factors: (6.0 × 2.5) ÷ 1.5 = 10.\n2. Combine the powers of ten: 10^{−3} × 10^{7} ÷ 10^{2} = 10^{−3+7−2} = 10^{2}.\n3. Thus the value is 10 × 10^{2} = 1.0 × 10^{3}, which is in standard form.",
+        solutionImage: "solutions/math-q9.png",
       },
       {
         q: "Express the recurring decimal 0.2777… (only the digit 7 repeats) as a fraction in its simplest form.",
@@ -97,6 +107,7 @@ const TESTS = {
         topic: "M2 Number",
         marks: 4,
         solution: "1. Let x = 0.2777… .\n2. Then 10x = 2.777… and 100x = 27.777… .\n3. Subtract: 100x − 10x = 27.777… − 2.777… = 25.\n4. So 90x = 25 and x = 25/90 = 5/18.",
+        solutionImage: "solutions/math-q10.png",
       },
       {
         q: "A 64-litre mixture contains acid and water in the ratio 3:5. Eight litres of the mixture are removed, and then 7 litres of pure acid are added. What is the new ratio of acid to water?",
@@ -105,6 +116,7 @@ const TESTS = {
         topic: "M3 Ratio and proportion",
         marks: 3,
         solution: "1. Initially, acid = (3/8) × 64 = 24 L and water = (5/8) × 64 = 40 L.\n2. The 8 L removed has acid:water = 3:5, so 3 L acid and 5 L water are removed.\n3. Remaining amounts: acid = 21 L, water = 35 L. Adding 7 L acid gives 28 L acid.\n4. New ratio = 28:35 = 4:5.",
+        solutionImage: "solutions/math-q11.png",
       },
       {
         q: "A product's price is increased by 15% and then discounted by 10%. The final price is 310.50. What was the original price?",
@@ -113,6 +125,7 @@ const TESTS = {
         topic: "M3 Ratio and proportion",
         marks: 4,
         solution: "1. Let the original price be P.\n2. After a 15% increase, the price is 1.15P.\n3. After a 10% discount, it is 0.90 × 1.15P = 1.035P.\n4. Therefore 1.035P = 310.50, so P = 310.50 ÷ 1.035 = 300.",
+        solutionImage: "solutions/math-q12.png",
       },
       {
         q: "The variable y is inversely proportional to the square of x. When x = 3, y = 8. Find y when x = 4.",
@@ -121,6 +134,7 @@ const TESTS = {
         topic: "M3 Ratio and proportion",
         marks: 4,
         solution: "1. Inverse-square proportion means y = k/x² for a constant k.\n2. Using x = 3 and y = 8: 8 = k/9, so k = 72.\n3. When x = 4, y = 72/16 = 4.5.",
+        solutionImage: "solutions/math-q13.png",
       },
       {
         q: "Two similar figures have corresponding side lengths in the ratio 3:5. The area of the smaller figure is 54 cm². Find the area of the larger figure.",
@@ -129,6 +143,7 @@ const TESTS = {
         topic: "M3 Ratio and proportion",
         marks: 4,
         solution: "1. The linear scale factor from smaller to larger is 5/3.\n2. Areas scale by the square of the linear scale factor: (5/3)² = 25/9.\n3. Larger area = 54 × 25/9 = 6 × 25 = 150 cm².",
+        solutionImage: "solutions/math-q14.png",
       },
       {
         q: "An account contains 8,000 units of currency and earns 5% interest compounded annually. How much is in the account after two years, assuming no deposits or withdrawals?",
@@ -137,6 +152,7 @@ const TESTS = {
         topic: "M3 Ratio and proportion",
         marks: 5,
         solution: "1. Compound growth formula: A = P(1 + r)^{n}.\n2. Here P = 8000, r = 0.05 and n = 2.\n3. A = 8000(1.05)² = 8000 × 1.1025.\n4. A = 8,820 units.",
+        solutionImage: "solutions/math-q15.png",
       },
       {
         q: "A line passes through (4, −1) and is perpendicular to the line 3x − 2y = 7. Which equation represents the required line?",
@@ -145,6 +161,7 @@ const TESTS = {
         topic: "M4 Algebra",
         marks: 4,
         solution: "1. Rearrange 3x − 2y = 7: y = (3/2)x − 7/2, so its gradient is 3/2.\n2. A perpendicular line has gradient −2/3 (negative reciprocal).\n3. Use y − y₁ = m(x − x₁) through (4, −1): y + 1 = −(2/3)(x − 4).\n4. Expanding gives y = −(2/3)x + 5/3.",
+        solutionImage: "solutions/math-q16.png",
       },
       {
         q: "Solve 2x² − 7x + 3 = 0.",
@@ -153,6 +170,7 @@ const TESTS = {
         topic: "M4 Algebra",
         marks: 4,
         solution: "1. Factorise: 2x² − 7x + 3 = (2x − 1)(x − 3).\n2. Set each factor equal to zero: 2x − 1 = 0 or x − 3 = 0.\n3. Therefore x = 1/2 or x = 3.",
+        solutionImage: "solutions/math-q17.png",
       },
       {
         q: "The graphs y = 2x − 1 and y = x² − 4 intersect at two points. What is the sum of the y-coordinates of the intersection points?",
@@ -163,6 +181,7 @@ const TESTS = {
         topic: "M4 Algebra",
         marks: 5,
         solution: "1. At an intersection, 2x − 1 = x² − 4.\n2. Rearrange: x² − 2x − 3 = 0 = (x − 3)(x + 1).\n3. Thus x = 3 or x = −1.\n4. The corresponding y-values are 2(3) − 1 = 5 and 2(−1) − 1 = −3.\n5. Their sum is 5 + (−3) = 2.",
+        solutionImage: "solutions/math-q18.png",
       },
       {
         q: "A sequence begins 3, 8, 15, 24, 35, … . What is its 20th term?",
@@ -171,6 +190,7 @@ const TESTS = {
         topic: "M4 Algebra",
         marks: 4,
         solution: "1. The first differences are 5, 7, 9, 11, …, so the second difference is 2.\n2. A quadratic rule is suggested. Testing n² + 2n gives 3, 8, 15, 24, 35 for n = 1, 2, 3, 4, 5.\n3. The nth term is n² + 2n.\n4. At n = 20: 20² + 2(20) = 400 + 40 = 440.",
+        solutionImage: "solutions/math-q19.png",
       },
       {
         q: "The graph of y = x² − 4x + 1 is shown. What are the coordinates of its turning point?",
@@ -181,6 +201,7 @@ const TESTS = {
         topic: "M4 Algebra",
         marks: 5,
         solution: "1. Complete the square: y = x² − 4x + 1 = (x − 2)² − 3.\n2. The squared term is zero when x = 2.\n3. At x = 2, y = −3, so the turning point is (2, −3).\n4. The graph confirms that this is the minimum point because the coefficient of x² is positive.",
+        solutionImage: "solutions/math-q20.png",
       },
       {
         q: "Solve the inequality (2/3)(3x − 1) ≤ (1/2)(x + 5).",
@@ -189,6 +210,7 @@ const TESTS = {
         topic: "M4 Algebra",
         marks: 4,
         solution: "1. Multiply both sides by 6, which is positive, so the inequality direction does not change.\n2. 4(3x − 1) ≤ 3(x + 5).\n3. 12x − 4 ≤ 3x + 15, hence 9x ≤ 19.\n4. Therefore x ≤ 19/9.",
+        solutionImage: "solutions/math-q21.png",
       },
       {
         q: "Simplify [(x² − 9)/(x² + x − 6)] ÷ [(x + 3)/(x − 2)], stating the restrictions on x.",
@@ -197,6 +219,7 @@ const TESTS = {
         topic: "M4 Algebra",
         marks: 5,
         solution: "1. Factorise: x² − 9 = (x − 3)(x + 3), and x² + x − 6 = (x + 3)(x − 2).\n2. Rewrite division as multiplication by the reciprocal.\n3. The expression becomes [(x − 3)(x + 3)/((x + 3)(x − 2))] × [(x − 2)/(x + 3)].\n4. Cancel common factors to obtain (x − 3)/(x + 3).\n5. The original denominators require x ≠ −3, 2; the divisor must also be nonzero, which is already satisfied by these restrictions.",
+        solutionImage: "solutions/math-q22.png",
       },
       {
         q: "The equation x² − (k + 2)x + 2k = 0 has two real roots whose difference is 3. If k is positive, find k.",
@@ -205,6 +228,7 @@ const TESTS = {
         topic: "M4 Algebra",
         marks: 4,
         solution: "1. The quadratic factorises as (x − 2)(x − k) = 0 because the expansion is x² − (k + 2)x + 2k.\n2. Its roots are 2 and k.\n3. Their difference is |k − 2| = 3.\n4. Thus k = 5 or k = −1. Since k is positive, k = 5.",
+        solutionImage: "solutions/math-q23.png",
       },
       {
         q: "In right-angled triangle ABC, angle C is 90°, AC = 9 cm and BC = 12 cm. A perpendicular is drawn from C to hypotenuse AB, meeting it at D. Find CD.",
@@ -215,6 +239,7 @@ const TESTS = {
         topic: "M5 Geometry",
         marks: 5,
         solution: "1. First find the hypotenuse: AB = √(9² + 12²) = √225 = 15 cm.\n2. The area using the perpendicular sides is (1/2)(9)(12) = 54 cm².\n3. The same area using base AB and height CD is (1/2)(15)(CD).\n4. Thus 54 = 7.5(CD), so CD = 7.2 cm.",
+        solutionImage: "solutions/math-q24.png",
       },
       {
         q: "ABCD is a cyclic quadrilateral. Opposite angles B and D are (3x + 12)° and (5x − 8)° respectively. Find angle B.",
@@ -225,6 +250,7 @@ const TESTS = {
         topic: "M5 Geometry",
         marks: 4,
         solution: "1. Opposite angles in a cyclic quadrilateral sum to 180°.\n2. (3x + 12) + (5x − 8) = 180.\n3. 8x + 4 = 180, so 8x = 176 and x = 22.\n4. Angle B = 3(22) + 12 = 78°.",
+        solutionImage: "solutions/math-q25.png",
       },
       {
         q: "A sector has radius 9 cm and central angle 80°. Find its area in exact form.",
@@ -235,6 +261,7 @@ const TESTS = {
         topic: "M5 Geometry",
         marks: 4,
         solution: "1. Area of a sector = (θ/360°)πr².\n2. Substitute θ = 80° and r = 9 cm.\n3. Area = (80/360) × π × 9² = (2/9) × 81π = 18π cm².",
+        solutionImage: "solutions/math-q26.png",
       },
       {
         q: "Two similar solids have volumes in the ratio 8:27 (smaller to larger). The surface area of the smaller solid is 40 cm². Find the surface area of the larger solid.",
@@ -245,6 +272,7 @@ const TESTS = {
         topic: "M5 Geometry",
         marks: 4,
         solution: "1. The volume ratio is the cube of the linear scale factor.\n2. The linear ratio is ∛8 : ∛27 = 2:3.\n3. The surface-area ratio is 2²:3² = 4:9.\n4. Larger surface area = 40 × 9/4 = 90 cm².",
+        solutionImage: "solutions/math-q27.png",
       },
       {
         q: "A right-angled trapezium has parallel sides of lengths 10 cm and 16 cm. Its perpendicular height is 6 cm. Find its area.",
@@ -255,6 +283,7 @@ const TESTS = {
         topic: "M5 Geometry",
         marks: 4,
         solution: "1. Area of a trapezium = (1/2)(sum of parallel sides)(perpendicular height).\n2. Area = (1/2)(10 + 16)(6).\n3. Area = 13 × 6 = 78 cm².",
+        solutionImage: "solutions/math-q28.png",
       },
       {
         q: "A cuboid has dimensions 6 cm, 8 cm and 12 cm. Find the length of its space diagonal.",
@@ -265,6 +294,7 @@ const TESTS = {
         topic: "M5 Geometry",
         marks: 5,
         solution: "1. Apply Pythagoras in three dimensions: d² = 6² + 8² + 12².\n2. d² = 36 + 64 + 144 = 244.\n3. d = √244 = √(4 × 61) = 2√61 cm.",
+        solutionImage: "solutions/math-q29.png",
       },
       {
         q: "In parallelogram ABCD, the adjacent side vectors are AB = (5, 1) and AD = (2, 4). Find the length of diagonal AC.",
@@ -275,6 +305,7 @@ const TESTS = {
         topic: "M5 Geometry",
         marks: 5,
         solution: "1. In a parallelogram, the diagonal vector AC = AB + AD.\n2. AC = (5, 1) + (2, 4) = (7, 5).\n3. The magnitude of a vector (a, b) is √(a² + b²).\n4. |AC| = √(7² + 5²) = √74 units.",
+        solutionImage: "solutions/math-q30.png",
       },
     ],
   },
@@ -289,6 +320,7 @@ const TESTS = {
         answer: 4,
         topic: "M2 Number",
         solution: "1) Square both sides: 64×15 = 960 and 225×8 = 1800, so true.\n2) The primes are 31, 37, 41, 43, 47, which is 5 primes, so false.\n3) 25.6 < 27, so true.",
+        solutionImage: "solutions/math2-q1.png",
       },
       {
         q: "A metal sphere of radius 3 cm is melted and recast into identical smaller spheres of radius 1 cm. No material is lost. How many smaller spheres are made?",
@@ -296,6 +328,7 @@ const TESTS = {
         answer: 2,
         topic: "M5 Geometry",
         solution: "Volume is proportional to r^{3}, so the number is 3^{3}/1^{3} = 27.",
+        solutionImage: "solutions/math2-q2.png",
       },
       {
         q: "A tank is initially 3/5 full. After 24 litres are removed, it is 7/20 full. What is the tank's capacity?",
@@ -303,6 +336,7 @@ const TESTS = {
         answer: 2,
         topic: "M2 Number",
         solution: "The amount removed is 3/5 − 7/20 = 1/4 of the capacity. If 1/4 is 24 L, the capacity is 96 L.",
+        solutionImage: "solutions/math2-q3.png",
       },
       {
         q: "Simplify (√75 − √12)^{2}.",
@@ -310,6 +344,7 @@ const TESTS = {
         answer: 4,
         topic: "M2 Number",
         solution: "√75 = 5√3 and √12 = 2√3. The difference is 3√3, and its square is 27.",
+        solutionImage: "solutions/math2-q4.png",
       },
       {
         q: "A rectangle has length 12.6 cm and width 4.8 cm, each measured to the nearest 0.1 cm. Find the lower bound for its perimeter.",
@@ -317,6 +352,7 @@ const TESTS = {
         answer: 0,
         topic: "M2 Number",
         solution: "The lower bounds are 12.55 cm and 4.75 cm. Perimeter = 2(12.55 + 4.75) = 34.6 cm.",
+        solutionImage: "solutions/math2-q5.png",
       },
       {
         q: "Evaluate (4.8×10^{7})(3.5×10^{−4}), giving your answer in standard form.",
@@ -324,6 +360,7 @@ const TESTS = {
         answer: 2,
         topic: "M2 Number",
         solution: "4.8×3.5 = 16.8 and 10^{7}×10^{−4} = 10^{3}, so the value is 16.8×10^{3} = 1.68×10^{4}.",
+        solutionImage: "solutions/math2-q6.png",
       },
       {
         q: "If 9^{x} = 27^{x−1}, find x.",
@@ -331,6 +368,7 @@ const TESTS = {
         answer: 2,
         topic: "M4 Algebra",
         solution: "In base 3: 3^{2x} = 3^{3x−3}. Hence 2x = 3x − 3, so x = 3.",
+        solutionImage: "solutions/math2-q7.png",
       },
       {
         q: "The ratio of A to B is 5:7. If 8 is added to A and 4 is subtracted from B, the two amounts become equal. Find A + B initially.",
@@ -338,6 +376,7 @@ const TESTS = {
         answer: 2,
         topic: "M3 Ratio and proportion",
         solution: "Let A = 5k and B = 7k. Then 5k + 8 = 7k − 4, so k = 6 and A + B = 12k = 72.",
+        solutionImage: "solutions/math2-q8.png",
       },
       {
         q: "The cost of a product was increased by 15% and then increased by 15%. By what percentage should the cost have been increased once, in order to produce the same effect as these two successive increases?",
@@ -345,6 +384,7 @@ const TESTS = {
         answer: 4,
         topic: "M3 Ratio and proportion",
         solution: "The combined multiplier is 1.15×1.15 = 1.3225, which is a single increase of 32.25%.",
+        solutionImage: "solutions/math2-q9.png",
       },
       {
         q: "y is directly proportional to x and inversely proportional to z^{2}. When x = 6 and z = 2, y = 15. Find y when x = 10 and z = 5.",
@@ -352,6 +392,7 @@ const TESTS = {
         answer: 2,
         topic: "M3 Ratio and proportion",
         solution: "y = kx/z^{2}. From 15 = 6k/4, k = 10. Then y = 10×10/25 = 4.",
+        solutionImage: "solutions/math2-q10.png",
       },
       {
         q: "Two similar polygons have perimeters 24 cm and 40 cm. The area of the smaller polygon is 54 cm^{2}. Find the area of the larger polygon.",
@@ -359,6 +400,7 @@ const TESTS = {
         answer: 4,
         topic: "M3 Ratio and proportion",
         solution: "The length factor is 40/24 = 5/3, so the area factor is 25/9. Larger area = 54×25/9 = 150 cm^{2}.",
+        solutionImage: "solutions/math2-q11.png",
       },
       {
         q: "A 20 L solution contains 30% acid. How many litres of pure acid must be added to make the mixture 50% acid?",
@@ -366,6 +408,7 @@ const TESTS = {
         answer: 2,
         topic: "M3 Ratio and proportion",
         solution: "There are 6 L of acid at the start. (6 + x)/(20 + x) = 0.5 gives 12 + 2x = 20 + x, so x = 8.",
+        solutionImage: "solutions/math2-q12.png",
       },
       {
         q: "Simplify (22x^{2} − 49x − 15) / (2x^{2} + x − 15).",
@@ -373,6 +416,7 @@ const TESTS = {
         answer: 0,
         topic: "M4 Algebra",
         solution: "Numerator = (2x − 5)(11x + 3) and denominator = (2x − 5)(x + 3). Cancel 2x − 5 to get (11x + 3)/(x + 3).",
+        solutionImage: "solutions/math2-q13.png",
       },
       {
         q: "The equation x^{2} − px + 18 = 0 has two positive integer roots whose difference is 3. Find p.",
@@ -380,6 +424,7 @@ const TESTS = {
         answer: 2,
         topic: "M4 Algebra",
         solution: "The positive integers with product 18 and difference 3 are 3 and 6. Their sum is p = 9.",
+        solutionImage: "solutions/math2-q14.png",
       },
       {
         q: "The equation (2x − 3)^{2} = x + 10 has two roots p and q, where p > q. Find 4(p − q).",
@@ -387,6 +432,7 @@ const TESTS = {
         answer: 3,
         topic: "M4 Algebra",
         solution: "Expand: 4x^{2} − 13x − 1 = 0. The roots are (13 ± √185)/8, because the discriminant is 169 + 16 = 185. So p − q = 2√185/8 = √185/4, and 4(p − q) = √185.",
+        solutionImage: "solutions/math2-q15.png",
       },
       {
         q: "In the diagram, all measurements are in metres. The perimeter of the triangle is 56 m. The area of the triangle is A m^{2}. Work out the value of A.",
@@ -396,6 +442,7 @@ const TESTS = {
         answer: 5,
         topic: "M5 Geometry",
         solution: "(x − 1) + 3x + (3x + 1) = 7x = 56, so x = 8. The perpendicular sides are 7 and 24, and 7^{2} + 24^{2} = 25^{2} confirms the right angle. A = ½×7×24 = 84.",
+        solutionImage: "solutions/math2-q16.png",
       },
       {
         q: "Given 3x − 2y = 7 and 2x + 3y = 4, find the value of 13x.",
@@ -403,6 +450,7 @@ const TESTS = {
         answer: 3,
         topic: "M4 Algebra",
         solution: "9x − 6y = 21 and 4x + 6y = 8. Adding gives 13x = 29.",
+        solutionImage: "solutions/math2-q17.png",
       },
       {
         q: "The first three terms in an arithmetic sequence are 2, 3q^{2}, q, ... Given that the first three terms are all positive, find the fourteenth term in the sequence.",
@@ -410,6 +458,7 @@ const TESTS = {
         answer: 2,
         topic: "M4 Algebra",
         solution: "Equal differences give 6q^{2} = 2 + q, so (3q − 2)(2q + 1) = 0. All terms are positive, so q = 2/3. The terms are 2, 4/3, 2/3, with d = −2/3. Then the 14th term = 2 + 13(−2/3) = −20/3.",
+        solutionImage: "solutions/math2-q18.png",
       },
       {
         q: "Solve 4^{x+1} = 8^{2x−1}.",
@@ -417,6 +466,7 @@ const TESTS = {
         answer: 1,
         topic: "M4 Algebra",
         solution: "In base 2: 2x + 2 = 6x − 3, so x = 5/4.",
+        solutionImage: "solutions/math2-q19.png",
       },
       {
         q: "Solve (2x − 1)/3 > (x + 4)/2.",
@@ -424,6 +474,7 @@ const TESTS = {
         answer: 1,
         topic: "M4 Algebra",
         solution: "Multiply by 6: 4x − 2 > 3x + 12, so x > 14.",
+        solutionImage: "solutions/math2-q20.png",
       },
       {
         q: "The interior angles of a pentagon are in the ratio 2:3:4:5:6. Find its largest interior angle.",
@@ -431,6 +482,7 @@ const TESTS = {
         answer: 3,
         topic: "M5 Geometry",
         solution: "The angle sum is 540° and there are 20 parts, so one part is 27°. Largest angle = 6×27° = 162°.",
+        solutionImage: "solutions/math2-q21.png",
       },
       {
         q: "ABCD is a trapezoid with AB parallel to DC. Using the information in the diagram, find the length DC.",
@@ -440,6 +492,7 @@ const TESTS = {
         answer: 0,
         topic: "M5 Geometry",
         solution: "The trapezoid is isosceles, and angle ADC = 60°. Each slanted side covers 4 cos 60° = 2 horizontally. DC = 2 + 4 + 2 = 8.",
+        solutionImage: "solutions/math2-q22.png",
       },
       {
         q: "A, B and C are points on the circle, centre O. AB and OC intersect at P. Find the value of w.",
@@ -449,6 +502,7 @@ const TESTS = {
         answer: 6,
         topic: "M5 Geometry",
         solution: "Angle ABC = ½×104° = 52° (angle at the centre). Angle APO = 180° − 104° − 21° = 55°, and angle BPC equals it (vertically opposite). In triangle PBC, w = 180 − 52 − 55 = 73.",
+        solutionImage: "solutions/math2-q23.png",
       },
       {
         q: "In a right triangle, tan θ = 3/4 and the hypotenuse is 20 cm. Find the side opposite θ.",
@@ -456,6 +510,7 @@ const TESTS = {
         answer: 2,
         topic: "M5 Geometry",
         solution: "This is a 3:4:5 triangle with scale factor 4, so the opposite side is 12 cm.",
+        solutionImage: "solutions/math2-q24.png",
       },
       {
         q: "A sector of radius 9 cm has arc length 6π cm. Find its central angle in degrees.",
@@ -463,6 +518,7 @@ const TESTS = {
         answer: 2,
         topic: "M5 Geometry",
         solution: "The whole circumference is 18π, so the sector is 1/3 of the circle: 360°/3 = 120°.",
+        solutionImage: "solutions/math2-q25.png",
       },
       {
         q: "Find the area of triangle ABC.",
@@ -472,6 +528,7 @@ const TESTS = {
         answer: 2,
         topic: "M5 Geometry",
         solution: "BC = 15 tan 30° = 15/√3 = 5√3. Area = ½×15×5√3 = 75√3/2.",
+        solutionImage: "solutions/math2-q26.png",
       },
       {
         q: "Town B is 12 km due east of A. Town C is 5 km due north of B. Find the bearing of C from A to the nearest degree.",
@@ -479,6 +536,7 @@ const TESTS = {
         answer: 1,
         topic: "M5 Geometry",
         solution: "The bearing θ satisfies tan θ = 12/5, so θ ≈ 67.4°, which is 067°.",
+        solutionImage: "solutions/math2-q27.png",
       },
       {
         q: "Given a = (2, −3) and b = (−4, 1), find the magnitude of 2a + 3b.",
@@ -486,6 +544,7 @@ const TESTS = {
         answer: 1,
         topic: "M5 Geometry",
         solution: "2a + 3b = (4, −6) + (−12, 3) = (−8, −3). Magnitude = √(64 + 9) = √73.",
+        solutionImage: "solutions/math2-q28.png",
       },
       {
         q: "Two similar right-angled triangles are joined to form a quadrilateral, as shown. What is the area of the quadrilateral?",
@@ -495,6 +554,7 @@ const TESTS = {
         answer: 5,
         topic: "M5 Geometry",
         solution: "Upper triangle: area = ½×5×3 = 7.5, hypotenuse √34 and tan θ = 5/3. In the lower triangle, √34 is the side opposite θ, so the other perpendicular side is √34×3/5. Its area = ½×√34×(3√34/5) = 10.2. Total = 7.5 + 10.2 = 17.7 cm^{2}.",
+        solutionImage: "solutions/math2-q29.png",
       },
       {
         q: "For 0° ≤ x ≤ 360°, how many solutions does 2 sin x = cos^{2}x have?",
@@ -502,6 +562,7 @@ const TESTS = {
         answer: 2,
         topic: "M5 Geometry",
         solution: "Let s = sin x. Then 2s = 1 − s^{2}, so s = −1 ± √2. Only √2 − 1 lies in [−1, 1]. A positive sine value occurs twice in a full turn, so there are 2 solutions.",
+        solutionImage: "solutions/math2-q30.png",
       },
     ],
   },

@@ -314,7 +314,13 @@ function reviewItem(q, index) {
   options.append(...q.options.map((option, i) => reviewOption(q, chosen, i, option)));
   item.append(options);
 
-  if (q.solution) {
+  if (q.solutionImage) {
+    const sheet = element("img", "solution-sheet");
+    sheet.src = q.solutionImage;
+    sheet.alt = q.solution.replace(/\^\{([^}]*)\}/g, "^$1");
+    sheet.loading = "lazy";
+    item.append(sheet);
+  } else if (q.solution) {
     const solution = element("div", "solution");
     const heading = document.createElement("strong");
     heading.textContent = "Solution";
