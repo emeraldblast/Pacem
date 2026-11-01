@@ -12,14 +12,70 @@ const question = (i) => test.questions[i] || {
   options: LETTERS.slice(0, 5).map((letter) => `Option ${letter}`),
 };
 
-// Writes text into an element, turning ^{...} into superscript
-function setText(element, text) {
-  element.replaceChildren(...text.split(/\^\{([^}]*)\}/).map((part, i) => {
-    if (i % 2 === 0) return document.createTextNode(part);
+// Finds the } that closes a { opened just before start
+function closingBrace(text, start) {
+  let depth = 1;
+  for (let i = start; i < text.length; i++) {
+    if (text[i] === "{") depth++;
+    if (text[i] === "}" && --depth === 0) return i;
+  }
+  return text.length;
+}
+
+function mathSpan(className, nodes) {
+  const span = document.createElement("span");
+  span.className = className;
+  span.append(...nodes);
+  return span;
+}
+
+// The same maths on one line, for screen readers and alt text
+function flatMath(text) {
+  const wrap = (part) => (part.includes(" ") ? `(${part})` : part);
+  let last;
+  do {
+    last = text;
+    text = text
+      .replace(/\^\{([^{}]*)\}/g, "^$1")
+      .replace(/√\{([^{}]*)\}/g, (_, part) => `√${wrap(part)}`)
+      .replace(/frac\{([^{}]*)\}\{([^{}]*)\}/g, (_, top, bottom) => `${wrap(top)}/${wrap(bottom)}`);
+  } while (text !== last);
+  return text;
+}
+
+// Turns ^{...} into superscript, √{...} into a root and frac{top}{bottom} into a stacked fraction
+function mathNodes(text) {
+  const match = text.match(/\^\{|√\{|frac\{/);
+  if (!match) return [document.createTextNode(text)];
+  const open = match.index + match[0].length;
+  const close = closingBrace(text, open);
+  const before = document.createTextNode(text.slice(0, match.index));
+  const inner = text.slice(open, close);
+
+  if (match[0] === "^{") {
     const sup = document.createElement("sup");
-    sup.textContent = part;
-    return sup;
-  }));
+    sup.append(...mathNodes(inner));
+    return [before, sup, ...mathNodes(text.slice(close + 1))];
+  }
+
+  let end = close + 1;
+  let visible;
+  if (match[0] === "√{") {
+    visible = [mathSpan("root-sign", ["√"]), mathSpan("root-body", mathNodes(inner))];
+  } else {
+    end = closingBrace(text, close + 2) + 1;
+    const bottom = text.slice(close + 2, end - 1);
+    visible = [mathSpan("frac-top", mathNodes(inner)), mathSpan("frac-bottom", mathNodes(bottom))];
+  }
+  const math = mathSpan(match[0] === "√{" ? "root" : "frac", visible);
+  math.setAttribute("role", "img");
+  math.setAttribute("aria-label", flatMath(text.slice(match.index, end)));
+  return [before, math, ...mathNodes(text.slice(end))];
+}
+
+// Writes text into an element, laying out any maths in it
+function setText(element, text) {
+  element.replaceChildren(...mathNodes(text));
 }
 
 function loadState() {
@@ -317,7 +373,7 @@ function reviewItem(q, index) {
   if (q.solutionImage) {
     const sheet = element("img", "solution-sheet");
     sheet.src = q.solutionImage;
-    sheet.alt = q.solution.replace(/\^\{([^}]*)\}/g, "^$1");
+    sheet.alt = flatMath(q.solution);
     sheet.loading = "lazy";
     item.append(sheet);
   } else if (q.solution) {

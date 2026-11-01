@@ -244,6 +244,24 @@
 
 sup { font-size: 0.72em; line-height: 0; }
 
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.15em 0.15em;
+  vertical-align: middle;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.frac-top, .frac-bottom { padding: 0 0.2em; }
+.frac-top { padding-bottom: 0.08em; }
+.frac-bottom { width: 100%; padding-top: 0.08em; border-top: 0.08em solid currentColor; text-align: center; }
+
+.root { display: inline-flex; align-items: stretch; white-space: nowrap; }
+.root-sign { margin-right: -0.04em; }
+.root-body { padding: 0 0.1em; border-top: 0.07em solid currentColor; }
+
 .options { display: grid; gap: 12px; }
 
 .options.two-columns {

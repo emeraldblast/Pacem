@@ -14,7 +14,7 @@ Then open http://localhost:8000/. Local logins use the live Supabase project, so
 
 ## Add or change content
 
-- Mock tests are in `questions.js`. The comment at the top shows every field, and each `image` needs an `alt`.
+- Mock tests are in `questions.js`. The comment at the top shows every field and the maths markup, and each `image` needs an `alt`.
 - List new mocks in `SUBJECTS` in `index.html`.
 - Maths solutions are images in `solutions/`, linked by `solutionImage`. The `solution` text stays as their alt text, so keep the two in step.
 - After changing a file, raise the `?v=` number in the HTML pages so browsers load the new version.

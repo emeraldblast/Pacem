@@ -4,6 +4,7 @@
 //     passage: "Text to read first",           // optional, shown above the question
 //     table: { head: [...], rows: [[...]] },   // optional, shown after the passage
 //     q: "Question text",                      // ^{...} makes superscript, as in x^{2}
+//                                              // √{...} makes a root, as in √{3}, and frac{top}{bottom} a fraction
 //     image: "images/q1.png",                  // optional, for questions with a diagram
 //     alt: "What the diagram shows",           // needed with image, for screen readers
 //     options: ["...", "...", "..."],          // 2 to 8 options, shown as A to H
@@ -56,8 +57,8 @@ const TESTS = {
         solutionImage: "solutions/math-q4.png",
       },
       {
-        q: "Evaluate (5/6 − 1/4) ÷ (7/9).",
-        options: ["7/12", "3/4", "5/8", "9/14", "7/18"],
+        q: "Evaluate (frac{5}{6} − frac{1}{4}) ÷ frac{7}{9}.",
+        options: ["frac{7}{12}", "frac{3}{4}", "frac{5}{8}", "frac{9}{14}", "frac{7}{18}"],
         answer: 1,
         topic: "M2 Number",
         marks: 3,
@@ -74,8 +75,8 @@ const TESTS = {
         solutionImage: "solutions/math-q6.png",
       },
       {
-        q: "Simplify 4/(√3 − 1), giving an exact answer with a rational denominator.",
-        options: ["2(√3 − 1)", "2(√3 + 1)", "4√3 + 1", "√3 + 1", "4(√3 + 1)"],
+        q: "Simplify frac{4}{√{3} − 1}, giving an exact answer with a rational denominator.",
+        options: ["2(√{3} − 1)", "2(√{3} + 1)", "4√{3} + 1", "√{3} + 1", "4(√{3} + 1)"],
         answer: 1,
         topic: "M2 Number",
         marks: 4,
@@ -102,7 +103,7 @@ const TESTS = {
       },
       {
         q: "Express the recurring decimal 0.2777… (only the digit 7 repeats) as a fraction in its simplest form.",
-        options: ["2/9", "1/3", "7/25", "5/18", "3/11"],
+        options: ["frac{2}{9}", "frac{1}{3}", "frac{7}{25}", "frac{5}{18}", "frac{3}{11}"],
         answer: 3,
         topic: "M2 Number",
         marks: 4,
@@ -156,7 +157,7 @@ const TESTS = {
       },
       {
         q: "A line passes through (4, −1) and is perpendicular to the line 3x − 2y = 7. Which equation represents the required line?",
-        options: ["y = (2/3)x − 11/3", "y = (3/2)x − 7", "y = −(3/2)x + 5", "y = −(2/3)x + 5/3", "y = (2/3)x + 5/3"],
+        options: ["y = frac{2}{3}x − frac{11}{3}", "y = frac{3}{2}x − 7", "y = −frac{3}{2}x + 5", "y = −frac{2}{3}x + frac{5}{3}", "y = frac{2}{3}x + frac{5}{3}"],
         answer: 3,
         topic: "M4 Algebra",
         marks: 4,
@@ -165,7 +166,7 @@ const TESTS = {
       },
       {
         q: "Solve 2x² − 7x + 3 = 0.",
-        options: ["x = 3 or x = 1/2", "x = −3 or x = −1/2", "x = 1 or x = 3/2", "x = −1 or x = 3", "x = 2 or x = 3"],
+        options: ["x = 3 or x = frac{1}{2}", "x = −3 or x = −frac{1}{2}", "x = 1 or x = frac{3}{2}", "x = −1 or x = 3", "x = 2 or x = 3"],
         answer: 0,
         topic: "M4 Algebra",
         marks: 4,
@@ -204,8 +205,8 @@ const TESTS = {
         solutionImage: "solutions/math-q20.png",
       },
       {
-        q: "Solve the inequality (2/3)(3x − 1) ≤ (1/2)(x + 5).",
-        options: ["x ≤ 5/3", "x ≤ 17/9", "x ≤ 3", "x ≥ 19/9", "x ≤ 19/9"],
+        q: "Solve the inequality frac{2}{3}(3x − 1) ≤ frac{1}{2}(x + 5).",
+        options: ["x ≤ frac{5}{3}", "x ≤ frac{17}{9}", "x ≤ 3", "x ≥ frac{19}{9}", "x ≤ frac{19}{9}"],
         answer: 4,
         topic: "M4 Algebra",
         marks: 4,
@@ -213,8 +214,8 @@ const TESTS = {
         solutionImage: "solutions/math-q21.png",
       },
       {
-        q: "Simplify [(x² − 9)/(x² + x − 6)] ÷ [(x + 3)/(x − 2)], stating the restrictions on x.",
-        options: ["(x + 3)/(x − 3), x ≠ −3, 2", "(x − 3)/(x + 3), x ≠ −3, 2", "(x − 3)/(x − 2), x ≠ −3, 2", "(x + 3)/(x + 2), x ≠ −3, 2", "(x − 2)/(x + 3), x ≠ −3, 2"],
+        q: "Simplify frac{x² − 9}{x² + x − 6} ÷ frac{x + 3}{x − 2}, stating the restrictions on x.",
+        options: ["frac{x + 3}{x − 3}, x ≠ −3, 2", "frac{x − 3}{x + 3}, x ≠ −3, 2", "frac{x − 3}{x − 2}, x ≠ −3, 2", "frac{x + 3}{x + 2}, x ≠ −3, 2", "frac{x − 2}{x + 3}, x ≠ −3, 2"],
         answer: 1,
         topic: "M4 Algebra",
         marks: 5,
@@ -289,7 +290,7 @@ const TESTS = {
         q: "A cuboid has dimensions 6 cm, 8 cm and 12 cm. Find the length of its space diagonal.",
         image: "images/math-q29.png",
         alt: "Cuboid with edges of 6 cm, 8 cm and 12 cm and a dashed space diagonal d.",
-        options: ["2√55 cm", "2√61 cm", "4√13 cm", "14 cm", "16 cm"],
+        options: ["2√{55} cm", "2√{61} cm", "4√{13} cm", "14 cm", "16 cm"],
         answer: 1,
         topic: "M5 Geometry",
         marks: 5,
@@ -300,7 +301,7 @@ const TESTS = {
         q: "In parallelogram ABCD, the adjacent side vectors are AB = (5, 1) and AD = (2, 4). Find the length of diagonal AC.",
         image: "images/math-q30.png",
         alt: "Parallelogram ABCD with arrows AB = (5, 1) and AD = (2, 4), and dashed diagonal AC.",
-        options: ["√50", "√74", "√65", "√58", "√85"],
+        options: ["√{50}", "√{74}", "√{65}", "√{58}", "√{85}"],
         answer: 1,
         topic: "M5 Geometry",
         marks: 5,
@@ -315,7 +316,7 @@ const TESTS = {
     minutes: 60,
     questions: [
       {
-        q: "Which of the following statements are true?\n1) 8√15 < 15√8\n2) There are 6 primes between 30 and 50.\n3) 40% of 64 is less than 60% of 45.",
+        q: "Which of the following statements are true?\n1) 8√{15} < 15√{8}\n2) There are 6 primes between 30 and 50.\n3) 40% of 64 is less than 60% of 45.",
         options: ["1 only", "2 only", "3 only", "1 and 2 only", "1 and 3 only", "2 and 3 only", "1, 2 and 3", "None of them"],
         answer: 4,
         topic: "M2 Number",
@@ -331,7 +332,7 @@ const TESTS = {
         solutionImage: "solutions/math2-q2.png",
       },
       {
-        q: "A tank is initially 3/5 full. After 24 litres are removed, it is 7/20 full. What is the tank's capacity?",
+        q: "A tank is initially frac{3}{5} full. After 24 litres are removed, it is frac{7}{20} full. What is the tank's capacity?",
         options: ["80 L", "90 L", "96 L", "100 L", "120 L"],
         answer: 2,
         topic: "M2 Number",
@@ -339,7 +340,7 @@ const TESTS = {
         solutionImage: "solutions/math2-q3.png",
       },
       {
-        q: "Simplify (√75 − √12)^{2}.",
+        q: "Simplify (√{75} − √{12})^{2}.",
         options: ["9", "18", "21", "24", "27"],
         answer: 4,
         topic: "M2 Number",
@@ -411,8 +412,8 @@ const TESTS = {
         solutionImage: "solutions/math2-q12.png",
       },
       {
-        q: "Simplify (22x^{2} − 49x − 15) / (2x^{2} + x − 15).",
-        options: ["(11x + 3)/(x + 3)", "(11x − 1)/(x + 3)", "(11x + 1)/(x − 3)", "(2x − 5)/(x − 3)", "(2x − 5)/(x + 3)", "(2x + 5)/(x − 3)", "(2x + 5)/(x + 3)", "(2x − 7)/(x − 3)"],
+        q: "Simplify frac{22x^{2} − 49x − 15}{2x^{2} + x − 15}.",
+        options: ["frac{11x + 3}{x + 3}", "frac{11x − 1}{x + 3}", "frac{11x + 1}{x − 3}", "frac{2x − 5}{x − 3}", "frac{2x − 5}{x + 3}", "frac{2x + 5}{x − 3}", "frac{2x + 5}{x + 3}", "frac{2x − 7}{x − 3}"],
         answer: 0,
         topic: "M4 Algebra",
         solution: "Numerator = (2x − 5)(11x + 3) and denominator = (2x − 5)(x + 3). Cancel 2x − 5 to get (11x + 3)/(x + 3).",
@@ -428,7 +429,7 @@ const TESTS = {
       },
       {
         q: "The equation (2x − 3)^{2} = x + 10 has two roots p and q, where p > q. Find 4(p − q).",
-        options: ["√185/4", "√185/2", "13", "√185", "√153", "√137", "2√185", "4√185"],
+        options: ["frac{√{185}}{4}", "frac{√{185}}{2}", "13", "√{185}", "√{153}", "√{137}", "2√{185}", "4√{185}"],
         answer: 3,
         topic: "M4 Algebra",
         solution: "Expand: 4x^{2} − 13x − 1 = 0. The roots are (13 ± √185)/8, because the discriminant is 169 + 16 = 185. So p − q = 2√185/8 = √185/4, and 4(p − q) = √185.",
@@ -454,7 +455,7 @@ const TESTS = {
       },
       {
         q: "The first three terms in an arithmetic sequence are 2, 3q^{2}, q, ... Given that the first three terms are all positive, find the fourteenth term in the sequence.",
-        options: ["−15", "−32/9", "−20/3", "200/3", "−24", "−12", "−25/3", "3"],
+        options: ["−15", "−frac{32}{9}", "−frac{20}{3}", "frac{200}{3}", "−24", "−12", "−frac{25}{3}", "3"],
         answer: 2,
         topic: "M4 Algebra",
         solution: "Equal differences give 6q^{2} = 2 + q, so (3q − 2)(2q + 1) = 0. All terms are positive, so q = 2/3. The terms are 2, 4/3, 2/3, with d = −2/3. Then the 14th term = 2 + 13(−2/3) = −20/3.",
@@ -462,14 +463,14 @@ const TESTS = {
       },
       {
         q: "Solve 4^{x+1} = 8^{2x−1}.",
-        options: ["1", "5/4", "3/2", "2", "5/2"],
+        options: ["1", "frac{5}{4}", "frac{3}{2}", "2", "frac{5}{2}"],
         answer: 1,
         topic: "M4 Algebra",
         solution: "In base 2: 2x + 2 = 6x − 3, so x = 5/4.",
         solutionImage: "solutions/math2-q19.png",
       },
       {
-        q: "Solve (2x − 1)/3 > (x + 4)/2.",
+        q: "Solve frac{2x − 1}{3} > frac{x + 4}{2}.",
         options: ["x > 11", "x > 14", "x < 14", "x < 11", "x ≥ 14"],
         answer: 1,
         topic: "M4 Algebra",
@@ -488,7 +489,7 @@ const TESTS = {
         q: "ABCD is a trapezoid with AB parallel to DC. Using the information in the diagram, find the length DC.",
         image: "images/q22.png",
         alt: "Trapezoid ABCD with AB, AD and BC each 4 and a 120° angle at A. DC is the longer parallel side.",
-        options: ["8", "4 + 2√3", "4 + 4√3", "10", "12", "6", "6 + 2√3", "6 + √3"],
+        options: ["8", "4 + 2√{3}", "4 + 4√{3}", "10", "12", "6", "6 + 2√{3}", "6 + √{3}"],
         answer: 0,
         topic: "M5 Geometry",
         solution: "The trapezoid is isosceles, and angle ADC = 60°. Each slanted side covers 4 cos 60° = 2 horizontally. DC = 2 + 4 + 2 = 8.",
@@ -505,7 +506,7 @@ const TESTS = {
         solutionImage: "solutions/math2-q23.png",
       },
       {
-        q: "In a right triangle, tan θ = 3/4 and the hypotenuse is 20 cm. Find the side opposite θ.",
+        q: "In a right triangle, tan θ = frac{3}{4} and the hypotenuse is 20 cm. Find the side opposite θ.",
         options: ["10 cm", "11 cm", "12 cm", "15 cm", "16 cm"],
         answer: 2,
         topic: "M5 Geometry",
@@ -524,7 +525,7 @@ const TESTS = {
         q: "Find the area of triangle ABC.",
         image: "images/q26.png",
         alt: "Right triangle ABC with the right angle at C, AC 15, and a 30° angle at A.",
-        options: ["75", "75√3", "75√3/2", "225√3/2", "225/2", "25√3", "225/4", "75/2"],
+        options: ["75", "75√{3}", "frac{75√{3}}{2}", "frac{225√{3}}{2}", "frac{225}{2}", "25√{3}", "frac{225}{4}", "frac{75}{2}"],
         answer: 2,
         topic: "M5 Geometry",
         solution: "BC = 15 tan 30° = 15/√3 = 5√3. Area = ½×15×5√3 = 75√3/2.",
@@ -540,7 +541,7 @@ const TESTS = {
       },
       {
         q: "Given a = (2, −3) and b = (−4, 1), find the magnitude of 2a + 3b.",
-        options: ["√65", "√73", "√85", "√97", "13"],
+        options: ["√{65}", "√{73}", "√{85}", "√{97}", "13"],
         answer: 1,
         topic: "M5 Geometry",
         solution: "2a + 3b = (4, −6) + (−12, 3) = (−8, −3). Magnitude = √(64 + 9) = √73.",
@@ -684,7 +685,7 @@ const TESTS = {
         solution: "The pattern is: if P then Q; not Q; therefore not P. D matches. A affirms the consequent, B denies the antecedent, C improperly extends 'some', and E uses the forward implication rather than its contrapositive.",
       },
       {
-        passage: "A display board measures 180 cm by 120 cm. Photographs measure 30 cm by 20 cm. All photographs are placed in the same orientation, with the 30 cm side along the 180 cm side, with no gaps or overlaps. The number needed is found by dividing along each side and multiplying: (180/30) × (120/20).",
+        passage: "A display board measures 180 cm by 120 cm. Photographs measure 30 cm by 20 cm. All photographs are placed in the same orientation, with the 30 cm side along the 180 cm side, with no gaps or overlaps. The number needed is found by dividing along each side and multiplying: frac{180}{30} × frac{120}{20}.",
         q: "Which calculation has the same structure?",
         options: ["Finding the cost of a 6 m by 4 m carpet at £5 per square metre.", "Finding how many 2 m lengths can be cut from a 24 m rope.", "Finding how many 40 cm by 25 cm trays cover a 200 cm by 100 cm shelf in a fixed orientation.", "Finding the distance travelled in 3 hours at 60 km/h.", "Finding the volume of a 4 cm by 5 cm by 6 cm box."],
         answer: 2,
