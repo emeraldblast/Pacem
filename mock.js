@@ -5,7 +5,7 @@ const requested = new URLSearchParams(location.search).get("subject");
 const subject = Object.hasOwn(TESTS, requested || "") ? requested : "math";
 const test = TESTS[subject];
 const total = Math.max(test.total, test.questions.length);
-const storeKey = `pacemock-v7:${subject}${window.accountId ? `:${window.accountId}` : ""}`;
+const storeKey = `pacemock-v8:${subject}${window.accountId ? `:${window.accountId}` : ""}`;
 
 const question = (i) => test.questions[i] || {
   q: `Question ${i + 1} will appear here.`,
@@ -121,12 +121,15 @@ function render() {
   $("passage").hidden = !q.passage;
   setText($("passage"), q.passage || "");
   renderTable(q.table);
+  $("passage-after").hidden = !q.passageAfter;
+  setText($("passage-after"), q.passageAfter || "");
   setText($("question-text"), q.q);
   // A graph belongs to the passage, so it goes above the question
   $("question-text")[q.passage ? "before" : "after"]($("question-image"));
   $("question-image").hidden = !q.image;
   if (q.image) $("question-image").src = q.image;
   $("question-image").alt = q.alt || "";
+  $("question-image").classList.toggle("large", Boolean(q.large));
   $("previous").disabled = state.current === 0;
   $("next").disabled = state.current === total - 1;
   const marked = Boolean(state.marked[state.current]);
@@ -308,6 +311,7 @@ function reviewItem(q, index) {
   if (image) {
     image.src = q.image;
     image.alt = q.alt || "";
+    image.classList.toggle("large", Boolean(q.large));
   }
   if (q.passage) item.append(element("p", "passage", q.passage));
   if (q.table) {
@@ -315,6 +319,7 @@ function reviewItem(q, index) {
     table.append(...tableParts(q.table));
     item.append(table);
   }
+  if (q.passageAfter) item.append(element("p", "passage", q.passageAfter));
   item.append(...(q.passage ? [image, text] : [text, image]).filter(Boolean));
 
   const options = element("div", "options");

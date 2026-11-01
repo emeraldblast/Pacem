@@ -214,7 +214,7 @@
 
 .question-text { margin: 0 44px 22px 0; font-size: 19px; font-weight: 600; line-height: 1.5; white-space: pre-line; }
 
-.passage { margin: 0 44px 20px 0; font-size: 17px; line-height: 1.6; }
+.passage { margin: 0 44px 20px 0; font-size: 17px; line-height: 1.6; white-space: pre-line; }
 
 .question-table {
   width: 100%;
@@ -240,6 +240,8 @@
 }
 
 /* The diagrams are dark lines on white: flip them so they sit on the dark card */
+.question-image.large { max-width: min(100%, 560px); max-height: 480px; }
+
 [data-theme="dark"] .question-image { filter: invert(1) hue-rotate(180deg); mix-blend-mode: screen; }
 
 sup { font-size: 0.72em; line-height: 0; }
