@@ -459,9 +459,12 @@ a.subject-mock:hover { background: #e9f2ff; }
 
 .auth-link:hover { text-decoration: underline; }
 
+.end { padding-top: 14px; padding-bottom: 18px; color: var(--muted); font-size: 13px; text-align: center; }
+
+.end p { margin: 0; }
+
 @media (max-width: 860px) {
   .wrap { padding-left: 14px; padding-right: 14px; }
-  .search { display: none; }
   .channel { padding: 0 8px; }
   .channel span { display: none; }
   .card { align-items: flex-start; padding: 40px 26px 150px; border-radius: 30px; }
@@ -483,6 +486,7 @@ a.subject-mock:hover { background: #e9f2ff; }
   .mark { width: 28px; height: 20px; }
   .channel { padding: 0 4px; }
   .icon-button { width: 34px; }
+  .login, .get-started { padding: 0 9px; }
 }
 
 @media (max-width: 460px) {

@@ -1,9 +1,22 @@
-### Well hello there!
+# Pacemock
 
-This repository is meant to provide an example for *forking* a repository on GitHub.
+NUET-style mock tests with accounts, marks and worked solutions. Live at https://jskskamd.github.io/Pace/
 
-Creating a *fork* is producing a personal copy of someone else's project. Forks act as a sort of bridge between the original repository and your personal copy. You can submit *Pull Requests* to help make other people's projects better by offering your changes up to the original project. Forking is at the core of social coding at GitHub.
+Pacemock is an independent study site, not connected to Nazarbayev University.
 
-After forking this repository, you can make some changes to the project, and submit [a Pull Request](https://github.com/jskskamd/Pace/pulls) as practice.
+## Run it locally
 
-For some more information on how to fork a repository, [check out GitHub's guide, "Fork a repository"](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo). Thanks! :sparkling_heart:
+```
+python3 -m http.server 8000
+```
+
+Then open http://localhost:8000/. Local logins use the live Supabase project, so they create real data.
+
+## Add or change content
+
+- Mock tests are in `questions.js`. The comment at the top shows every field, and each `image` needs an `alt`.
+- List new mocks in `SUBJECTS` in `index.html`.
+- Maths solutions are images in `solutions/`, linked by `solutionImage`. The `solution` text stays as their alt text, so keep the two in step.
+- After changing a file, raise the `?v=` number in the HTML pages so browsers load the new version.
+- If the Supabase project changes, update `config.js` and the `connect-src` address in each page's Content-Security-Policy.
+- If the Supabase library version changes, update its `integrity` hash in each page.

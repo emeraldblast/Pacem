@@ -140,6 +140,13 @@
   font-variant-numeric: tabular-nums;
 }
 
+.timer.low { color: #c53030; }
+
+[data-theme="dark"] .timer.low { color: #e86a6a; }
+
+/* Read out by screen readers; sighted users get the red timer */
+.time-alert { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
 .toggle-side svg, .timer svg, .bookmark svg {
   width: 22px;
   height: 22px;
@@ -326,6 +333,8 @@ sup { font-size: 0.72em; line-height: 0; }
 
 .confirm-actions button { min-width: 0; padding: 0; }
 
+.confirm-actions #show-review { grid-column: 1 / -1; order: -1; }
+
 /* Results */
 .results {
   width: min(560px, 100%);
@@ -457,11 +466,11 @@ sup { font-size: 0.72em; line-height: 0; }
 [data-theme="dark"] .review-item .option.right { background: #173a26; color: var(--text); }
 [data-theme="dark"] .review-item .option.wrong { background: #48201d; color: var(--text); }
 
+.solution-sheet { display: block; width: 100%; max-width: 760px; height: auto; margin-top: 16px; border-radius: 12px; }
+
 .solution { margin-top: 16px; padding: 14px 16px; background: var(--hover); border-radius: 12px; white-space: pre-line; }
 
 .solution strong { display: block; margin-bottom: 4px; }
-
-.solution-image { display: block; width: 100%; height: auto; border-radius: 8px; }
 
 /* The list sits below the question on phones, so it only slides away on wider screens */
 @media (min-width: 821px) {

@@ -44,7 +44,7 @@ const actions = {
     const { error } = await db.auth.signInWithPassword({ email, password });
     if (!error) return location.assign("index.html");
     if (/confirm/i.test(error.message)) return askToVerify(email, "Please verify your email first. Check your inbox.");
-    say("Wrong email or password.");
+    say(/invalid login/i.test(error.message) ? "Wrong email or password." : "We couldn't log you in. Please try again in a minute.");
   },
   async register(email, password) {
     const { data, error } = await db.auth.signUp({

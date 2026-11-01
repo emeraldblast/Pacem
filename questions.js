@@ -5,12 +5,13 @@
 //     table: { head: [...], rows: [[...]] },   // optional, shown after the passage
 //     q: "Question text",                      // ^{...} makes superscript, as in x^{2}
 //     image: "images/q1.png",                  // optional, for questions with a diagram
+//     alt: "What the diagram shows",           // needed with image, for screen readers
 //     options: ["...", "...", "..."],          // 2 to 8 options, shown as A to H
 //     answer: 2,                               // correct option: 0 = A, 1 = B, 2 = C and so on
 //     topic: "M1 Units",                       // optional: short code, then the name, for the results
 //     marks: 3,                                // optional, otherwise 1
 //     solution: "Worked answer",               // optional, shown after the test
-//     solutionImage: "images/solutions/x.jpg", // optional picture of the working
+//     solutionImage: "solutions/x.jpg",        // optional, shown instead of solution, which then becomes its alt text
 //   },
 const TESTS = {
   math: {
@@ -24,7 +25,7 @@ const TESTS = {
         answer: 7,
         topic: "M1 Units",
         marks: 3,
-        solutionImage: "images/solutions/m1-q01.jpg",
+        solutionImage: "solutions/m1-q01.jpg",
       },
       {
         q: "Find the value of (16^{3/4} × 27^{−2/3}) / (8^{−1/3} × 9^{1/2}).",
@@ -32,7 +33,7 @@ const TESTS = {
         answer: 3,
         topic: "M2 Number",
         marks: 3,
-        solutionImage: "images/solutions/m1-q02.jpg",
+        solutionImage: "solutions/m1-q02.jpg",
       },
       {
         q: "The recurring decimal 0.1363636… (the digits 36 repeat for ever) is written as a fraction p/q in its simplest form, where p and q are positive integers.\nWhat is the value of q?",
@@ -40,7 +41,7 @@ const TESTS = {
         answer: 1,
         topic: "M2 Number",
         marks: 3,
-        solutionImage: "images/solutions/m1-q03.jpg",
+        solutionImage: "solutions/m1-q03.jpg",
       },
       {
         q: "A car travels x km in y minutes and then a further x km in 2y minutes.\nWhat is its average speed for the whole journey, in metres per second?",
@@ -48,7 +49,7 @@ const TESTS = {
         answer: 6,
         topic: "M1 Units",
         marks: 3,
-        solutionImage: "images/solutions/m1-q04.jpg",
+        solutionImage: "solutions/m1-q04.jpg",
       },
       {
         q: "Simplify fully [(2x^{2} + 5x − 3)/(x^{2} − 9)] ÷ [(4x^{2} − 1)/(x^{2} − 3x)].",
@@ -56,7 +57,7 @@ const TESTS = {
         answer: 5,
         topic: "M4 Algebra",
         marks: 3,
-        solutionImage: "images/solutions/m1-q05.jpg",
+        solutionImage: "solutions/m1-q05.jpg",
       },
       {
         q: "A map is drawn to a scale of 1 : 25 000. A lake has an area of 12 cm^{2} on the map.\nWhat is the actual area of the lake, in km^{2}?",
@@ -64,7 +65,7 @@ const TESTS = {
         answer: 0,
         topic: "M3 Ratio and proportion",
         marks: 3,
-        solutionImage: "images/solutions/m1-q06.jpg",
+        solutionImage: "solutions/m1-q06.jpg",
       },
       {
         q: "One grain of a fine powder has a mass of 7.5 × 10^{−10} kg.\nHow many grains are there in 3 g of the powder?",
@@ -72,7 +73,7 @@ const TESTS = {
         answer: 4,
         topic: "M2 Number",
         marks: 3,
-        solutionImage: "images/solutions/m1-q07.jpg",
+        solutionImage: "solutions/m1-q07.jpg",
       },
       {
         q: "n = 2^{3} × 3^{2} × 5^{2}.\nHow many positive factors of n are multiples of 6 but are not multiples of 9?",
@@ -80,7 +81,7 @@ const TESTS = {
         answer: 3,
         topic: "M2 Number",
         marks: 4,
-        solutionImage: "images/solutions/m1-q08.jpg",
+        solutionImage: "solutions/m1-q08.jpg",
       },
       {
         q: "Aruzhan, Bekzat and Dias share some money. Aruzhan : Bekzat = 3 : 4 and Bekzat : Dias = 6 : 5.\nDias receives 4 000 tenge more than Aruzhan. Aruzhan then gives one third of Aruzhan's share to Bekzat.\nWhat is the new ratio Aruzhan : Bekzat : Dias?",
@@ -88,7 +89,7 @@ const TESTS = {
         answer: 1,
         topic: "M3 Ratio and proportion",
         marks: 4,
-        solutionImage: "images/solutions/m1-q09.jpg",
+        solutionImage: "solutions/m1-q09.jpg",
       },
       {
         q: "Given that a = √[(x + b)/(x − b)], where a > 1 and b > 0, make x the subject of the formula.",
@@ -96,16 +97,17 @@ const TESTS = {
         answer: 5,
         topic: "M4 Algebra",
         marks: 4,
-        solutionImage: "images/solutions/m1-q10.jpg",
+        solutionImage: "solutions/m1-q10.jpg",
       },
       {
         q: "A, B and C lie on a circle with centre O. TA is the tangent to the circle at A.\nAngle TAB = 64° and angle BAC = 70°.\nFind angle OBC.",
         image: "images/math1-q11.png",
+        alt: "Circle with centre O through A, B and C, with tangent AT at A. Angle TAB is 64 degrees and angle BAC is 70 degrees.",
         options: ["12°", "18°", "20°", "26°", "32°", "38°", "44°", "46°"],
         answer: 2,
         topic: "M5 Geometry",
         marks: 4,
-        solutionImage: "images/solutions/m1-q11.jpg",
+        solutionImage: "solutions/m1-q11.jpg",
       },
       {
         q: "Given that x = 1/(√5 − 2), find the exact value of x^{2} − 1/x^{2}.",
@@ -113,7 +115,7 @@ const TESTS = {
         answer: 5,
         topic: "M2 Number",
         marks: 4,
-        solutionImage: "images/solutions/m1-q12.jpg",
+        solutionImage: "solutions/m1-q12.jpg",
       },
       {
         q: "Line L₁ passes through the points (−2, 5) and (4, −1).\nLine L₂ is perpendicular to L₁ and passes through the point (3, 7).\nFind the area of the triangle enclosed by L₁, L₂ and the x-axis.",
@@ -121,7 +123,7 @@ const TESTS = {
         answer: 6,
         topic: "M4 Algebra",
         marks: 4,
-        solutionImage: "images/solutions/m1-q13.jpg",
+        solutionImage: "solutions/m1-q13.jpg",
       },
       {
         q: "a is directly proportional to b^{2}, and b is inversely proportional to √c.\nIf c is increased by 25%, what happens to a?",
@@ -129,25 +131,27 @@ const TESTS = {
         answer: 1,
         topic: "M3 Ratio and proportion",
         marks: 4,
-        solutionImage: "images/solutions/m1-q14.jpg",
+        solutionImage: "solutions/m1-q14.jpg",
       },
       {
         q: "The speed–time graph shows a train that accelerates uniformly from rest to 12 m/s in 8 s, travels at 12 m/s for T seconds, then decelerates uniformly to rest in 6 s.\nThe total distance travelled is 432 m. Find T.",
         image: "images/math1-q15.png",
+        alt: "Speed-time graph rising from 0 to 12 m/s at 8 s, level until 8 + T seconds, then falling to 0 at 14 + T seconds. Not drawn to scale.",
         options: ["22", "25", "27", "29", "31", "33", "36", "43"],
         answer: 3,
         topic: "M4 Algebra",
         marks: 4,
-        solutionImage: "images/solutions/m1-q15.jpg",
+        solutionImage: "solutions/m1-q15.jpg",
       },
       {
         q: "A pyramid has a square base of side 8 cm. Its vertex is directly above the centre of the base, and each of its four sloping edges is 9 cm long.\nFind the volume of the pyramid, in cm^{3}.\nVolume of a pyramid = 1/3 × base area × height",
         image: "images/math1-q16.png",
+        alt: "Square-based pyramid with base side 8 cm and sloping edge 9 cm.",
         options: ["448/3", "160", "512/3", "64√65/3", "192", "224", "448", "576"],
         answer: 0,
         topic: "M5 Geometry",
         marks: 4,
-        solutionImage: "images/solutions/m1-q16.jpg",
+        solutionImage: "solutions/m1-q16.jpg",
       },
       {
         q: "Four-digit numbers are made using the digits 1, 2, 3, 4, 5 and 6. No digit may be used more than once.\nHow many of these numbers are even and greater than 4000?",
@@ -155,7 +159,7 @@ const TESTS = {
         answer: 2,
         topic: "M2 Number",
         marks: 4,
-        solutionImage: "images/solutions/m1-q17.jpg",
+        solutionImage: "solutions/m1-q17.jpg",
       },
       {
         q: "A sum of money is invested at a fixed rate of compound interest per year.\nAfter 2 years it is worth 6 050 tenge, and after 4 years it is worth 7 320.50 tenge.\nHow much money was invested at the start?",
@@ -163,7 +167,7 @@ const TESTS = {
         answer: 4,
         topic: "M3 Ratio and proportion",
         marks: 4,
-        solutionImage: "images/solutions/m1-q18.jpg",
+        solutionImage: "solutions/m1-q18.jpg",
       },
       {
         q: "Real numbers x and y satisfy x + y = 6 and x^{2} + y^{2} = 30.\nFind the value of x^{3} + y^{3}.",
@@ -171,16 +175,17 @@ const TESTS = {
         answer: 2,
         topic: "M4 Algebra",
         marks: 4,
-        solutionImage: "images/solutions/m1-q19.jpg",
+        solutionImage: "solutions/m1-q19.jpg",
       },
       {
         q: "The graphs of y = sin x and y = cos x are drawn for 0° ≤ x ≤ 540°.\nFind the sum of the x-coordinates of all the points where the two graphs intersect.",
         image: "images/math1-q20.png",
+        alt: "Graphs of y = sin x and y = cos x from 0 to 540 degrees.",
         options: ["225°", "270°", "405°", "450°", "540°", "630°", "675°", "1260°"],
         answer: 6,
         topic: "M4 Algebra",
         marks: 4,
-        solutionImage: "images/solutions/m1-q20.jpg",
+        solutionImage: "solutions/m1-q20.jpg",
       },
       {
         q: "Two bottles are mathematically similar. Their surface areas are 50 cm^{2} and 72 cm^{2}.\nThe smaller bottle holds 250 cm^{3}. How much does the larger bottle hold, in cm^{3}?",
@@ -188,7 +193,7 @@ const TESTS = {
         answer: 7,
         topic: "M3 Ratio and proportion",
         marks: 4,
-        solutionImage: "images/solutions/m1-q21.jpg",
+        solutionImage: "solutions/m1-q21.jpg",
       },
       {
         q: "The line y = 2x + 1 meets the curve y = x^{2} − 3x + 5 at the points A and B.\nFind the length of AB.",
@@ -196,16 +201,17 @@ const TESTS = {
         answer: 4,
         topic: "M4 Algebra",
         marks: 4,
-        solutionImage: "images/solutions/m1-q22.jpg",
+        solutionImage: "solutions/m1-q22.jpg",
       },
       {
         q: "The diagram shows a regular hexagon of side 4 cm. A circle is drawn inside the hexagon so that it touches all six sides.\nFind the area of the shaded region (inside the hexagon but outside the circle), in cm^{2}.",
         image: "images/math1-q23.png",
+        alt: "Regular hexagon of side 4 cm with a circle touching all six sides. The region between them is shaded.",
         options: ["24√3 − 16π", "24√3 − 12π", "48√3 − 12π", "24√3 − 6π", "12√3 − 3π", "36√3 − 12π", "16√3 − 4π", "96 − 12π"],
         answer: 1,
         topic: "M5 Geometry",
         marks: 4,
-        solutionImage: "images/solutions/m1-q23.jpg",
+        solutionImage: "solutions/m1-q23.jpg",
       },
       {
         q: "x = 3.6 and y = 0.4, each correct to 1 decimal place.\nFind the upper bound of x/(x − y).",
@@ -213,7 +219,7 @@ const TESTS = {
         answer: 5,
         topic: "M2 Number",
         marks: 5,
-        solutionImage: "images/solutions/m1-q24.jpg",
+        solutionImage: "solutions/m1-q24.jpg",
       },
       {
         q: "Solution P is 20% salt and solution Q is 45% salt.\nx litres of P are mixed with y litres of Q to give a solution that is 30% salt.\nWhen 2 litres of pure water are then added, the solution is 25% salt.\nFind x.",
@@ -221,7 +227,7 @@ const TESTS = {
         answer: 3,
         topic: "M3 Ratio and proportion",
         marks: 5,
-        solutionImage: "images/solutions/m1-q25.jpg",
+        solutionImage: "solutions/m1-q25.jpg",
       },
       {
         q: "The nth term of a sequence is an^{2} + bn + c, where a, b and c are constants.\nThe 2nd, 4th and 6th terms of the sequence are 5, 27 and 65 respectively.\nFind the 1st term of the sequence.",
@@ -229,16 +235,17 @@ const TESTS = {
         answer: 6,
         topic: "M4 Algebra",
         marks: 5,
-        solutionImage: "images/solutions/m1-q26.jpg",
+        solutionImage: "solutions/m1-q26.jpg",
       },
       {
         q: "In the diagram, B, D and C lie on a straight line and AB is perpendicular to BC.\nAngle ADB = 45°, angle ACB = 30° and DC = 10 cm.\nFind the area of triangle ADC, in cm^{2}.",
         image: "images/math1-q27.png",
+        alt: "Right-angled triangle ABC with the right angle at B. D lies on BC, angle ADB is 45 degrees, angle ACB is 30 degrees and DC is 10 cm.",
         options: ["5(√3 + 1)", "25(√3 − 1)", "10(√3 + 1)", "25(3 − √3)", "50(√3 − 1)", "25√3", "50", "25(√3 + 1)"],
         answer: 7,
         topic: "M5 Geometry",
         marks: 5,
-        solutionImage: "images/solutions/m1-q27.jpg",
+        solutionImage: "solutions/m1-q27.jpg",
       },
       {
         q: "A circle passes through the points A(1, 2), B(7, 4) and C(5, 10).\nFind the area of the circle.",
@@ -246,25 +253,27 @@ const TESTS = {
         answer: 2,
         topic: "M5 Geometry",
         marks: 5,
-        solutionImage: "images/solutions/m1-q28.jpg",
+        solutionImage: "solutions/m1-q28.jpg",
       },
       {
         q: "OAB is a triangle with OA = a and OB = b (vectors). P lies on AB with AP : PB = 2 : 1.\nQ is the midpoint of OP. The line AQ, extended, meets OB at R.\nFind the ratio OR : RB.",
         image: "images/math1-q29.png",
+        alt: "Triangle OAB with vectors a and b. P is on AB, Q is on OP, and line AQ meets OB at R.",
         options: ["2 : 3", "1 : 2", "3 : 5", "2 : 5", "1 : 3", "3 : 4", "1 : 1", "3 : 2"],
         answer: 0,
         topic: "M5 Geometry",
         marks: 5,
-        solutionImage: "images/solutions/m1-q29.jpg",
+        solutionImage: "solutions/m1-q29.jpg",
       },
       {
         q: "A solid is made from a hemisphere of radius 3 cm and a right circular cone of base radius 3 cm. The flat face of the hemisphere is joined exactly to the base of the cone.\nThe total volume of the solid is 30π cm^{3}. Find the total surface area of the solid, in cm^{2}.\nSphere: V = 4/3 πr^{3}, A = 4πr^{2}. Cone: V = 1/3 πr^{2}h, curved surface area = πrl, where l is the slant height.",
         image: "images/math1-q30.png",
+        alt: "A cone standing on a hemisphere of radius 3 cm.",
         options: ["24π", "27π", "30π", "32π", "33π", "36π", "42π", "45π"],
         answer: 4,
         topic: "M5 Geometry",
         marks: 5,
-        solutionImage: "images/solutions/m1-q30.jpg",
+        solutionImage: "solutions/m1-q30.jpg",
       },
     ],
   },
@@ -279,7 +288,7 @@ const TESTS = {
         answer: 3,
         topic: "M2 Number",
         marks: 4,
-        solutionImage: "images/solutions/m2-q01.jpg",
+        solutionImage: "solutions/m2-q01.jpg",
       },
       {
         q: "A wooden block measures 20 cm by 10 cm by 4 cm. The wood has a density of 0.65 g/cm^{3}.\nWhat is the mass of the block, in kg?",
@@ -287,7 +296,7 @@ const TESTS = {
         answer: 1,
         topic: "M1 Units",
         marks: 2,
-        solutionImage: "images/solutions/m2-q02.jpg",
+        solutionImage: "solutions/m2-q02.jpg",
       },
       {
         q: "How many integers from 1 to 600 inclusive are divisible by 4 or by 6, but are not divisible by 9?",
@@ -295,7 +304,7 @@ const TESTS = {
         answer: 4,
         topic: "M2 Number",
         marks: 8,
-        solutionImage: "images/solutions/m2-q03.jpg",
+        solutionImage: "solutions/m2-q03.jpg",
       },
       {
         q: "By writing x^{2} − 6x + 14 in the form (x − p)^{2} + q, find the greatest value of 12/(x^{2} − 6x + 14).",
@@ -303,7 +312,7 @@ const TESTS = {
         answer: 4,
         topic: "M4 Algebra",
         marks: 5,
-        solutionImage: "images/solutions/m2-q04.jpg",
+        solutionImage: "solutions/m2-q04.jpg",
       },
       {
         q: "Write 0.0040596 correct to 3 significant figures.",
@@ -311,7 +320,7 @@ const TESTS = {
         answer: 2,
         topic: "M2 Number",
         marks: 1,
-        solutionImage: "images/solutions/m2-q05.jpg",
+        solutionImage: "solutions/m2-q05.jpg",
       },
       {
         q: "A ball is dropped from a height of 8 m onto horizontal ground. After each bounce it rises to 3/4 of the height from which it last fell.\nFind the total distance the ball has travelled, in metres, at the moment it hits the ground for the 4th time.",
@@ -319,7 +328,7 @@ const TESTS = {
         answer: 6,
         topic: "M3 Ratio and proportion",
         marks: 7,
-        solutionImage: "images/solutions/m2-q06.jpg",
+        solutionImage: "solutions/m2-q06.jpg",
       },
       {
         q: "Three lights flash every 18 seconds, 30 seconds and 45 seconds respectively. They all flash together at exactly 21:00.\nHow many times do all three flash together after 21:00, up to and including 22:00?",
@@ -327,16 +336,17 @@ const TESTS = {
         answer: 5,
         topic: "M2 Number",
         marks: 3,
-        solutionImage: "images/solutions/m2-q07.jpg",
+        solutionImage: "solutions/m2-q07.jpg",
       },
       {
         q: "PA and PB are tangents to the circle with centre O, touching it at A and B. Angle APB = 50°.\nC lies on the major arc AB and D lies on the minor arc AB.\nFind angle ADB.",
         image: "images/math2-q8.png",
+        alt: "Circle with centre O, tangents PA and PB meeting at P with angle 50 degrees. C is on the major arc and D on the minor arc.",
         options: ["25°", "40°", "50°", "65°", "90°", "100°", "105°", "115°"],
         answer: 7,
         topic: "M5 Geometry",
         marks: 6,
-        solutionImage: "images/solutions/m2-q08.jpg",
+        solutionImage: "solutions/m2-q08.jpg",
       },
       {
         q: "How many ordered pairs (m, n) of positive integers satisfy 1/m + 1/n = 1/6?",
@@ -344,7 +354,7 @@ const TESTS = {
         answer: 3,
         topic: "M2 Number",
         marks: 11,
-        solutionImage: "images/solutions/m2-q09.jpg",
+        solutionImage: "solutions/m2-q09.jpg",
       },
       {
         q: "Two statues are mathematically similar. Their volumes are 216 cm^{3} and 729 cm^{3}.\nExactly 80 ml of paint covers the surface of the smaller statue. How much paint, in ml, is needed for the larger statue?",
@@ -352,7 +362,7 @@ const TESTS = {
         answer: 1,
         topic: "M3 Ratio and proportion",
         marks: 5,
-        solutionImage: "images/solutions/m2-q10.jpg",
+        solutionImage: "solutions/m2-q10.jpg",
       },
       {
         q: "15 000 tenge is invested at 4% per year simple interest. After how many years is it worth 19 200 tenge?",
@@ -360,7 +370,7 @@ const TESTS = {
         answer: 3,
         topic: "M3 Ratio and proportion",
         marks: 2,
-        solutionImage: "images/solutions/m2-q11.jpg",
+        solutionImage: "solutions/m2-q11.jpg",
       },
       {
         q: "A rectangle has a perimeter of 34 cm and a diagonal of length 13 cm.\nFind the area of the rectangle, in cm^{2}.",
@@ -368,7 +378,7 @@ const TESTS = {
         answer: 6,
         topic: "M4 Algebra",
         marks: 6,
-        solutionImage: "images/solutions/m2-q12.jpg",
+        solutionImage: "solutions/m2-q12.jpg",
       },
       {
         q: "From a port P, ship A is 5 km away on a bearing of 040° and ship B is 5√3 km away on a bearing of 130°.\nFind the bearing of B from A.",
@@ -376,7 +386,7 @@ const TESTS = {
         answer: 5,
         topic: "M5 Geometry",
         marks: 8,
-        solutionImage: "images/solutions/m2-q13.jpg",
+        solutionImage: "solutions/m2-q13.jpg",
       },
       {
         q: "2/5 of a number A is equal to 3/4 of a number B, and A − B = 21.\nFind A + B.",
@@ -384,16 +394,17 @@ const TESTS = {
         answer: 7,
         topic: "M3 Ratio and proportion",
         marks: 4,
-        solutionImage: "images/solutions/m2-q14.jpg",
+        solutionImage: "solutions/m2-q14.jpg",
       },
       {
         q: "Triangle ABC has a right angle at C, with CA = 8 cm and CB = 15 cm.\nA large circle touches all three sides of the triangle. A small circle touches CA, CB and the large circle, as shown.\nFind the radius of the small circle, in cm.",
         image: "images/math2-q15.png",
+        alt: "Right-angled triangle with CA 8 and CB 15, a large circle touching all three sides and a small circle in the corner at C.",
         options: ["3 − 2√2", "9 − 6√2", "3(√2 − 1)/2", "2√2 − 2", "(6 − 3√2)/2", "1", "3√2 − 3", "6 − 3√2"],
         answer: 1,
         topic: "M5 Geometry",
         marks: 12,
-        solutionImage: "images/solutions/m2-q15.jpg",
+        solutionImage: "solutions/m2-q15.jpg",
       },
       {
         q: "The price of a phone is increased by 30%. The new price is then reduced by 30%. The final price is 18 200 tenge.\nWhat was the original price, in tenge?",
@@ -401,7 +412,7 @@ const TESTS = {
         answer: 2,
         topic: "M3 Ratio and proportion",
         marks: 3,
-        solutionImage: "images/solutions/m2-q16.jpg",
+        solutionImage: "solutions/m2-q16.jpg",
       },
       {
         q: "The curve y = ka^{x}, where a > 0, passes through the points (1, 6) and (3, 54).\nFind the value of y when x = −1.",
@@ -409,16 +420,17 @@ const TESTS = {
         answer: 0,
         topic: "M4 Algebra",
         marks: 5,
-        solutionImage: "images/solutions/m2-q17.jpg",
+        solutionImage: "solutions/m2-q17.jpg",
       },
       {
         q: "Triangle T has vertices (1, 1), (4, 1) and (1, 3).\nT is reflected in the line y = x. The image is then rotated 90° clockwise about the origin O.\nWhich single transformation maps T onto the final image?",
         image: "images/math2-q18.png",
+        alt: "Triangle T on a grid with vertices (1, 1), (4, 1) and (1, 3).",
         options: ["rotation 90° anticlockwise about O", "rotation 90° clockwise about O", "rotation 180° about O", "reflection in the line y = x", "reflection in the line y = −x", "reflection in the x-axis", "reflection in the y-axis"],
         answer: 5,
         topic: "M5 Geometry",
         marks: 6,
-        solutionImage: "images/solutions/m2-q18.jpg",
+        solutionImage: "solutions/m2-q18.jpg",
       },
       {
         q: "The length L cm of a rod is 7.4 cm when truncated to 1 decimal place.\nWhich is the error interval for L?",
@@ -426,16 +438,17 @@ const TESTS = {
         answer: 1,
         topic: "M2 Number",
         marks: 2,
-        solutionImage: "images/solutions/m2-q19.jpg",
+        solutionImage: "solutions/m2-q19.jpg",
       },
       {
         q: "ABCD is a trapezium with AB parallel to DC, AB = 6 cm and DC = 15 cm.\nThe diagonals AC and BD meet at X.\nThe area of triangle ABX is 8 cm^{2}. Find the area of the trapezium, in cm^{2}.",
         image: "images/math2-q20.png",
+        alt: "Trapezium ABCD with AB 6 cm and DC 15 cm. Diagonals meet at X and triangle ABX is shaded with area 8.",
         options: ["50", "58", "66", "70", "78", "84", "90", "98"],
         answer: 7,
         topic: "M5 Geometry",
         marks: 10,
-        solutionImage: "images/solutions/m2-q20.jpg",
+        solutionImage: "solutions/m2-q20.jpg",
       },
       {
         q: "Simplify fully 3/(x − 2) − 2/(x + 1) − 9/[(x − 2)(x + 1)].",
@@ -443,16 +456,17 @@ const TESTS = {
         answer: 3,
         topic: "M4 Algebra",
         marks: 5,
-        solutionImage: "images/solutions/m2-q21.jpg",
+        solutionImage: "solutions/m2-q21.jpg",
       },
       {
         q: "The region R is defined by the inequalities y ≥ 1, x + y ≤ 6 and y ≤ 2x. It is shaded in the diagram.\nHow many points with integer coordinates lie in R, including points on its boundary?",
         image: "images/math2-q22.png",
+        alt: "Shaded region R bounded by y = 1, x + y = 6 and y = 2x.",
         options: ["6", "7", "8", "9", "10", "11", "12", "13"],
         answer: 6,
         topic: "M4 Algebra",
         marks: 7,
-        solutionImage: "images/solutions/m2-q22.jpg",
+        solutionImage: "solutions/m2-q22.jpg",
       },
       {
         q: "An alloy is made by melting together 300 cm^{3} of metal P, of density 8 g/cm^{3}, and V cm^{3} of metal Q, of density 11 g/cm^{3}.\nThe volume of the alloy equals the total volume of the two metals, and its density is 9.2 g/cm^{3}. Find V.",
@@ -460,7 +474,7 @@ const TESTS = {
         answer: 0,
         topic: "M1 Units",
         marks: 6,
-        solutionImage: "images/solutions/m2-q23.jpg",
+        solutionImage: "solutions/m2-q23.jpg",
       },
       {
         q: "Solve 9^{x + 1} = 27^{2x − 1} / 3^{x}.",
@@ -468,7 +482,7 @@ const TESTS = {
         answer: 4,
         topic: "M2 Number",
         marks: 4,
-        solutionImage: "images/solutions/m2-q24.jpg",
+        solutionImage: "solutions/m2-q24.jpg",
       },
       {
         q: "A sector of a circle has a perimeter of 28 cm and an area of 49 cm^{2}.\nFind the radius of the circle, in cm.",
@@ -476,7 +490,7 @@ const TESTS = {
         answer: 2,
         topic: "M5 Geometry",
         marks: 9,
-        solutionImage: "images/solutions/m2-q25.jpg",
+        solutionImage: "solutions/m2-q25.jpg",
       },
       {
         q: "12 identical machines working together can complete a job in 15 hours. All 12 machines start the job, but after 5 hours, 4 of them break down. The remaining machines finish the job.\nHow many hours does the whole job take?",
@@ -484,7 +498,7 @@ const TESTS = {
         answer: 0,
         topic: "M3 Ratio and proportion",
         marks: 5,
-        solutionImage: "images/solutions/m2-q26.jpg",
+        solutionImage: "solutions/m2-q26.jpg",
       },
       {
         q: "Solve 5 − 3x > 2x − 10.",
@@ -492,16 +506,17 @@ const TESTS = {
         answer: 2,
         topic: "M4 Algebra",
         marks: 2,
-        solutionImage: "images/solutions/m2-q27.jpg",
+        solutionImage: "solutions/m2-q27.jpg",
       },
       {
         q: "ABCDEFGH is a cuboid. The base ABCD has AB = 3 cm and BC = 4 cm, and the vertical edge AE = 5√3 cm.\nFind the angle between the diagonal AG and the base ABCD.",
         image: "images/math2-q28.png",
+        alt: "Cuboid ABCDEFGH with AB 3 cm, BC 4 cm, AE 5 root 3 cm and diagonal AG drawn.",
         options: ["10°", "15°", "20°", "30°", "45°", "60°", "75°", "90°"],
         answer: 5,
         topic: "M5 Geometry",
         marks: 6,
-        solutionImage: "images/solutions/m2-q28.jpg",
+        solutionImage: "solutions/m2-q28.jpg",
       },
       {
         q: "Find the exact value of sin 300° × cos 150° + tan 225°.",
@@ -509,7 +524,7 @@ const TESTS = {
         answer: 6,
         topic: "M4 Algebra",
         marks: 5,
-        solutionImage: "images/solutions/m2-q29.jpg",
+        solutionImage: "solutions/m2-q29.jpg",
       },
       {
         q: "A is the point (−1, 3) and B is the point (5, 7).\nThe perpendicular bisector of AB crosses the x-axis at the point Q. Find the coordinates of Q.",
@@ -517,7 +532,7 @@ const TESTS = {
         answer: 0,
         topic: "M4 Algebra",
         marks: 6,
-        solutionImage: "images/solutions/m2-q30.jpg",
+        solutionImage: "solutions/m2-q30.jpg",
       },
     ],
   },
@@ -673,6 +688,7 @@ const TESTS = {
       {
         passage: "The graph shows a workshop's output over five days. Every item produced on Tuesday, Thursday and Friday was inspected. On Monday and Wednesday exactly half were inspected. No item was counted more than once.",
         image: "images/crit-q18.svg",
+        alt: "Bar chart of items produced: Monday 40, Tuesday 60, Wednesday 80, Thursday 40, Friday 30.",
         q: "How many items were inspected in total?",
         options: ["140", "160", "190", "200", "240"],
         answer: 2,
