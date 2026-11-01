@@ -9,7 +9,7 @@
 //     options: ["...", "...", "..."],          // 2 to 8 options, shown as A to H
 //     answer: 2,                               // correct option: 0 = A, 1 = B, 2 = C and so on
 //     topic: "M1 Units",                       // optional: short code, then the name, for the results
-//     marks: 3,                                // optional, otherwise 1
+//     marks: 3,                                // optional weight, otherwise 1. Scores are scaled to the test's outOf
 //     solution: "Worked answer",               // optional, shown after the test
 //     solutionImage: "solutions/x.jpg",        // optional, shown instead of solution, which then becomes its alt text
 //   },
@@ -18,6 +18,7 @@ const TESTS = {
     title: "Mathematics Mock 1",
     total: 30,
     minutes: 60,
+    outOf: 120,
     questions: [
       {
         q: "A force of 36 N acts evenly on a square face of side 3 cm.\nUsing pressure = force / area, what is the pressure on the face, in N/m^{2}?",
@@ -281,6 +282,7 @@ const TESTS = {
     title: "Mathematics Mock 2",
     total: 30,
     minutes: 60,
+    outOf: 120, // the paper is worth 165, so scores are scaled to 120
     questions: [
       {
         q: "Simplify (√7 + √3)/(√7 − √3) + (√7 − √3)/(√7 + √3).",
@@ -540,6 +542,7 @@ const TESTS = {
     title: "Critical Thinking & PS",
     total: 30,
     minutes: 60,
+    outOf: 120, // 30 equal questions, 4 each
     questions: [
       {
         passage: "Sometimes poverty is defined in relation to average income. For example, people may be said to be poor if their income is less than 60 per cent of the average income for the population. This is not a legitimate definition, because it is a measure of inequality rather than poverty. This is obvious if we consider the consequences of using the definition. It means that a huge pay rise for middle managers automatically throws some people into poverty, even though their income has not changed. On the other hand, the definition implies that in a society where almost everyone is starving, no one is poor.",

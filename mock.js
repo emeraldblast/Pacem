@@ -105,6 +105,11 @@ function tableParts(table) {
 
 const marksLabel = (marks) => `${marks} ${marks === 1 ? "mark" : "marks"}`;
 
+// Every test is scored out of 120. Marks are only shown per question when they already add up to that
+const outOf = test.outOf || 120;
+const marksAddUp = test.questions.reduce((all, q) => all + (q.marks || 1), 0) === outOf;
+const shownMarks = (q) => (q.marks && marksAddUp ? ` · ${marksLabel(q.marks)}` : "");
+
 function renderTable(table) {
   $("question-table").hidden = !table;
   $("question-table").replaceChildren(...(table ? tableParts(table) : []));
@@ -112,8 +117,7 @@ function renderTable(table) {
 
 function render() {
   const q = question(state.current);
-  const worth = q.marks ? ` · ${marksLabel(q.marks)}` : "";
-  $("progress").textContent = `${test.title} · Question ${state.current + 1} of ${total}${worth}`;
+  $("progress").textContent = `${test.title} · Question ${state.current + 1} of ${total}${shownMarks(q)}`;
   $("passage").hidden = !q.passage;
   setText($("passage"), q.passage || "");
   renderTable(q.table);
@@ -203,8 +207,9 @@ function finish() {
   ];
   const worth = (q) => q.marks || 1;
   const sum = (list) => list.reduce((all, q) => all + worth(q), 0);
-  const scored = sum(test.questions.filter((q, i) => "answer" in q && state.answers[i] === q.answer));
-  if (test.questions.length) rows.unshift(["Score", `${scored} of ${sum(test.questions)}`]);
+  const raw = sum(test.questions.filter((q, i) => "answer" in q && state.answers[i] === q.answer));
+  const scored = Math.round(raw / sum(test.questions) * outOf);
+  if (test.questions.length) rows.unshift(["Score", `${scored} of ${outOf}`]);
   $("show-review").hidden = !test.questions.length;
   renderTopics(worth);
 
@@ -221,7 +226,7 @@ function finish() {
   $("intro").hidden = true;
   $("exam").hidden = true;
   $("results").hidden = false;
-  if (test.questions.length) animateScore(scored, sum(test.questions));
+  if (test.questions.length) animateScore(scored, outOf);
 }
 
 function element(tag, className, text) {
@@ -292,7 +297,7 @@ function reviewItem(q, index) {
   const unanswered = chosen === undefined;
   const right = chosen === q.answer;
   const item = element("article", "review-item");
-  const title = element("p", "review-title", `Question ${index + 1}${q.marks ? ` · ${marksLabel(q.marks)}` : ""}`);
+  const title = element("p", "review-title", `Question ${index + 1}${shownMarks(q)}`);
   const status = element("span", `review-status${unanswered ? "" : right ? " right" : " wrong"}`,
     unanswered ? "Not answered" : right ? "Correct" : "Wrong");
   title.append(status);
