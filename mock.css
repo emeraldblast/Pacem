@@ -461,6 +461,8 @@ sup { font-size: 0.72em; line-height: 0; }
 
 .solution strong { display: block; margin-bottom: 4px; }
 
+.solution-image { display: block; width: 100%; height: auto; border-radius: 8px; }
+
 /* The list sits below the question on phones, so it only slides away on wider screens */
 @media (min-width: 821px) {
   .exam.side-closed { grid-template-columns: 0 minmax(0, 1fr); }

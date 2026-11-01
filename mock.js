@@ -5,7 +5,7 @@ const requested = new URLSearchParams(location.search).get("subject");
 const subject = requested in TESTS ? requested : "math";
 const test = TESTS[subject];
 const total = Math.max(test.total, test.questions.length);
-const storeKey = `pacemock-v6:${subject}`;
+const storeKey = `pacemock-v7:${subject}`;
 
 const question = (i) => test.questions[i] || {
   q: `Question ${i + 1} will appear here.`,
@@ -102,6 +102,8 @@ function tableParts(table) {
   return [head, body];
 }
 
+const marksLabel = (marks) => `${marks} ${marks === 1 ? "mark" : "marks"}`;
+
 function renderTable(table) {
   $("question-table").hidden = !table;
   $("question-table").replaceChildren(...(table ? tableParts(table) : []));
@@ -109,7 +111,7 @@ function renderTable(table) {
 
 function render() {
   const q = question(state.current);
-  const worth = q.marks ? ` · ${q.marks} marks` : "";
+  const worth = q.marks ? ` · ${marksLabel(q.marks)}` : "";
   $("progress").textContent = `${test.title} · Question ${state.current + 1} of ${total}${worth}`;
   $("passage").hidden = !q.passage;
   setText($("passage"), q.passage || "");
@@ -279,7 +281,7 @@ function reviewItem(q, index) {
   const unanswered = chosen === undefined;
   const right = chosen === q.answer;
   const item = element("article", "review-item");
-  const title = element("p", "review-title", `Question ${index + 1}${q.marks ? ` · ${q.marks} marks` : ""}`);
+  const title = element("p", "review-title", `Question ${index + 1}${q.marks ? ` · ${marksLabel(q.marks)}` : ""}`);
   const status = element("span", `review-status${unanswered ? "" : right ? " right" : " wrong"}`,
     unanswered ? "Not answered" : right ? "Correct" : "Wrong");
   title.append(status);
@@ -303,13 +305,23 @@ function reviewItem(q, index) {
   options.append(...q.options.map((option, i) => reviewOption(q, chosen, i, option)));
   item.append(options);
 
-  if (q.solution) {
+  if (q.solution || q.solutionImage) {
     const solution = element("div", "solution");
     const heading = document.createElement("strong");
     heading.textContent = "Solution";
-    const body = document.createElement("span");
-    setText(body, q.solution);
-    solution.append(heading, body);
+    solution.append(heading);
+    if (q.solution) {
+      const body = document.createElement("span");
+      setText(body, q.solution);
+      solution.append(body);
+    }
+    if (q.solutionImage) {
+      const picture = element("img", "solution-image");
+      picture.src = q.solutionImage;
+      picture.alt = `Worked solution for question ${index + 1}`;
+      picture.loading = "lazy";
+      solution.append(picture);
+    }
     item.append(solution);
   }
   return item;
