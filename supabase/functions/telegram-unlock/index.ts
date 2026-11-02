@@ -59,17 +59,19 @@ async function run(command: string, email: string, names: string[]) {
   if (!account) return `No account with ${email}. They need to register first.`;
   if (!account.email_confirmed_at) return `${email} hasn't verified their email yet.`;
 
+  const titles = mocks.filter((mock) => wanted.includes(mock.id)).map((mock) => mock.title).join(", ");
+
   if (command === "/unlock") {
     const rows = wanted.map((mock_id) => ({ user_id: account.id, mock_id }));
     const { error } = await db.from("mock_access").upsert(rows, { ignoreDuplicates: true });
     if (error) throw error;
-    return `Unlocked ${wanted.join(", ")} for ${email}.`;
+    return `${titles} unlocked for ${email}.`;
   }
 
   if (command === "/lock") {
     const { error } = await db.from("mock_access").delete().eq("user_id", account.id).in("mock_id", wanted);
     if (error) throw error;
-    return `Locked ${wanted.join(", ")} for ${email}.`;
+    return `${titles} locked for ${email}.`;
   }
 
   const { data, error } = await db.from("mock_access").select("mock_id").eq("user_id", account.id);
