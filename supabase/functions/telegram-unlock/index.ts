@@ -1,10 +1,11 @@
-// Telegram bot that gives accounts the exclusive mocks. Only the owner can use it.
+// Telegram bot that gives accounts the exclusive mocks. Only admins can use it.
 //
 //   /unlock person@example.com   gives both Mock 2s
 //   /lock person@example.com     takes both away
 //   /check person@example.com    shows what the account has
 //
-// Secrets to set in Supabase: TELEGRAM_BOT_TOKEN, TELEGRAM_WEBHOOK_SECRET, TELEGRAM_OWNER_ID.
+// Secrets to set in Supabase: TELEGRAM_BOT_TOKEN, TELEGRAM_WEBHOOK_SECRET, TELEGRAM_ADMIN_IDS.
+// TELEGRAM_ADMIN_IDS is a list of Telegram user IDs split by commas: 111111,222222
 // "Enforce JWT verification" must be off, because Telegram sends no Supabase token.
 // The webhook secret is what keeps everyone else out.
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -63,7 +64,8 @@ Deno.serve(async (request) => {
 
   const { message } = await request.json();
   // Anyone else who writes to the bot gets no answer
-  if (!message?.text || String(message.from?.id) !== Deno.env.get("TELEGRAM_OWNER_ID")) {
+  const admins = (Deno.env.get("TELEGRAM_ADMIN_IDS") ?? "").split(",").map((id) => id.trim());
+  if (!message?.text || !message.from?.id || !admins.includes(String(message.from.id))) {
     return new Response("ok");
   }
 
