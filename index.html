@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=12">
-  <script src="theme.js?v=12"></script>
+  <link rel="stylesheet" href="style.css?v=13">
+  <script src="theme.js?v=13"></script>
 </head>
 <body>
 
@@ -109,8 +109,8 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=12"></script>
-  <script src="auth.js?v=12"></script>
+  <script src="config.js?v=13"></script>
+  <script src="auth.js?v=13"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -139,31 +139,37 @@
     startButton.addEventListener("click", openMocks);
 
     // Add a line here for each new mock. A mock with no href shows as coming soon.
+    // An exclusive mock is only a link for accounts that were given it.
     const SUBJECTS = {
       math: {
         title: "Math",
         mocks: [
           { name: "Mock 1", note: "30 questions · 60 minutes · 120 marks", href: "mock.html?subject=math" },
-          { name: "Mock 2", note: "30 questions · 60 minutes · 120 marks", href: "mock.html?subject=math2" },
+          { name: "Mock 2", note: "30 questions · 60 minutes · 120 marks", href: "mock.html?subject=math2", exclusive: "math2" },
         ],
       },
       crit: {
         title: "Critical Thinking & PS",
         mocks: [
           { name: "Mock 1", note: "30 questions · 60 minutes · 120 marks", href: "mock.html?subject=crit" },
-          { name: "Mock 2", note: "30 questions · 60 minutes · 120 marks", href: "mock.html?subject=crit2" },
+          { name: "Mock 2", note: "30 questions · 60 minutes · 120 marks", href: "mock.html?subject=crit2", exclusive: "crit2" },
         ],
       },
     };
 
     const subject = document.getElementById("subject");
 
+    const owned = new Set();
+    const EXCLUSIVE = new Set(Object.values(SUBJECTS).flatMap((s) => s.mocks.map((m) => m.exclusive)));
+
     function subjectRow(mock) {
-      const row = document.createElement(mock.href ? "a" : "div");
+      const open = mock.href && (!mock.exclusive || owned.has(mock.exclusive));
+      if (mock.exclusive && !open) mock = { name: mock.name, note: "Exclusive" };
+      const row = document.createElement(open ? "a" : "div");
       const name = document.createElement("span");
       const note = document.createElement("span");
-      row.className = mock.href ? "subject-mock" : "subject-mock soon";
-      if (mock.href) row.href = mock.href;
+      row.className = open ? "subject-mock" : "subject-mock soon";
+      if (open) row.href = mock.href;
       name.className = "mock-name";
       name.textContent = mock.name;
       note.className = "mock-note";
@@ -201,6 +207,8 @@
     async function addAccountMocks() {
       const { data } = await db.from("mocks").select("id, title, minutes, total");
       for (const mock of data || []) {
+        owned.add(mock.id);
+        if (EXCLUSIVE.has(mock.id)) continue;
         const link = document.createElement("a");
         const name = document.createElement("span");
         const note = document.createElement("span");
