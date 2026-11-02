@@ -1,8 +1,11 @@
 // Telegram bot that gives accounts the exclusive mocks. Only admins can use it.
 //
-//   /unlock person@example.com   gives both Mock 2s
-//   /lock person@example.com     takes both away
-//   /check person@example.com    shows what the account has
+//   /mocks                               lists the exclusive mocks
+//   /unlock person@example.com math2     gives those mocks, several can be listed, or all
+//   /lock person@example.com math2       takes those mocks away, several can be listed, or all
+//   /check person@example.com            shows what the account has
+//
+// A new mock works here as soon as it is in the mocks table with is_public = false.
 //
 // Secrets to set in Supabase: TELEGRAM_BOT_TOKEN, TELEGRAM_WEBHOOK_SECRET, TELEGRAM_ADMIN_IDS.
 // TELEGRAM_ADMIN_IDS is a list of Telegram user IDs split by commas: 111111,222222
@@ -10,8 +13,7 @@
 // The webhook secret is what keeps everyone else out.
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
-const MOCKS = ["math2", "crit2"];
-const HELP = "Commands:\n/unlock email\n/lock email\n/check email";
+const HELP = "Commands:\n/mocks\n/unlock email math2 crit2\n/unlock email all\n/lock email math2\n/lock email all\n/check email";
 
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
@@ -23,6 +25,15 @@ async function reply(chat: number, text: string) {
   });
 }
 
+async function exclusiveMocks() {
+  const { data, error } = await db.from("mocks").select("id, title").eq("is_public", false).order("id");
+  if (error) throw error;
+  return data;
+}
+
+const listOf = (mocks: { id: string; title: string }[]) =>
+  mocks.length ? mocks.map((mock) => `${mock.id}: ${mock.title}`).join("\n") : "There are no exclusive mocks yet.";
+
 async function findAccount(email: string) {
   for (let page = 1; ; page++) {
     const { data, error } = await db.auth.admin.listUsers({ page, perPage: 1000 });
@@ -33,22 +44,32 @@ async function findAccount(email: string) {
   }
 }
 
-async function run(command: string, email: string) {
+async function run(command: string, email: string, names: string[]) {
+  const mocks = await exclusiveMocks();
+  const ids = mocks.map((mock) => mock.id);
+  const wanted = names.includes("all") ? ids : names;
+
+  if (command !== "/check") {
+    if (!names.length) return `Which mocks?\n${listOf(mocks)}\n\nExample: ${command} ${email} ${ids[0] ?? "math2"}\nOr: ${command} ${email} all`;
+    const unknown = wanted.filter((name) => !ids.includes(name));
+    if (unknown.length) return `Unknown mock: ${unknown.join(", ")}\n\n${listOf(mocks)}`;
+  }
+
   const account = await findAccount(email);
   if (!account) return `No account with ${email}. They need to register first.`;
   if (!account.email_confirmed_at) return `${email} hasn't verified their email yet.`;
 
   if (command === "/unlock") {
-    const rows = MOCKS.map((mock_id) => ({ user_id: account.id, mock_id }));
+    const rows = wanted.map((mock_id) => ({ user_id: account.id, mock_id }));
     const { error } = await db.from("mock_access").upsert(rows, { ignoreDuplicates: true });
     if (error) throw error;
-    return `Unlocked ${MOCKS.join(", ")} for ${email}.`;
+    return `Unlocked ${wanted.join(", ")} for ${email}.`;
   }
 
   if (command === "/lock") {
-    const { error } = await db.from("mock_access").delete().eq("user_id", account.id).in("mock_id", MOCKS);
+    const { error } = await db.from("mock_access").delete().eq("user_id", account.id).in("mock_id", wanted);
     if (error) throw error;
-    return `Locked ${MOCKS.join(", ")} for ${email}.`;
+    return `Locked ${wanted.join(", ")} for ${email}.`;
   }
 
   const { data, error } = await db.from("mock_access").select("mock_id").eq("user_id", account.id);
@@ -69,10 +90,12 @@ Deno.serve(async (request) => {
     return new Response("ok");
   }
 
-  const [command, email] = message.text.trim().split(/\s+/);
+  const [command, email, ...names] = message.text.trim().toLowerCase().split(/\s+/);
   try {
-    const known = ["/unlock", "/lock", "/check"].includes(command);
-    await reply(message.chat.id, known && email?.includes("@") ? await run(command, email.toLowerCase()) : HELP);
+    let answer = HELP;
+    if (command === "/mocks") answer = listOf(await exclusiveMocks());
+    else if (["/unlock", "/lock", "/check"].includes(command) && email?.includes("@")) answer = await run(command, email, names);
+    await reply(message.chat.id, answer);
   } catch (error) {
     await reply(message.chat.id, `Something went wrong: ${error.message}`);
   }
