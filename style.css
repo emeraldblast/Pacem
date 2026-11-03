@@ -54,6 +54,11 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
+/* Text on no-copy pages can't be selected. Typing fields still can. */
+.no-copy body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+
+.no-copy input, .no-copy textarea { -webkit-user-select: text; user-select: text; }
+
 button { font: inherit; cursor: pointer; }
 
 a:focus-visible, .top button:focus-visible {

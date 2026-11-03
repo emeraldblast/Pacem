@@ -17,3 +17,12 @@ function setupThemeButton(button) {
     label();
   });
 }
+
+// Pages marked no-copy keep their text from being copied. Typing fields still work.
+if (document.documentElement.classList.contains("no-copy")) {
+  const block = (e) => {
+    if (!(e.target instanceof Element && e.target.closest("input, textarea"))) e.preventDefault();
+  };
+  document.addEventListener("copy", block);
+  document.addEventListener("cut", block);
+}

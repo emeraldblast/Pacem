@@ -252,22 +252,6 @@
 
 sup { font-size: 0.72em; line-height: 0; }
 
-.frac {
-  display: inline-flex;
-  flex-direction: column;
-  margin: 0 0.12em;
-  line-height: 1.2;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.frac-top { padding: 0 0.2em 0.06em; border-bottom: 1.5px solid currentColor; }
-
-.frac-bottom { padding: 0.06em 0.2em 0; }
-
-/* Read out and copied as "/", but not shown */
-.frac-slash { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
 .options { display: grid; gap: 12px; }
 
 .options.two-columns {
