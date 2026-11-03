@@ -181,7 +181,11 @@ function render() {
   $("question-image").alt = q.alt || "";
   $("question-image").classList.toggle("large", Boolean(q.large));
   $("previous").disabled = state.current === 0;
-  $("next").disabled = state.current === total - 1;
+  // On the last question the Next button finishes the test instead
+  const last = state.current === total - 1;
+  const arrow = element("span", "", " →");
+  arrow.setAttribute("aria-hidden", "true");
+  $("next").replaceChildren(...(last ? ["Finish"] : ["Next", arrow]));
   const marked = Boolean(state.marked[state.current]);
   $("bookmark").classList.toggle("on", marked);
   $("bookmark").setAttribute("aria-pressed", marked);
@@ -446,7 +450,10 @@ $("retake").addEventListener("click", () => {
 });
 $("hide-review").addEventListener("click", () => showReview(false));
 $("previous").addEventListener("click", () => goTo(state.current - 1));
-$("next").addEventListener("click", () => goTo(state.current + 1));
+$("next").addEventListener("click", () => {
+  if (state.current === total - 1) $("finish").click();
+  else goTo(state.current + 1);
+});
 $("bookmark").addEventListener("click", toggleMark);
 setupThemeButton($("theme"));
 $("toggle-side").addEventListener("click", () => {
