@@ -308,6 +308,7 @@ function reviewItem(q, index) {
   const unanswered = chosen === undefined;
   const right = chosen === q.answer;
   const item = element("article", "review-item");
+  item.id = `review-${index + 1}`;
   const title = element("p", "review-title", `Question ${index + 1}${shownMarks(q)}`);
   const status = element("span", `review-status${unanswered ? "" : right ? " right" : " wrong"}`,
     unanswered ? "Not answered" : right ? "Correct" : "Wrong");
@@ -352,9 +353,21 @@ function reviewItem(q, index) {
   return item;
 }
 
+// Green for right, red for wrong, gray for skipped. A number jumps to its question.
+function reviewNumber(q, index) {
+  const chosen = state.answers[index];
+  const result = chosen === undefined ? ["is-blank", "not answered"] : chosen === q.answer ? ["is-right", "correct"] : ["is-wrong", "wrong"];
+  const button = element("button", `number ${result[0]}`, String(index + 1));
+  button.type = "button";
+  button.setAttribute("aria-label", `Question ${index + 1}, ${result[1]}`);
+  button.addEventListener("click", () => $(`review-${index + 1}`).scrollIntoView({ behavior: "smooth", block: "start" }));
+  return button;
+}
+
 function showReview(open) {
   if (open && !$("review-list").children.length) {
     $("review-list").append(...test.questions.map(reviewItem));
+    $("review-grid").append(...test.questions.map(reviewNumber));
   }
   $("results").hidden = open;
   $("review").hidden = !open;
