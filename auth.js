@@ -18,35 +18,23 @@ function clearSavedTests() {
   } catch (e) {}
 }
 
-// Swaps the top bar's Log in link for a profile circle once someone is signed in
+// Swaps the top bar's Log in link for a profile circle once someone is signed in.
+// The circle opens the statistics page. Gives back the signed-in user, or null.
 async function setupAccount() {
-  if (!db) return false;
+  if (!db) return null;
   const { data } = await db.auth.getSession();
-  if (!data.session) return false;
+  if (!data.session) return null;
 
-  const email = data.session.user.email;
+  const user = data.session.user;
   const avatar = document.getElementById("avatar");
-  const menu = document.getElementById("profile-menu");
-  const toggleMenu = (open) => {
-    menu.hidden = !open;
-    avatar.setAttribute("aria-expanded", open);
-  };
-
   document.getElementById("account").hidden = true;
   document.getElementById("profile").hidden = false;
-  document.getElementById("profile-email").textContent = email;
-  avatar.textContent = email[0].toUpperCase();
-  avatar.addEventListener("click", (e) => {
-    e.stopPropagation();
-    toggleMenu(menu.hidden);
-  });
-  menu.addEventListener("click", (e) => e.stopPropagation());
-  document.addEventListener("click", () => toggleMenu(false));
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") toggleMenu(false); });
-  document.getElementById("logout").addEventListener("click", async () => {
+  avatar.textContent = user.email[0].toUpperCase();
+  avatar.title = user.email;
+  document.getElementById("logout")?.addEventListener("click", async () => {
     await db.auth.signOut();
     clearSavedTests();
-    location.reload();
+    location.href = "index.html";
   });
-  return true;
+  return user;
 }

@@ -27,10 +27,10 @@ function superscripts(text) {
 }
 
 // In Math tests, fractions such as 3/5, 5x/(27y) or (x + 1)/(x − 2) are drawn stacked.
-// Each side is numbers, single letters and brackets written together. Units like m/s or
-// g/cm^{3} and words like force / area stay as they are.
+// Each side is numbers (30 000 counts as one), single letters, π and brackets written together.
+// Units like m/s or g/cm^{3}, words like force / area, and fractions inside a power stay as they are.
 const stackFractions = /math/i.test(test.title);
-const ATOM = String.raw`(?:\((?:[^()]|\([^()]*\))*\)|\[(?:[^\[\]]|\[[^\[\]]*\])*\]|√?\d+(?:\.\d+)?|√?[a-zA-Z])(?:\^\{[^}]*\})?`;
+const ATOM = String.raw`(?:\((?:[^()]|\([^()]*\))*\)|\[(?:[^\[\]]|\[[^\[\]]*\])*\]|√?\d{1,3}(?: \d{3})+|√?\d+(?:\.\d+)?|√?[a-zA-Zπ])(?:\^\{[^}]*\})?`;
 const FRACTION = new RegExp(String.raw`(?<![\w.)\]}{^/√])((?:${ATOM})+)\s*\/\s*((?:${ATOM})+)`, "g");
 const isWord = (part) => /^[a-zA-Z]{2,}(\^\{[^}]*\})?$/.test(part);
 const isLetter = (part) => /^√?[a-zA-Z](\^\{[^}]*\})?$/.test(part);
@@ -40,7 +40,8 @@ function richText(text) {
   let done = 0;
   for (const match of stackFractions ? text.matchAll(FRACTION) : []) {
     const [, top, bottom] = match;
-    if (isWord(top) || isWord(bottom) || (isLetter(top) && isLetter(bottom))) continue;
+    const inPower = text.lastIndexOf("^{", match.index) > text.lastIndexOf("}", match.index);
+    if (inPower || isWord(top) || isWord(bottom) || (isLetter(top) && isLetter(bottom))) continue;
     nodes.push(...superscripts(text.slice(done, match.index)), fraction(top, bottom));
     done = match.index + match[0].length;
   }
@@ -243,9 +244,24 @@ function runExam() {
 }
 
 // A signed-in student's result goes to their account, for the profile menu
+// It carries a summary for the statistics page: time used, how many right, and right per topic.
 function saveAttempt(score) {
   if (!db || !window.accountId || !test.questions.length) return;
-  db.from("attempts").insert({ mock_id: subject, score, answers: state.answers }).then(() => {}, () => {});
+  const topics = {};
+  let correct = 0;
+  test.questions.forEach((q, i) => {
+    const right = state.answers[i] === q.answer;
+    if (right) correct++;
+    if (!q.topic) return;
+    topics[q.topic] = topics[q.topic] || [0, 0];
+    topics[q.topic][0] += right ? 1 : 0;
+    topics[q.topic][1]++;
+  });
+  const answers = {
+    picked: state.answers, title: test.title, used: state.used, total: test.questions.length,
+    answered: answeredCount(), correct, topics,
+  };
+  db.from("attempts").insert({ mock_id: subject, score, answers }).then(() => {}, () => {});
 }
 
 function finish() {

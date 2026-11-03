@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=19">
-  <script src="theme.js?v=19"></script>
+  <link rel="stylesheet" href="style.css?v=20">
+  <script src="theme.js?v=20"></script>
 </head>
 <body>
 
@@ -51,14 +51,7 @@
         </button>
         <a class="login" id="account" href="login.html">Log in</a>
         <div class="profile" id="profile" hidden>
-          <button class="avatar" id="avatar" type="button" aria-label="Your account" aria-haspopup="true" aria-expanded="false"></button>
-          <div class="profile-menu" id="profile-menu" hidden>
-            <p class="profile-label">Signed in as</p>
-            <p class="profile-email" id="profile-email"></p>
-            <p class="profile-label">Your results</p>
-            <ul class="results-list" id="results-list"><li class="results-empty">Loading…</li></ul>
-            <button class="auth-link" id="logout" type="button">Log out</button>
-          </div>
+          <a class="avatar" id="avatar" href="account.html" aria-label="Your account and statistics"></a>
         </div>
         <a class="get-started" id="get-started" href="login.html?mode=register">Get Started</a>
       </div>
@@ -120,7 +113,7 @@
               <span class="mock-icon" aria-hidden="true">Σ</span>
               <span class="mock-text">
                 <span class="mock-name">Math</span>
-                <span class="mock-note">2 mocks</span>
+                <span class="mock-note">3 mocks</span>
               </span>
               <span class="mock-arrow" aria-hidden="true">→</span>
             </button>
@@ -158,8 +151,8 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=19"></script>
-  <script src="auth.js?v=19"></script>
+  <script src="config.js?v=20"></script>
+  <script src="auth.js?v=20"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -195,6 +188,7 @@
         mocks: [
           { name: "Mock 1", note: "30 questions · 60 minutes · 120 marks", href: "mock.html?subject=math" },
           { name: "Mock 2", note: "30 questions · 60 minutes · 120 marks", href: "mock.html?subject=math2", exclusive: "math2" },
+          { name: "Mock 3", note: "30 questions · 60 minutes · 120 marks", href: "mock.html?subject=math3", exclusive: "math3" },
         ],
       },
       crit: {
@@ -273,54 +267,12 @@
       if (e.detail === 0) document.querySelector("[data-subject]").focus({ preventScroll: true });
     });
 
-    setupAccount().then((signedIn) => {
-      if (!signedIn) return;
-      accountEmail = document.getElementById("profile-email").textContent;
+    setupAccount().then((user) => {
+      if (!user) return;
+      accountEmail = user.email;
       document.getElementById("get-started").hidden = true;
       addAccountMocks();
-      showResults();
     });
-
-    // Latest score on each mock, with the best one and how many tries
-    async function showResults() {
-      const list = document.getElementById("results-list");
-      const titles = {};
-      for (const chosen of Object.values(SUBJECTS)) {
-        for (const mock of chosen.mocks) {
-          const id = mock.href && new URL(mock.href, location.href).searchParams.get("subject");
-          if (id) titles[id] = `${chosen.title} ${mock.name}`;
-        }
-      }
-      const { data } = await db.from("attempts").select("mock_id, score, finished_at").order("finished_at", { ascending: false }).limit(500);
-      const byMock = new Map();
-      for (const attempt of data || []) {
-        const seen = byMock.get(attempt.mock_id);
-        if (seen) {
-          seen.best = Math.max(seen.best, attempt.score);
-          seen.tries++;
-        } else {
-          byMock.set(attempt.mock_id, { ...attempt, best: attempt.score, tries: 1 });
-        }
-      }
-      if (!byMock.size) {
-        list.replaceChildren(Object.assign(document.createElement("li"), { className: "results-empty", textContent: "No finished mocks yet." }));
-        return;
-      }
-      list.replaceChildren(...[...byMock.values()].map((result) => {
-        const row = document.createElement("li");
-        const name = document.createElement("span");
-        const score = document.createElement("strong");
-        const note = document.createElement("span");
-        const date = new Date(result.finished_at).toLocaleDateString(undefined, { day: "numeric", month: "short" });
-        name.className = "results-name";
-        name.textContent = titles[result.mock_id] || result.mock_id;
-        score.textContent = `${result.score}/120`;
-        note.className = "results-note";
-        note.textContent = result.tries > 1 ? `Best ${result.best} · ${result.tries} tries · ${date}` : date;
-        row.append(name, score, note);
-        return row;
-      }));
-    }
 
     // The database only returns the mocks this account is allowed to open
     async function addAccountMocks() {

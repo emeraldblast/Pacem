@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https: data:; connect-src https://tjwihtzuqxwjcgsfmxfe.supabase.co wss://tjwihtzuqxwjcgsfmxfe.supabase.co; base-uri 'self'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Your statistics · Pacemock</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20">
+  <script src="theme.js?v=20"></script>
+</head>
+<body>
+
+  <header class="top wrap">
+    <div class="bar">
+      <a class="brand" href="index.html">
+        <svg class="mark" viewBox="0 0 64 44" aria-hidden="true">
+          <g fill="none" stroke-width="7" stroke-linecap="round">
+            <path class="mark-tail" d="M46 13A23 23 0 0 1 55 34"/>
+            <path class="mark-arc" d="M9 34A23 23 0 0 1 46 13"/>
+          </g>
+          <circle cx="46" cy="13" r="6.5" fill="#f2b544"/>
+        </svg>
+        Pacemock
+      </a>
+      <div class="top-right">
+        <button class="icon-button" id="theme" type="button">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <a class="login" id="account" href="login.html">Log in</a>
+        <div class="profile" id="profile" hidden>
+          <a class="avatar" id="avatar" href="account.html" aria-label="Your account and statistics"></a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="stats-page wrap">
+    <section class="me">
+      <span class="me-avatar" id="me-avatar" aria-hidden="true"></span>
+      <div class="me-text">
+        <h1 id="me-email">Your statistics</h1>
+        <p id="me-joined"></p>
+      </div>
+      <a class="me-home" href="index.html">← Mocks</a>
+      <button class="me-logout" id="logout" type="button">Log out</button>
+    </section>
+
+    <p class="stats-message" id="message">Loading your results…</p>
+
+    <div id="stats-body" hidden>
+      <div class="tiles" id="tiles"></div>
+
+      <section class="panel">
+        <h2>Scores over time</h2>
+        <p class="panel-note">Every finished mock, oldest on the left, out of 120.</p>
+        <div class="columns" id="timeline"></div>
+      </section>
+
+      <div class="panel-pair">
+        <section class="panel">
+          <h2>Average score by mock</h2>
+          <p class="panel-note">Out of 120, with your best score and number of tries.</p>
+          <div class="hbars" id="by-mock"></div>
+        </section>
+        <section class="panel">
+          <h2>Time per question</h2>
+          <p class="panel-note">Average for each mock. The line marks 2 minutes, the exam's pace.</p>
+          <div class="hbars" id="by-time"></div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <h2>Accuracy by topic</h2>
+        <p class="panel-note">Share of questions answered correctly in all your mocks, weakest first.</p>
+        <div id="by-topic"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Recent mocks</h2>
+        <div class="table-scroll">
+          <table class="attempts">
+            <thead><tr><th>Mock</th><th>Score</th><th>Correct</th><th>Time used</th><th>Date</th></tr></thead>
+            <tbody id="attempt-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="tip" id="tip" role="tooltip" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+  <script src="config.js?v=20"></script>
+  <script src="auth.js?v=20"></script>
+  <script src="account.js?v=20"></script>
+</body>
+</html>
