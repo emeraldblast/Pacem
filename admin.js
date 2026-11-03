@@ -5,6 +5,7 @@
 const $ = (id) => document.getElementById(id);
 let mocks = [];
 let users = [];
+let me = null;
 
 setupThemeButton($("theme"));
 
@@ -47,6 +48,38 @@ async function setAccess(user, mock, box) {
   tiles();
 }
 
+// Admins can see every account and unlock anything, so making one is confirmed first
+async function setAdmin(user, box) {
+  if (box.checked && !confirm(`Make ${user.email} an admin? They will see every account and can unlock mocks and add admins.`)) {
+    box.checked = false;
+    return;
+  }
+  box.disabled = true;
+  const { error } = await db.rpc("admin_set_admin", { target: user.id, make: box.checked });
+  box.disabled = false;
+  if (error) {
+    box.checked = !box.checked;
+    $("saved").textContent = `Couldn't save: ${error.message}`;
+    return;
+  }
+  user.admin = box.checked;
+  $("saved").textContent = `${user.email} is ${box.checked ? "now an admin" : "no longer an admin"}.`;
+}
+
+function toggle(checked, disabled, label, onChange) {
+  const cell = element("td", "admin-switch");
+  const wrap = element("label", "switch");
+  const box = document.createElement("input");
+  box.type = "checkbox";
+  box.checked = checked;
+  box.disabled = disabled;
+  box.setAttribute("aria-label", label);
+  box.addEventListener("change", () => onChange(box));
+  wrap.append(box, element("span", "switch-track"));
+  cell.append(wrap);
+  return cell;
+}
+
 function rows() {
   const search = $("search").value.trim().toLowerCase();
   const shown = users.filter((u) => u.email.toLowerCase().includes(search));
@@ -57,32 +90,24 @@ function rows() {
     who.append(element("span", "", `${user.verified ? "Verified" : "Not verified"} · joined ${shortDate(user.created_at)} · last login ${shortDate(user.last_sign_in_at)}`));
     row.append(who, element("td", "", user.finished ? `${user.finished} · avg ${user.average}` : "–"));
     for (const mock of mocks) {
-      const cell = element("td", "admin-switch");
-      const label = element("label", "switch");
-      const box = document.createElement("input");
-      box.type = "checkbox";
-      box.checked = user.unlocked.includes(mock.id);
-      box.disabled = !user.verified;
-      box.setAttribute("aria-label", `${mock.title} for ${user.email}`);
-      box.addEventListener("change", () => setAccess(user, mock, box));
-      label.append(box, element("span", "switch-track"));
-      cell.append(label);
-      row.append(cell);
+      row.append(toggle(user.unlocked.includes(mock.id), !user.verified, `${mock.title} for ${user.email}`, (box) => setAccess(user, mock, box)));
     }
+    // Your own switch is locked, so you can't remove yourself
+    row.append(toggle(user.admin, !user.verified || user.id === me.id, `${user.email} is an admin`, (box) => setAdmin(user, box)));
     return row;
   }));
   if (!shown.length) {
     const row = document.createElement("tr");
     const cell = element("td", "", "No accounts match.");
-    cell.colSpan = 2 + mocks.length;
+    cell.colSpan = 3 + mocks.length;
     row.append(cell);
     $("admin-rows").replaceChildren(row);
   }
 }
 
 (async () => {
-  const user = await setupAccount();
-  if (!user) {
+  me = await setupAccount();
+  if (!me) {
     location.replace("login.html");
     return;
   }
@@ -98,7 +123,7 @@ function rows() {
   $("message").hidden = true;
   $("admin-body").hidden = false;
   const head = document.createElement("tr");
-  head.append(element("th", "", "Account"), element("th", "", "Mocks done"), ...mocks.map((m) => element("th", "", m.title)));
+  head.append(element("th", "", "Account"), element("th", "", "Mocks done"), ...mocks.map((m) => element("th", "", m.title)), element("th", "", "Admin"));
   $("admin-head").replaceChildren(head);
   tiles();
   rows();
