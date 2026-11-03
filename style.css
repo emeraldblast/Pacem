@@ -283,7 +283,7 @@ a:focus-visible, .top button:focus-visible {
 
 h1 {
   margin: 0;
-  font-size: clamp(36px, 4.8vw, 56px);
+  font-size: clamp(38px, 6vw, 66px);
   font-weight: 700;
   line-height: 1.06;
   letter-spacing: -0.035em;
@@ -291,7 +291,48 @@ h1 {
 
 .accent { color: #a8dcff; }
 
-h1 .accent { display: block; }
+/* The heading shown with the mocks open */
+.hero-title {
+  margin: 0;
+  font-size: clamp(36px, 4.8vw, 56px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+}
+
+.hero-title .accent { display: block; }
+
+/* The home heading shows until Start is pressed; then the mocks heading, features, ring and wave take over */
+.card.open .intro-home, .card:not(.open) .intro-mocks, .card:not(.open) .features { display: none; }
+
+.wave, .orbit { opacity: 0; transition: opacity 0.6s ease; }
+
+.card.open .wave, .card.open .orbit { opacity: 1; }
+
+/* Small facts under the heading */
+.facts { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 0; padding: 0; list-style: none; }
+
+.facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.facts svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
 /* The small label above the heading */
 .eyebrow {
