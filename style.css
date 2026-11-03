@@ -482,6 +482,11 @@ h1 {
 
 .card.open .start-area { opacity: 0; transform: scale(0.94); }
 
+/* With the mocks open, the heading steps aside so they have room; the pictures on the right stay */
+.card.open .card-text h1, .card.open .lede, .card.open .facts { display: none; }
+
+.card.open .mocks { padding-top: 0; }
+
 .start {
   display: inline-flex;
   align-items: center;
