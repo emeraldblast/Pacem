@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=33">
-  <script src="theme.js?v=33"></script>
+  <link rel="stylesheet" href="style.css?v=34">
+  <script src="theme.js?v=34"></script>
 </head>
 <body>
 
@@ -60,6 +60,10 @@
 
   <main class="stage wrap">
     <section class="card" id="hero">
+      <svg class="wave" viewBox="0 0 1200 240" preserveAspectRatio="none" aria-hidden="true">
+        <path class="wave-fill" d="M0 150C180 90 330 210 560 160S930 60 1200 120V240H0Z"/>
+        <path class="wave-line" d="M0 182C210 122 360 236 600 186S960 96 1200 150"/>
+      </svg>
       <svg class="arc" viewBox="0 0 300 200" aria-hidden="true">
         <g fill="none" stroke-width="27" stroke-linecap="round">
           <path class="arc-tail" d="M236 87A120 120 0 0 1 270 170"/>
@@ -69,6 +73,11 @@
       </svg>
 
       <div class="preview" aria-hidden="true">
+        <svg class="orbit" viewBox="0 0 400 300">
+          <ellipse cx="200" cy="150" rx="190" ry="96"/>
+          <circle class="orbit-dot" cx="22" cy="183" r="5"/>
+          <circle class="orbit-dot" cx="372" cy="191" r="5"/>
+        </svg>
         <span class="orb orb-blue"></span>
         <span class="orb orb-gold"></span>
         <div class="preview-card">
@@ -94,14 +103,9 @@
       </div>
 
       <div class="card-text">
-        <h1>Prepare for <span class="accent">NUET</span> with Pacemock</h1>
-        <p class="lede">Exclusive NUET-style mock exams created by NU students</p>
-
-        <ul class="facts">
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>30 questions</li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg>60-minute timer</li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V4M4 20h16M8 15l4-4 3 3 5-6"/></svg>Math + Critical Thinking</li>
-        </ul>
+        <p class="eyebrow">NUET Math &amp; Critical Thinking</p>
+        <h1>Practice. Improve. <span class="accent">Ace NUET.</span></h1>
+        <p class="lede">Realistic NUET-style mock exams with full solutions, marking and performance tracking.</p>
 
         <div class="choice">
           <div class="start-area">
@@ -112,6 +116,21 @@
             <button class="back" id="back" type="button">← Back</button>
           </div>
         </div>
+
+        <ul class="features">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12l7-7M16 5h3v3"/></svg>
+            <span>Exam-style questions</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 17.5l9 5 9-5"/></svg>
+            <span>Full solutions <small>Typed &amp; handwritten</small></span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-6M10 20V9M15 20v-9M20 20V5"/><path d="M3 20h18"/></svg>
+            <span>Performance tracking</span>
+          </li>
+        </ul>
       </div>
 
       <div class="subject" id="subject" inert>
@@ -180,9 +199,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=33"></script>
-  <script src="auth.js?v=33"></script>
-  <script src="pay.js?v=33"></script>
+  <script src="config.js?v=34"></script>
+  <script src="auth.js?v=34"></script>
+  <script src="pay.js?v=34"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
