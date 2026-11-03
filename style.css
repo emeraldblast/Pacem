@@ -859,6 +859,61 @@ button.subject-mock { border: 0; font: inherit; text-align: left; cursor: pointe
 
 .pay .pay-timer.over { background: #fdeceb; color: #d13a2e; }
 
+.pay-old { color: var(--muted); font-size: 20px; font-weight: 500; }
+
+/* Promo code: a link that opens a small field */
+.promo { display: grid; gap: 8px; }
+
+.promo [hidden] { display: none; }
+
+.promo-toggle {
+  justify-self: start;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--mark);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.promo-toggle:hover { text-decoration: underline; }
+
+.promo-row { display: flex; gap: 8px; }
+
+.promo-row input {
+  flex: 1;
+  min-width: 0;
+  height: 46px;
+  padding: 0 14px;
+  background: var(--bar);
+  border: 1px solid var(--bar-line);
+  border-radius: 12px;
+  color: var(--text);
+  font: inherit;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.promo-row input::placeholder { letter-spacing: 0; text-transform: none; }
+
+.promo-row input:focus { outline: 2px solid var(--mark); outline-offset: 1px; }
+
+.promo-apply {
+  padding: 0 18px;
+  background: var(--text);
+  border: 0;
+  border-radius: 12px;
+  color: var(--bar);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.promo-apply:disabled { opacity: 0.6; cursor: default; }
+
+.promo-note { color: #22a35a; font-size: 14px; font-weight: 600; }
+
+.promo-note.bad { color: #d13a2e; }
+
 .pay-hint { color: var(--muted); font-size: 15px; line-height: 1.5; }
 
 .pay-field { display: grid; gap: 6px; color: var(--muted); font-size: 14px; font-weight: 600; }
@@ -1172,6 +1227,21 @@ button.subject-mock { border: 0; font: inherit; text-align: left; cursor: pointe
 
 .switch input:disabled + .switch-track { opacity: 0.45; }
 
+/* Promo codes in the admin panel */
+.promo-form { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 16px; }
+
+.promo-form label { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; font-weight: 500; }
+
+.promo-form .admin-search { width: auto; }
+
+#promo-new-code { width: 160px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+#promo-new-code::placeholder { letter-spacing: 0; }
+
+#promo-new-percent, #promo-new-limit { width: 96px; }
+
+.promo-code-cell { font-weight: 700; letter-spacing: 0.04em; }
+
 /* Payments in the admin panel */
 .payments-count {
   margin-left: 6px;
@@ -1199,6 +1269,8 @@ button.subject-mock { border: 0; font: inherit; text-align: left; cursor: pointe
 }
 
 .payment.pending { border-color: #f2c867; }
+
+.payment.no-file { grid-template-columns: minmax(0, 1fr) auto; padding-left: 18px; }
 
 .payment-receipt {
   display: grid;

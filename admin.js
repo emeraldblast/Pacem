@@ -7,6 +7,7 @@ let mocks = [];
 let users = [];
 let canManage = false;
 let payments = [];
+let promos = [];
 let receiptUrls = {};
 
 setupThemeButton($("theme"));
@@ -95,7 +96,7 @@ async function loadReceiptUrls() {
 
 function receipt(payment) {
   const url = receiptUrls[payment.receipt_path];
-  if (!url) return element("span", "payment-receipt", payment.receipt_path.endsWith("/no-receipt") ? "Name only" : "No file");
+  if (!url) return element("span", "payment-receipt", "No file");
   const link = element("a", "payment-receipt");
   link.href = url;
   link.target = "_blank";
@@ -124,13 +125,26 @@ async function review(payment, approve, buttons) {
   }
   payment.status = approve ? "approved" : "rejected";
   const user = users.find((u) => u.id === payment.user_id);
-  if (approve && user && !user.unlocked.includes(payment.mock_id)) {
-    user.unlocked = [...user.unlocked, payment.mock_id];
+  if (approve && user) {
+    // Approving opens every part of the mock: math2 and crit2 for Mock 2
+    const parts = partsOf(payment.mock_id).filter((id) => !user.unlocked.includes(id));
+    user.unlocked = [...user.unlocked, ...parts];
     rows();
     tiles();
   }
   $("payments-note").textContent = `${payment.mock_title || payment.mock_id} ${approve ? "unlocked for" : "rejected for"} ${payment.email}.`;
   paymentRows();
+}
+
+const tenge = (amount) => `${amount.toLocaleString("ru-RU")} ₸`;
+const numberOf = (id) => (id.match(/\d+$/) || [""])[0];
+const partsOf = (mockId) => mocks.map((m) => m.id).filter((id) => numberOf(id) === numberOf(mockId));
+
+// What the buyer should have sent, with any promo code
+function amountNote(payment) {
+  if (!payment.promo_code) return `${tenge(PAYMENT.price)}`;
+  if (payment.discount === 100) return `Free with ${payment.promo_code}`;
+  return `${tenge(Math.round((PAYMENT.price * (100 - payment.discount)) / 100))} with ${payment.promo_code} (−${payment.discount}%)`;
 }
 
 function paymentRows() {
@@ -141,11 +155,14 @@ function paymentRows() {
     return;
   }
   $("payments").replaceChildren(...payments.map((payment) => {
-    const item = element("article", `payment ${payment.status}`);
+    // Payments sent with just a Kaspi name have no receipt to show
+    const hasFile = !payment.receipt_path.endsWith("/no-receipt");
+    const item = element("article", `payment ${payment.status}${hasFile ? "" : " no-file"}`);
     const info = element("div", "payment-info");
     info.append(
       element("strong", "", payment.email),
-      element("span", "", `${payment.mock_title || payment.mock_id} · Kaspi name: ${payment.sender_name}`),
+      element("span", "", `${payment.mock_title || payment.mock_id} · ${amountNote(payment)}`),
+      element("span", "", payment.discount === 100 ? "No transfer needed" : `Kaspi name: ${payment.sender_name}`),
       element("span", "", dateTime(payment.created_at)),
     );
     const actions = element("div", "payment-actions");
@@ -160,7 +177,7 @@ function paymentRows() {
     } else {
       actions.append(element("span", `payment-status ${payment.status}`, STATUS[payment.status]));
     }
-    item.append(receipt(payment), info, actions);
+    item.append(...(hasFile ? [receipt(payment)] : []), info, actions);
     return item;
   }));
 }
@@ -174,6 +191,97 @@ async function loadPayments() {
   payments = data;
   receiptUrls = await loadReceiptUrls();
   paymentRows();
+}
+
+function promoRows() {
+  if (!promos.length) {
+    const row = document.createElement("tr");
+    const cell = element("td", "", "No promo codes yet.");
+    cell.colSpan = 5;
+    row.append(cell);
+    $("promo-rows").replaceChildren(row);
+    return;
+  }
+  $("promo-rows").replaceChildren(...promos.map((promo) => {
+    const row = document.createElement("tr");
+    const remove = element("button", "payment-reject", "Delete");
+    remove.type = "button";
+    remove.addEventListener("click", () => deletePromo(promo, remove));
+    const actions = element("td");
+    actions.append(remove);
+    row.append(
+      element("td", "promo-code-cell", promo.code),
+      element("td", "", promo.percent === 100 ? "100% · free" : `${promo.percent}%`),
+      element("td", "", promo.max_uses ? `${promo.uses} of ${promo.max_uses}` : `${promo.uses}`),
+      toggle(promo.active, false, `${promo.code} is on`, (box) => setPromoActive(promo, box)),
+      actions,
+    );
+    return row;
+  }));
+}
+
+async function savePromo(promo) {
+  return db.rpc("admin_save_promo", { promo: promo.code, pct: promo.percent, use_limit: promo.max_uses, is_active: promo.active });
+}
+
+async function addPromo(e) {
+  e.preventDefault();
+  const code = $("promo-new-code").value.trim().toUpperCase();
+  const percent = Number($("promo-new-percent").value);
+  const limit = $("promo-new-limit").value ? Number($("promo-new-limit").value) : null;
+  const existing = promos.find((p) => p.code === code);
+  if (existing && !confirm(`${code} already exists. Replace its discount and limit?`)) return;
+  const promo = { code, percent, max_uses: limit, active: true, uses: existing ? existing.uses : 0 };
+  const { error } = await savePromo(promo);
+  if (error) {
+    $("promos-note").textContent = `Couldn't save: ${error.message}`;
+    return;
+  }
+  promos = [promo, ...promos.filter((p) => p.code !== code)];
+  $("promos-note").textContent = `${code} saved: ${percent}% off${limit ? `, ${limit} uses` : ""}.`;
+  $("promo-form").reset();
+  promoRows();
+}
+
+async function setPromoActive(promo, box) {
+  box.disabled = true;
+  const { error } = await savePromo({ ...promo, active: box.checked });
+  box.disabled = false;
+  if (error) {
+    box.checked = !box.checked;
+    $("promos-note").textContent = `Couldn't save: ${error.message}`;
+    return;
+  }
+  promo.active = box.checked;
+  $("promos-note").textContent = `${promo.code} is ${box.checked ? "on" : "off"}.`;
+}
+
+async function deletePromo(promo, button) {
+  if (!confirm(`Delete ${promo.code}? Payments that used it keep their discount.`)) return;
+  button.disabled = true;
+  const { error } = await db.rpc("admin_delete_promo", { promo: promo.code });
+  if (error) {
+    button.disabled = false;
+    $("promos-note").textContent = `Couldn't delete: ${error.message}`;
+    return;
+  }
+  promos = promos.filter((p) => p !== promo);
+  $("promos-note").textContent = `${promo.code} deleted.`;
+  promoRows();
+}
+
+async function loadPromos() {
+  const { data, error } = await db.rpc("admin_promo_codes");
+  if (error) {
+    const row = document.createElement("tr");
+    const cell = element("td", "", `Promo codes couldn't load: ${error.message}`);
+    cell.colSpan = 5;
+    row.append(cell);
+    $("promo-rows").replaceChildren(row);
+    return;
+  }
+  promos = data;
+  promoRows();
 }
 
 function rows() {
@@ -226,4 +334,6 @@ function rows() {
   rows();
   $("search").addEventListener("input", rows);
   loadPayments();
+  loadPromos();
+  $("promo-form").addEventListener("submit", addPromo);
 })();

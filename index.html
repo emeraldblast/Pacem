@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=37">
-  <script src="theme.js?v=37"></script>
+  <link rel="stylesheet" href="style.css?v=38">
+  <script src="theme.js?v=38"></script>
 </head>
 <body>
 
@@ -166,7 +166,7 @@
 
     <div class="pay-card">
       <p class="pay-label" id="pay-for"></p>
-      <p class="pay-amount" id="pay-amount"></p>
+      <p class="pay-amount"><span id="pay-amount"></span> <s class="pay-old" id="pay-old" hidden></s></p>
       <div class="kaspi" id="kaspi">
         <div>
           <p class="kaspi-phone" id="kaspi-phone"></p>
@@ -178,9 +178,18 @@
     </div>
 
     <form class="pay-form" id="pay-form" novalidate>
-      <p class="pay-hint">After the transfer, enter the name your Kaspi account shows, so we can find your payment.</p>
+      <div class="promo">
+        <button class="promo-toggle" id="promo-toggle" type="button">Have a promo code?</button>
+        <div class="promo-row" id="promo-row" hidden>
+          <input id="promo-code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="32" placeholder="Promo code" aria-label="Promo code">
+          <button class="promo-apply" id="promo-apply" type="button">Apply</button>
+        </div>
+        <p class="promo-note" id="promo-note" aria-live="polite" hidden></p>
+      </div>
 
-      <label class="pay-field">Sender name in Kaspi
+      <p class="pay-hint" id="pay-hint">After the transfer, enter the name your Kaspi account shows, so we can find your payment.</p>
+
+      <label class="pay-field" id="sender-field">Sender name in Kaspi
         <input id="sender" type="text" autocomplete="name" maxlength="80" placeholder="First and last name">
       </label>
 
@@ -190,8 +199,8 @@
 
     <div class="pay-done" id="pay-done" hidden>
       <svg class="pay-done-mark" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M14 25l7 7 13-14"/></svg>
-      <h3>Sent for review</h3>
-      <p>We'll find your transfer by your Kaspi name and unlock the mock on this account. It opens here once it's approved.</p>
+      <h3 id="pay-done-title">Sent for review</h3>
+      <p id="pay-done-text">We'll find your transfer by your Kaspi name and unlock the mock on this account. It opens here once it's approved.</p>
       <button class="pay-submit" id="pay-ok" type="button">Done</button>
     </div>
 
@@ -206,9 +215,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=37"></script>
-  <script src="auth.js?v=37"></script>
-  <script src="pay.js?v=37"></script>
+  <script src="config.js?v=38"></script>
+  <script src="auth.js?v=38"></script>
+  <script src="pay.js?v=38"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");

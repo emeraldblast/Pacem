@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=37">
-  <script src="theme.js?v=37"></script>
+  <link rel="stylesheet" href="style.css?v=38">
+  <script src="theme.js?v=38"></script>
 </head>
 <body>
 
@@ -61,6 +61,23 @@
       </section>
 
       <section class="panel">
+        <h2>Promo codes</h2>
+        <p class="panel-note" id="promos-note" aria-live="polite">A code takes a percentage off a paid mock. 100% makes it free and unlocks it straight away.</p>
+        <form class="promo-form" id="promo-form">
+          <input class="admin-search" id="promo-new-code" type="text" maxlength="32" pattern="[A-Za-z0-9_\-]{3,32}" placeholder="CODE" aria-label="Code: 3 to 32 letters, numbers, - or _" required>
+          <label>Discount <input class="admin-search" id="promo-new-percent" type="number" min="1" max="100" value="20" required> %</label>
+          <label>Uses <input class="admin-search" id="promo-new-limit" type="number" min="1" placeholder="No limit"></label>
+          <button class="payment-approve" type="submit">Add code</button>
+        </form>
+        <div class="table-scroll">
+          <table class="attempts admin-table">
+            <thead><tr><th>Code</th><th>Discount</th><th>Used</th><th>On</th><th></th></tr></thead>
+            <tbody id="promo-rows"><tr><td colspan="5">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
         <div class="admin-tools">
           <h2>Accounts</h2>
           <input class="admin-search" id="search" type="search" placeholder="Search by email" aria-label="Search accounts by email">
@@ -77,8 +94,8 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=37"></script>
-  <script src="auth.js?v=37"></script>
-  <script src="admin.js?v=37"></script>
+  <script src="config.js?v=38"></script>
+  <script src="auth.js?v=38"></script>
+  <script src="admin.js?v=38"></script>
 </body>
 </html>
