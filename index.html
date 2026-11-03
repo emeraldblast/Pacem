@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=9">
-  <script src="theme.js?v=9"></script>
+  <link rel="stylesheet" href="style.css?v=10">
+  <script src="theme.js?v=10"></script>
 </head>
 <body>
 
@@ -78,6 +78,10 @@
               <span class="mock-name">Critical Thinking &amp; PS</span>
               <span class="mock-note">1 mock</span>
             </button>
+            <button class="mock unlock" id="unlock" type="button" hidden>
+              <span class="mock-name">Unlock all mocks</span>
+              <span class="mock-note" id="unlock-note"></span>
+            </button>
             <button class="back" id="back" type="button">← Back</button>
           </div>
         </div>
@@ -91,13 +95,65 @@
     </section>
   </main>
 
+  <dialog class="pay" id="pay" aria-labelledby="pay-title">
+    <div class="pay-head">
+      <h2 id="pay-title">Payment</h2>
+      <button class="pay-close" id="pay-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="pay-steps" id="pay-steps" aria-hidden="true">
+      <span class="done"></span><span id="step-receipt"></span><span id="step-name"></span>
+    </div>
+
+    <form class="pay-form" id="pay-form" novalidate>
+      <div class="pay-card">
+        <p class="pay-label">To pay</p>
+        <p class="pay-amount" id="pay-amount"></p>
+        <div class="kaspi">
+          <div>
+            <p class="kaspi-phone" id="kaspi-phone"></p>
+            <p class="kaspi-to" id="kaspi-to"></p>
+          </div>
+          <button class="kaspi-copy" id="kaspi-copy" type="button">Copy</button>
+        </div>
+      </div>
+
+      <p class="pay-hint">After the transfer, attach the receipt and enter the name your Kaspi account shows.</p>
+
+      <label class="receipt" id="receipt-box">
+        <input id="receipt" type="file" accept="image/png,image/jpeg,image/webp,image/heic,image/heif,application/pdf">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5l-8.3 8.3a5 5 0 0 1-7-7l8.6-8.6a3.4 3.4 0 0 1 4.8 4.8l-8.6 8.6a1.7 1.7 0 0 1-2.4-2.4l8-8"/></svg>
+        <span>
+          <strong id="receipt-title">Attach receipt</strong>
+          <small id="receipt-note">Screenshot or PDF from Kaspi</small>
+        </span>
+      </label>
+
+      <label class="pay-field">Sender name in Kaspi
+        <input id="sender" type="text" autocomplete="name" maxlength="80" placeholder="First and last name">
+      </label>
+
+      <p class="pay-error" id="pay-error" role="alert" hidden></p>
+      <button class="pay-submit" id="pay-submit" type="submit">Send for review</button>
+    </form>
+
+    <div class="pay-done" id="pay-done" hidden>
+      <svg class="pay-done-mark" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M14 25l7 7 13-14"/></svg>
+      <h3>Sent for review</h3>
+      <p>We'll check your transfer and open all mocks on this account. They'll appear under Start mock test.</p>
+      <button class="pay-submit" id="pay-ok" type="button">Done</button>
+    </div>
+  </dialog>
+
   <footer class="end wrap">
     <p>Pacemock is an independent study site, not connected to Nazarbayev University.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=9"></script>
-  <script src="auth.js?v=9"></script>
+  <script src="config.js?v=10"></script>
+  <script src="auth.js?v=10"></script>
+  <script src="pay.js?v=10"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -179,6 +235,7 @@
     });
 
     setupAccount().then((signedIn) => {
+      setupPayment(signedIn);
       if (!signedIn) return;
       document.getElementById("get-started").hidden = true;
       addAccountMocks();
@@ -198,7 +255,7 @@
         note.className = "mock-note";
         note.textContent = `${mock.total} questions · ${mock.minutes} minutes`;
         link.append(name, note);
-        document.getElementById("back").before(link);
+        document.getElementById("unlock").before(link);
       }
     }
 
