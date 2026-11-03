@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=34">
-  <script src="theme.js?v=34"></script>
+  <link rel="stylesheet" href="style.css?v=36">
+  <script src="theme.js?v=36"></script>
 </head>
 <body>
 
@@ -103,9 +103,24 @@
       </div>
 
       <div class="card-text">
-        <p class="eyebrow">NUET Math &amp; Critical Thinking</p>
-        <h1>Practice. Improve. <span class="accent">Ace NUET.</span></h1>
-        <p class="lede">Realistic NUET-style mock exams with full solutions, marking and performance tracking.</p>
+        <!-- Before Start is pressed -->
+        <div class="intro-home">
+          <h1>Prepare for <span class="accent">NUET</span> with Pacemock</h1>
+          <p class="lede">Exclusive NUET-style mock exams created by NU students</p>
+
+          <ul class="facts">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>30 questions</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg>60-minute timer</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V4M4 20h16M8 15l4-4 3 3 5-6"/></svg>Math + Critical Thinking</li>
+          </ul>
+        </div>
+
+        <!-- With the mocks open -->
+        <div class="intro-mocks">
+          <p class="eyebrow">NUET Math &amp; Critical Thinking</p>
+          <h2 class="hero-title">Practice. Improve. <span class="accent">Ace NUET.</span></h2>
+          <p class="lede">Realistic NUET-style mock exams with full solutions, marking and performance tracking.</p>
+        </div>
 
         <div class="choice">
           <div class="start-area">
@@ -199,9 +214,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=34"></script>
-  <script src="auth.js?v=34"></script>
-  <script src="pay.js?v=34"></script>
+  <script src="config.js?v=36"></script>
+  <script src="auth.js?v=36"></script>
+  <script src="pay.js?v=36"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
