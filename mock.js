@@ -14,12 +14,61 @@ const question = (i) => test.questions[i] || {
 
 // Writes text into an element, turning ^{...} into superscript
 function setText(element, text) {
-  element.replaceChildren(...text.split(/\^\{([^}]*)\}/).map((part, i) => {
+  element.replaceChildren(...richText(text));
+}
+
+function superscripts(text) {
+  return text.split(/\^\{([^}]*)\}/).map((part, i) => {
     if (i % 2 === 0) return document.createTextNode(part);
     const sup = document.createElement("sup");
     sup.textContent = part;
     return sup;
+  });
+}
+
+// In Math tests, fractions such as 3/5, 5x/(27y) or (x + 1)/(x − 2) are drawn stacked.
+// Each side is numbers, single letters and brackets written together. Units like m/s or
+// g/cm^{3} and words like force / area stay as they are.
+const stackFractions = /math/i.test(test.title);
+const ATOM = String.raw`(?:\((?:[^()]|\([^()]*\))*\)|\[(?:[^\[\]]|\[[^\[\]]*\])*\]|√?\d+(?:\.\d+)?|√?[a-zA-Z])(?:\^\{[^}]*\})?`;
+const FRACTION = new RegExp(String.raw`(?<![\w.)\]}{^/√])((?:${ATOM})+)\s*\/\s*((?:${ATOM})+)`, "g");
+const isWord = (part) => /^[a-zA-Z]{2,}(\^\{[^}]*\})?$/.test(part);
+const isLetter = (part) => /^√?[a-zA-Z](\^\{[^}]*\})?$/.test(part);
+
+function richText(text) {
+  const nodes = [];
+  let done = 0;
+  for (const match of stackFractions ? text.matchAll(FRACTION) : []) {
+    const [, top, bottom] = match;
+    if (isWord(top) || isWord(bottom) || (isLetter(top) && isLetter(bottom))) continue;
+    nodes.push(...superscripts(text.slice(done, match.index)), fraction(top, bottom));
+    done = match.index + match[0].length;
+  }
+  nodes.push(...superscripts(text.slice(done)));
+  return nodes;
+}
+
+function fraction(top, bottom) {
+  // The bar replaces the outer brackets, as in handwriting
+  const unwrap = (part) => {
+    if (!/^[(\[]/.test(part)) return part;
+    let depth = 0;
+    for (let i = 0; i < part.length; i++) {
+      depth += "([".includes(part[i]) ? 1 : ")]".includes(part[i]) ? -1 : 0;
+      if (depth === 0) return i === part.length - 1 ? part.slice(1, -1) : part;
+    }
+    return part;
+  };
+  const box = document.createElement("span");
+  const parts = [["frac-top", unwrap(top)], ["frac-slash", "/"], ["frac-bottom", unwrap(bottom)]];
+  box.className = "frac";
+  box.append(...parts.map(([className, part]) => {
+    const span = document.createElement("span");
+    span.className = className;
+    span.append(...superscripts(part));
+    return span;
   }));
+  return box;
 }
 
 function loadState() {
