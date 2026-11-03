@@ -295,38 +295,24 @@ h1 {
   right: 56px;
   width: 290px;
   animation: float 6s ease-in-out infinite;
-  /* Turns towards the cursor: the angles are set from index.html */
-  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  transition: transform 0.6s var(--ease);
+  /* Turns towards the cursor and lifts while hovered: index.html eases these values each frame */
+  transform:
+    perspective(1000px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg))
+    scale(calc(1 + var(--lift, 0) * 0.025));
 }
 
-.preview.tilting { transition-duration: 0.15s; }
-
-/* A soft light that follows the cursor across the card */
+/* A faint light that follows the cursor while the card is hovered */
 .preview-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 0%), rgba(255, 255, 255, 0.16), transparent 55%);
+  background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 0%), rgba(255, 255, 255, 0.1), transparent 60%);
   border-radius: inherit;
-  opacity: 0;
+  opacity: var(--lift, 0);
   pointer-events: none;
-  transition: opacity 0.4s ease;
 }
-
-.preview.tilting .preview-card::after { opacity: 1; }
-
-.preview::before, .preview::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #142041;
-  border-radius: 22px;
-  opacity: 0.55;
-  transform: translate(10px, 10px) rotate(-4deg);
-}
-
-.preview::after { opacity: 0.35; transform: translate(20px, 20px) rotate(-4deg); }
 
 .preview-card {
   position: relative;
@@ -335,7 +321,10 @@ h1 {
   background: #1b2232;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 22px;
-  box-shadow: 0 20px 40px rgba(6, 24, 70, 0.45);
+  /* One soft shadow that drifts against the tilt and deepens while hovered */
+  box-shadow:
+    calc(var(--shadow-x, 0) * 1px) calc(14px + var(--lift, 0) * 10px) calc(30px + var(--lift, 0) * 16px) -12px
+    rgba(6, 24, 70, calc(0.32 + var(--lift, 0) * 0.1));
   color: #fff;
   font-size: 13px;
   line-height: 1.45;
