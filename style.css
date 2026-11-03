@@ -487,6 +487,8 @@ h1 {
 
 .card.open .mocks { padding-top: 0; }
 
+.card.open { align-items: flex-start; }
+
 .start {
   display: inline-flex;
   align-items: center;
@@ -532,6 +534,17 @@ h1 {
 .card.open .mock:nth-child(2) { transition-delay: 0.22s, 0.22s, 0s; }
 .card.open .mock:nth-child(3) { transition-delay: 0.3s, 0.3s, 0s; }
 .card.open .mock:nth-child(4) { transition-delay: 0.38s, 0.38s, 0s; }
+.card.open .mock:nth-child(5) { transition-delay: 0.44s, 0.44s, 0s; }
+.card.open .mock:nth-child(6) { transition-delay: 0.5s, 0.5s, 0s; }
+
+/* Mocks still being written: shown, but not a button */
+.card.open .mock.soon { opacity: 0.55; }
+
+.mock.soon { cursor: default; }
+
+.mock.soon:hover { background: #fff; }
+
+.mock.soon .mock-icon { background: #b4c2d6; }
 
 /* Mock 1, Mock 2… sit three in a row, so they are a little more compact */
 .mocks .mock { gap: 12px; padding: 18px; }

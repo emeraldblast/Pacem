@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=32">
-  <script src="theme.js?v=32"></script>
+  <link rel="stylesheet" href="style.css?v=33">
+  <script src="theme.js?v=33"></script>
 </head>
 <body>
 
@@ -180,9 +180,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=32"></script>
-  <script src="auth.js?v=32"></script>
-  <script src="pay.js?v=32"></script>
+  <script src="config.js?v=33"></script>
+  <script src="auth.js?v=33"></script>
+  <script src="pay.js?v=33"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -267,8 +267,13 @@
     const MOCK_NAMES = [...new Set(Object.values(SUBJECTS).flatMap((s) => s.mocks.map((m) => m.name)))];
     const partsOf = (name) => Object.values(SUBJECTS).flatMap((s) => s.mocks.filter((m) => m.name === name));
     const isPaid = (name) => partsOf(name).some((m) => m.exclusive);
+    // A paid mock is bought whole; the payment is recorded against its first paid part
+    const paidPartOf = (name) => partsOf(name).find((m) => m.exclusive)?.exclusive;
+    const ownsAny = (name) => partsOf(name).some((m) => m.exclusive && owned.has(m.exclusive));
+    const COMING_SOON = ["Mock 4", "Mock 5", "Mock 6"];
     const mockNote = (name) => {
       if (!isPaid(name)) return "Free";
+      if (!ownsAny(name) && paymentStatus.get(paidPartOf(name)) === "pending") return "Receipt under review";
       // The price sits on the mock; its Math and Critical Thinking parts just say Exclusive
       return partsOf(name).every((m) => !m.exclusive || owned.has(m.exclusive)) ? "Unlocked" : PRICE;
     };
@@ -300,7 +305,34 @@
       return button;
     }
 
-    document.getElementById("back").before(...MOCK_NAMES.map(mockButton));
+    function comingSoonMock(name) {
+      const card = document.createElement("div");
+      const icon = document.createElement("span");
+      const text = document.createElement("span");
+      const title = document.createElement("span");
+      const note = document.createElement("span");
+      card.className = "mock soon";
+      icon.className = "mock-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = name.replace(/\D/g, "");
+      text.className = "mock-text";
+      title.className = "mock-name";
+      title.textContent = name;
+      note.className = "mock-note";
+      note.textContent = "Coming soon";
+      text.append(title, note);
+      card.append(icon, text);
+      return card;
+    }
+
+    function refreshMockNotes() {
+      document.querySelectorAll("[data-mock]").forEach((button) => {
+        button.querySelector(".mock-note").textContent = mockNote(button.dataset.mock);
+      });
+    }
+
+    document.getElementById("back").before(...MOCK_NAMES.map(mockButton),
+      ...COMING_SOON.filter((name) => !MOCK_NAMES.includes(name)).map(comingSoonMock));
 
     function subjectRow(mock, subjectTitle) {
       const open = mock.href && (!mock.exclusive || owned.has(mock.exclusive));
@@ -325,6 +357,12 @@
     // A mock's Math and Critical Thinking parts take the place of the mock buttons
     function openMock(e) {
       const name = e.currentTarget.dataset.mock;
+      // Not bought yet: no look inside, straight to payment
+      if (isPaid(name) && !ownsAny(name)) {
+        const parts = Object.values(SUBJECTS).filter((s) => s.mocks.some((m) => m.name === name)).map((s) => s.title);
+        openPayment(paidPartOf(name), `${name} · ${parts.join(" + ")}`, e.currentTarget.querySelector(".mock-note"));
+        return;
+      }
       document.getElementById("subject-title").textContent = name;
       document.getElementById("subject-list").replaceChildren(...Object.values(SUBJECTS).map((s) =>
         subjectRow(s.mocks.find((m) => m.name === name) || { name, note: "Coming soon" }, s.title)));
@@ -343,7 +381,7 @@
     });
 
     setupAccount().then((user) => {
-      setupPayment(user);
+      setupPayment(user).then(refreshMockNotes);
       if (!user) return;
       document.getElementById("get-started").hidden = true;
       addAccountMocks();
@@ -370,9 +408,7 @@
         link.append(text);
         document.getElementById("back").before(link);
       }
-      document.querySelectorAll("[data-mock]").forEach((button) => {
-        button.querySelector(".mock-note").textContent = mockNote(button.dataset.mock);
-      });
+      refreshMockNotes();
     }
 
     document.getElementById("back").addEventListener("click", (e) => {
