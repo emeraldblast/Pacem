@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=32">
-  <script src="theme.js?v=32"></script>
+  <link rel="stylesheet" href="style.css?v=33">
+  <script src="theme.js?v=33"></script>
 </head>
 <body>
 
@@ -180,9 +180,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=32"></script>
-  <script src="auth.js?v=32"></script>
-  <script src="pay.js?v=32"></script>
+  <script src="config.js?v=33"></script>
+  <script src="auth.js?v=33"></script>
+  <script src="pay.js?v=33"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -210,31 +210,47 @@
 
     startButton.addEventListener("click", openMocks);
 
-    // The sample question turns towards the cursor while it moves over the blue card.
-    // Skipped on touch screens and for people who ask for less motion.
+    // The sample question turns gently towards the cursor while it moves over the blue card,
+    // and lifts while the cursor is on it. Skipped on touch screens and for people who ask for less motion.
     const preview = hero.querySelector(".preview");
     if (preview && matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) {
-      const MAX_TILT = 14;
-      let tiltFrame;
+      const MAX_TILT = 6;
+      const EASE = 0.1;
+      const target = { x: 0, y: 0, lift: 0 };
+      const shown = { x: 0, y: 0, lift: 0 };
+      let tiltFrame = 0;
+
+      // Each frame moves the shown values a little closer to the target, so the card glides
+      const glide = () => {
+        let moving = false;
+        for (const key in shown) {
+          shown[key] += (target[key] - shown[key]) * EASE;
+          if (Math.abs(target[key] - shown[key]) < 0.001) shown[key] = target[key];
+          else moving = true;
+        }
+        preview.style.setProperty("--tilt-x", `${-shown.y * MAX_TILT}deg`);
+        preview.style.setProperty("--tilt-y", `${shown.x * MAX_TILT}deg`);
+        preview.style.setProperty("--glare-x", `${50 + shown.x * 50}%`);
+        preview.style.setProperty("--glare-y", `${50 + shown.y * 50}%`);
+        preview.style.setProperty("--shadow-x", -shown.x * 10);
+        preview.style.setProperty("--lift", shown.lift);
+        tiltFrame = moving ? requestAnimationFrame(glide) : 0;
+      };
+      const startGlide = () => { if (!tiltFrame) tiltFrame = requestAnimationFrame(glide); };
+
       hero.addEventListener("pointermove", (e) => {
-        cancelAnimationFrame(tiltFrame);
-        tiltFrame = requestAnimationFrame(() => {
-          const box = preview.getBoundingClientRect();
-          const clamp = (value) => Math.max(-1, Math.min(1, value));
-          const x = clamp((e.clientX - box.left - box.width / 2) / (box.width * 1.5));
-          const y = clamp((e.clientY - box.top - box.height / 2) / (box.height * 1.5));
-          preview.classList.add("tilting");
-          preview.style.setProperty("--tilt-x", `${-y * MAX_TILT}deg`);
-          preview.style.setProperty("--tilt-y", `${x * MAX_TILT}deg`);
-          preview.style.setProperty("--glare-x", `${50 + x * 50}%`);
-          preview.style.setProperty("--glare-y", `${50 + y * 50}%`);
-        });
+        const box = preview.getBoundingClientRect();
+        const clamp = (value) => Math.max(-1, Math.min(1, value));
+        target.x = clamp((e.clientX - box.left - box.width / 2) / (box.width * 1.5));
+        target.y = clamp((e.clientY - box.top - box.height / 2) / (box.height * 1.5));
+        target.lift = preview.contains(e.target) ? 1 : 0;
+        startGlide();
       });
       hero.addEventListener("pointerleave", () => {
-        cancelAnimationFrame(tiltFrame);
-        preview.classList.remove("tilting");
-        preview.style.removeProperty("--tilt-x");
-        preview.style.removeProperty("--tilt-y");
+        target.x = 0;
+        target.y = 0;
+        target.lift = 0;
+        startGlide();
       });
     }
 
