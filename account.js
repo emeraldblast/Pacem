@@ -224,6 +224,8 @@ function table(attempts) {
   }
   $("me-email").textContent = user.email;
   $("me-avatar").textContent = user.email[0].toUpperCase();
+  // Only admins get an answer of true; for everyone else the button stays hidden
+  db.rpc("is_admin").then(({ data }) => { $("admin-link").hidden = data !== true; });
   $("me-joined").textContent = `Member since ${new Date(user.created_at).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" })}`;
 
   const { data, error } = await db.from("attempts").select("mock_id, score, answers, finished_at").order("finished_at", { ascending: true }).limit(1000);
