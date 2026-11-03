@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-copy">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https: data:; connect-src https://tjwihtzuqxwjcgsfmxfe.supabase.co wss://tjwihtzuqxwjcgsfmxfe.supabase.co; base-uri 'self'; form-action 'self'">
@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=26">
-  <link rel="stylesheet" href="mock.css?v=26">
-  <script src="theme.js?v=26"></script>
+  <link rel="stylesheet" href="style.css?v=29">
+  <link rel="stylesheet" href="mock.css?v=29">
+  <script src="theme.js?v=29"></script>
 </head>
 <body class="exam-page">
 
@@ -145,10 +145,10 @@
     </div>
   </dialog>
 
-  <script src="questions.js?v=26"></script>
+  <script src="questions.js?v=29"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=26"></script>
-  <script src="auth.js?v=26"></script>
+  <script src="config.js?v=29"></script>
+  <script src="auth.js?v=29"></script>
   <script>
     // Math and Critical Thinking are in questions.js. Any other mock comes from
     // the database, which only hands it to accounts with access.
@@ -169,7 +169,7 @@
         TESTS[id] = data;
       }
       const script = document.createElement("script");
-      script.src = "mock.js?v=26";
+      script.src = "mock.js?v=29";
       document.body.append(script);
     })();
   </script>
