@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=21">
-  <script src="theme.js?v=21"></script>
+  <link rel="stylesheet" href="style.css?v=22">
+  <script src="theme.js?v=22"></script>
 </head>
 <body>
 
@@ -138,12 +138,60 @@
     </section>
   </main>
 
-  <dialog class="buy" id="buy" aria-labelledby="buy-title">
-    <button class="buy-close" id="buy-close" type="button" aria-label="Close">×</button>
-    <h2 id="buy-title"></h2>
-    <p class="buy-price">It costs <strong id="buy-price"></strong></p>
-    <p class="buy-note" id="buy-note"></p>
-    <a class="get-started buy-button" id="buy-button" href="login.html?mode=register" rel="noopener" autofocus>Buy</a>
+  <dialog class="pay" id="pay" aria-labelledby="pay-title">
+    <div class="pay-head">
+      <h2 id="pay-title">Payment</h2>
+      <button class="pay-close" id="pay-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="pay-steps" id="pay-steps" aria-hidden="true">
+      <span class="done"></span><span id="step-receipt"></span><span id="step-name"></span>
+    </div>
+
+    <div class="pay-card">
+      <p class="pay-label" id="pay-for"></p>
+      <p class="pay-amount" id="pay-amount"></p>
+      <div class="kaspi" id="kaspi">
+        <div>
+          <p class="kaspi-phone" id="kaspi-phone"></p>
+          <p class="kaspi-to" id="kaspi-to"></p>
+        </div>
+        <button class="kaspi-copy" id="kaspi-copy" type="button">Copy</button>
+      </div>
+    </div>
+
+    <form class="pay-form" id="pay-form" novalidate>
+      <p class="pay-hint">After the transfer, attach the receipt and enter the name your Kaspi account shows.</p>
+
+      <label class="receipt" id="receipt-box">
+        <input id="receipt" type="file" accept="image/png,image/jpeg,image/webp,image/heic,image/heif,application/pdf">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5l-8.3 8.3a5 5 0 0 1-7-7l8.6-8.6a3.4 3.4 0 0 1 4.8 4.8l-8.6 8.6a1.7 1.7 0 0 1-2.4-2.4l8-8"/></svg>
+        <span>
+          <strong id="receipt-title">Attach receipt</strong>
+          <small id="receipt-note">Screenshot or PDF from Kaspi</small>
+        </span>
+      </label>
+
+      <label class="pay-field">Sender name in Kaspi
+        <input id="sender" type="text" autocomplete="name" maxlength="80" placeholder="First and last name">
+      </label>
+
+      <p class="pay-error" id="pay-error" role="alert" hidden></p>
+      <button class="pay-submit" id="pay-submit" type="submit">Send for review</button>
+    </form>
+
+    <div class="pay-done" id="pay-done" hidden>
+      <svg class="pay-done-mark" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M14 25l7 7 13-14"/></svg>
+      <h3>Sent for review</h3>
+      <p>We'll check your transfer and unlock the mock on this account. It opens here once it's approved.</p>
+      <button class="pay-submit" id="pay-ok" type="button">Done</button>
+    </div>
+
+    <div class="pay-signin" id="pay-signin" hidden>
+      <p class="pay-hint">Create an account first, so we can unlock the mock for you after you pay.</p>
+      <a class="pay-submit" href="login.html?mode=register">Create an account</a>
+    </div>
   </dialog>
 
   <footer class="end wrap">
@@ -151,8 +199,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=21"></script>
-  <script src="auth.js?v=21"></script>
+  <script src="config.js?v=22"></script>
+  <script src="auth.js?v=22"></script>
+  <script src="pay.js?v=22"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -205,11 +254,6 @@
     const owned = new Set();
     const EXCLUSIVE = new Set(Object.values(SUBJECTS).flatMap((s) => s.mocks.map((m) => m.exclusive)));
 
-    // Where Buy sends people: payment is arranged there, then the mock is unlocked with the bot
-    const BUY_LINK = "https://t.me/Pacemock";
-    const PRICE = "990 tenge";
-    let accountEmail = "";
-
     function subjectRow(mock, subjectTitle) {
       const open = mock.href && (!mock.exclusive || owned.has(mock.exclusive));
       const locked = mock.exclusive && !open;
@@ -220,33 +264,15 @@
       if (open) row.href = mock.href;
       if (locked) {
         row.type = "button";
-        row.addEventListener("click", () => openBuy(`${subjectTitle} ${mock.name}`));
+        row.addEventListener("click", () => openPayment(mock.exclusive, `${subjectTitle} ${mock.name}`, note));
       }
       name.className = "mock-name";
       name.textContent = mock.name;
       note.className = "mock-note";
-      note.textContent = locked ? `Exclusive · ${PRICE}` : mock.note;
+      note.textContent = locked ? lockedNote(mock.exclusive) : mock.note;
       row.append(name, note);
       return row;
     }
-
-    const buy = document.getElementById("buy");
-
-    function openBuy(title) {
-      const button = document.getElementById("buy-button");
-      document.getElementById("buy-title").textContent = title;
-      document.getElementById("buy-price").textContent = PRICE;
-      // Signed-in buyers are told which email to send, so the right account gets unlocked
-      document.getElementById("buy-note").textContent = accountEmail
-        ? `After paying, send us your account email (${accountEmail}) and we'll unlock it.`
-        : "Create an account first, so we can unlock the mock for you after you pay.";
-      button.href = accountEmail ? BUY_LINK : "login.html?mode=register";
-      button.target = accountEmail ? "_blank" : "";
-      buy.showModal();
-    }
-
-    document.getElementById("buy-close").addEventListener("click", () => buy.close());
-    buy.addEventListener("click", (e) => { if (e.target === buy) buy.close(); });
 
     function openSubject(e) {
       const chosen = SUBJECTS[e.currentTarget.dataset.subject];
@@ -268,8 +294,8 @@
     });
 
     setupAccount().then((user) => {
+      setupPayment(user);
       if (!user) return;
-      accountEmail = user.email;
       document.getElementById("get-started").hidden = true;
       addAccountMocks();
     });
