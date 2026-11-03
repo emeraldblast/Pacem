@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=13">
-  <script src="theme.js?v=13"></script>
+  <link rel="stylesheet" href="style.css?v=14">
+  <script src="theme.js?v=14"></script>
 </head>
 <body>
 
@@ -73,9 +73,34 @@
         <circle cx="236" cy="87" r="29" fill="#f2b544"/>
       </svg>
 
+      <div class="preview" aria-hidden="true">
+        <span class="orb orb-blue"></span>
+        <span class="orb orb-gold"></span>
+        <div class="preview-card">
+          <div class="preview-head">
+            <span>Math · Q11 of 30</span>
+            <span class="preview-timer"><i></i>41:26</span>
+          </div>
+          <div class="preview-progress"><i></i></div>
+          <p class="preview-title">Question 11 <span>4 marks</span></p>
+          <p class="preview-q">Find the sum of all the solutions of 9<sup>x</sup> − 4 × 3<sup>x+1</sup> + 27 = 0.</p>
+          <div class="preview-options">
+            <span><b>A</b>1</span><span><b>B</b>2</span><span class="picked"><b>C</b>3</span><span><b>D</b>4</span>
+            <span><b>E</b>6</span><span><b>F</b>9</span><span><b>G</b>12</span><span><b>H</b>27</span>
+          </div>
+        </div>
+      </div>
+      <div class="cube" aria-hidden="true"><span>x<sup>2</sup></span></div>
+
       <div class="card-text">
         <h1>Prepare for <span class="accent">NUET</span> with Pacemock</h1>
         <p class="lede">Exclusive NUET-style mock exams created by NU students</p>
+
+        <ul class="facts">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>30 questions</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg>60-minute timer</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V4M4 20h16M8 15l4-4 3 3 5-6"/></svg>Math + Critical Thinking</li>
+        </ul>
 
         <div class="choice">
           <div class="start-area">
@@ -84,12 +109,20 @@
 
           <div class="mocks" id="mocks" inert>
             <button class="mock" data-subject="math" type="button">
-              <span class="mock-name">Math</span>
-              <span class="mock-note">2 mocks</span>
+              <span class="mock-icon" aria-hidden="true">Σ</span>
+              <span class="mock-text">
+                <span class="mock-name">Math</span>
+                <span class="mock-note">2 mocks</span>
+              </span>
+              <span class="mock-arrow" aria-hidden="true">→</span>
             </button>
             <button class="mock" data-subject="crit" type="button">
-              <span class="mock-name">Critical Thinking &amp; PS</span>
-              <span class="mock-note">2 mocks</span>
+              <span class="mock-icon idea" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></span>
+              <span class="mock-text">
+                <span class="mock-name">Critical Thinking &amp; PS</span>
+                <span class="mock-note">2 mocks</span>
+              </span>
+              <span class="mock-arrow" aria-hidden="true">→</span>
             </button>
             <button class="back" id="back" type="button">← Back</button>
           </div>
@@ -109,8 +142,8 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=13"></script>
-  <script src="auth.js?v=13"></script>
+  <script src="config.js?v=14"></script>
+  <script src="auth.js?v=14"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -210,6 +243,7 @@
         owned.add(mock.id);
         if (EXCLUSIVE.has(mock.id)) continue;
         const link = document.createElement("a");
+        const text = document.createElement("span");
         const name = document.createElement("span");
         const note = document.createElement("span");
         link.className = "mock";
@@ -218,7 +252,9 @@
         name.textContent = mock.title;
         note.className = "mock-note";
         note.textContent = `${mock.total} questions · ${mock.minutes} minutes`;
-        link.append(name, note);
+        text.className = "mock-text";
+        text.append(name, note);
+        link.append(text);
         document.getElementById("back").before(link);
       }
     }

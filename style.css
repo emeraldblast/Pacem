@@ -253,9 +253,9 @@ a:focus-visible, .top button:focus-visible {
 
 .arc {
   position: absolute;
-  right: 5%;
-  bottom: 13%;
-  width: min(32%, 330px);
+  right: 6%;
+  bottom: 8%;
+  width: min(20%, 200px);
 }
 
 .arc-main { stroke: #fff; }
@@ -272,6 +272,162 @@ h1 {
 }
 
 .accent { color: #a8dcff; }
+
+/* Small facts under the heading */
+.facts { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 0; padding: 0; list-style: none; }
+
+.facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.facts svg, .mock-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* A sample question floating on the right */
+.preview {
+  position: absolute;
+  top: 52px;
+  right: 56px;
+  width: 290px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.preview::before, .preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #142041;
+  border-radius: 22px;
+  opacity: 0.55;
+  transform: translate(10px, 10px) rotate(-4deg);
+}
+
+.preview::after { opacity: 0.35; transform: translate(20px, 20px) rotate(-4deg); }
+
+.preview-card {
+  position: relative;
+  z-index: 1;
+  padding: 18px;
+  background: #1b2232;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 20px 40px rgba(6, 24, 70, 0.45);
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.45;
+  transform: rotate(-4deg);
+}
+
+.preview-head { display: flex; align-items: center; justify-content: space-between; color: rgba(255, 255, 255, 0.6); font-size: 12px; }
+
+.preview-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.preview-timer i { width: 7px; height: 7px; background: #f2b544; border-radius: 50%; }
+
+.preview-progress { height: 4px; margin: 12px 0 14px; background: rgba(255, 255, 255, 0.12); border-radius: 4px; }
+
+.preview-progress i { display: block; width: 37%; height: 100%; background: #5b93f0; border-radius: 4px; }
+
+.preview-title { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 700; }
+
+.preview-title span { padding: 1px 7px; background: #f2b544; border-radius: 6px; color: #3d2b00; font-size: 11px; }
+
+.preview-q { margin: 8px 0 12px; }
+
+.preview-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+
+.preview-options span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9px;
+  font-size: 12px;
+}
+
+.preview-options b {
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  font-size: 9px;
+}
+
+.preview-options .picked { background: #2f6fde; border-color: #5b93f0; }
+
+.preview-options .picked b { background: #fff; color: #2f6fde; }
+
+.orb { position: absolute; z-index: 2; border-radius: 50%; }
+
+.orb-blue {
+  top: -20px;
+  left: -26px;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 32% 30%, #cfe4ff, #5b93f0 45%, #1d4fb8);
+  box-shadow: 0 6px 14px rgba(6, 24, 70, 0.35);
+}
+
+.orb-gold {
+  top: -28px;
+  right: -22px;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at 32% 30%, #fff1c9, #f2b544 45%, #c98a12);
+  box-shadow: 0 8px 18px rgba(6, 24, 70, 0.35);
+}
+
+.cube {
+  position: absolute;
+  right: calc(6% + min(20vw, 200px) + 28px);
+  bottom: 9%;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  background: linear-gradient(145deg, rgba(232, 242, 255, 0.95), rgba(138, 182, 245, 0.85));
+  border-radius: 14px;
+  box-shadow: inset -6px -6px 0 rgba(30, 90, 200, 0.25), 0 12px 24px rgba(6, 24, 70, 0.3);
+  color: #1e5bd0;
+  font-size: 20px;
+  font-weight: 700;
+  transform: rotate(-10deg);
+  animation: float 7s ease-in-out -2s infinite;
+}
+
+.cube sup { font-size: 12px; }
+
+@keyframes float {
+  50% { translate: 0 -8px; }
+}
 
 .lede {
   max-width: 28em;
@@ -317,9 +473,8 @@ h1 {
 
 .mock {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
+  align-items: center;
+  gap: 14px;
   padding: 20px 22px;
   background: #fff;
   border: 0;
@@ -336,7 +491,30 @@ h1 {
 
 .mock:hover { background: #e9f2ff; }
 
-.mock-name { font-size: 19px; font-weight: 600; letter-spacing: -0.02em; }
+.mock-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(145deg, #4b8df5, #1f5fd6);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.mock-icon.idea { background: linear-gradient(145deg, #ffd27a, #f0a92c); }
+
+.mock-icon svg { width: 22px; height: 22px; }
+
+.mock-text { display: flex; flex: 1; flex-direction: column; gap: 2px; }
+
+.mock-arrow { color: #2f6fde; font-size: 20px; transition: transform 0.15s ease; }
+
+.mock:hover .mock-arrow { transform: translateX(3px); }
+
+.mock-name { font-size: 21px; font-weight: 600; line-height: 1.3; letter-spacing: -0.02em; }
 
 .mock-note { color: #5a6a82; font-size: 14px; }
 
@@ -463,7 +641,14 @@ a.subject-mock:hover { background: #e9f2ff; }
 
 .end p { margin: 0; }
 
+@media (max-width: 1040px) {
+  .preview { right: 30px; width: 240px; }
+  .preview-options { gap: 4px; }
+  .preview-options b { display: none; }
+}
+
 @media (max-width: 860px) {
+  .preview, .cube { display: none; }
   .wrap { padding-left: 14px; padding-right: 14px; }
   .channel { padding: 0 8px; }
   .channel span { display: none; }
@@ -493,11 +678,13 @@ a.subject-mock:hover { background: #e9f2ff; }
   .bar { padding-left: 14px; }
   .login { display: none; }
   .mock { padding: 16px; }
-  .mock-name { font-size: 17px; }
+  .mock-name { font-size: 18px; }
+  .mock-icon { width: 36px; height: 36px; font-size: 18px; }
+  .mock-arrow { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .start, .start-area, .mock, .back, .card-text, .subject { transition: none; }
   .card.open .mock, .card.open .mock:nth-child(2), .card.open .back { transition-delay: 0s; }
-  .card.open::after { animation: none; }
+  .card.open::after, .preview, .cube { animation: none; }
 }
