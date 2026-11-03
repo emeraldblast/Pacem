@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=38">
-  <script src="theme.js?v=38"></script>
+  <link rel="stylesheet" href="style.css?v=39">
+  <script src="theme.js?v=39"></script>
 </head>
 <body>
 
@@ -215,9 +215,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=38"></script>
-  <script src="auth.js?v=38"></script>
-  <script src="pay.js?v=38"></script>
+  <script src="config.js?v=39"></script>
+  <script src="auth.js?v=39"></script>
+  <script src="pay.js?v=39"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -329,6 +329,21 @@
       return partsOf(name).every((m) => !m.exclusive || owned.has(m.exclusive)) ? "Unlocked" : PRICE;
     };
 
+    const LOCK = {
+      closed: '<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+      open: '<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></svg>',
+    };
+    // A paid mock stays locked until every part of it is unlocked on this account
+    const isLocked = (name) => isPaid(name) && !partsOf(name).every((m) => !m.exclusive || owned.has(m.exclusive));
+
+    // Greys out a locked mock and shows a closed or open padlock on its number
+    function showLock(button) {
+      const locked = isLocked(button.dataset.mock);
+      button.classList.toggle("locked", locked);
+      button.querySelector(".mock-lock").innerHTML = locked ? LOCK.closed : LOCK.open;
+      button.querySelector(".mock-lock").title = locked ? "Locked" : "Unlocked";
+    }
+
     function mockButton(name) {
       const button = document.createElement("button");
       const icon = document.createElement("span");
@@ -342,6 +357,9 @@
       icon.className = isPaid(name) ? "mock-icon paid" : "mock-icon";
       icon.setAttribute("aria-hidden", "true");
       icon.textContent = name.replace(/\D/g, "");
+      const lock = document.createElement("span");
+      lock.className = "mock-lock";
+      icon.append(lock);
       text.className = "mock-text";
       title.className = "mock-name";
       title.textContent = name;
@@ -353,6 +371,7 @@
       text.append(title, note);
       button.append(icon, text, arrow);
       button.addEventListener("click", openMock);
+      showLock(button);
       return button;
     }
 
@@ -379,6 +398,7 @@
     function refreshMockNotes() {
       document.querySelectorAll("[data-mock]").forEach((button) => {
         button.querySelector(".mock-note").textContent = mockNote(button.dataset.mock);
+        showLock(button);
       });
     }
 

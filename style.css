@@ -662,6 +662,38 @@ h1 {
 
 .mock-icon.idea, .mock-icon.paid { background: linear-gradient(145deg, #ffd27a, #f0a92c); }
 
+/* A padlock on the number: closed until the mock is unlocked, open once it can be taken */
+.mock-icon { position: relative; }
+
+.mock-lock {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(15, 35, 70, 0.25);
+  color: #22a35a;
+}
+
+.mock-lock svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Paid and not unlocked yet: grey, but still a button that opens the payment */
+.mock.locked { background: #e9edf3; color: #6b788c; }
+
+.mock.locked:hover { background: #dfe5ee; }
+
+.mock.locked .mock-icon { background: linear-gradient(145deg, #b9c3d1, #8f9bad); }
+
+.mock.locked .mock-note { color: #7a8699; }
+
+.mock.locked .mock-arrow { color: #8f9bad; }
+
+.mock.locked .mock-lock { color: #6b788c; }
+
 .mock-icon svg { width: 22px; height: 22px; }
 
 .mock-text { display: flex; flex: 1; flex-direction: column; gap: 2px; }
