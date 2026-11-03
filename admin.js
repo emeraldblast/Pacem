@@ -87,7 +87,7 @@ const dateTime = (when) => new Date(when).toLocaleString(undefined, { day: "nume
 
 // Receipts are private, so each one gets a link that works for an hour
 async function loadReceiptUrls() {
-  const paths = payments.map((p) => p.receipt_path);
+  const paths = payments.map((p) => p.receipt_path).filter((path) => !path.endsWith("/no-receipt"));
   if (!paths.length) return {};
   const { data } = await db.storage.from("receipts").createSignedUrls(paths, 3600);
   return Object.fromEntries((data || []).filter((d) => d.signedUrl).map((d) => [d.path, d.signedUrl]));
@@ -95,7 +95,7 @@ async function loadReceiptUrls() {
 
 function receipt(payment) {
   const url = receiptUrls[payment.receipt_path];
-  if (!url) return element("span", "payment-receipt", "No file");
+  if (!url) return element("span", "payment-receipt", payment.receipt_path.endsWith("/no-receipt") ? "Name only" : "No file");
   const link = element("a", "payment-receipt");
   link.href = url;
   link.target = "_blank";

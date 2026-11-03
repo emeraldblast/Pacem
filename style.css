@@ -839,37 +839,27 @@ button.subject-mock { border: 0; font: inherit; text-align: left; cursor: pointe
 
 .kaspi-copy:hover { background: #d13a2e; }
 
-.pay-hint { color: var(--muted); font-size: 15px; line-height: 1.5; }
-
-.receipt {
-  position: relative;
-  display: flex;
+/* Counts down the minutes given to pay; turns red at zero but never blocks the form */
+.pay .pay-timer {
+  display: inline-flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px;
-  border: 2px dashed var(--bar-line);
-  border-radius: 18px;
-  cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 6px 14px;
+  background: #fff3d6;
+  border-radius: 999px;
+  color: #9a6a0c;
+  font-size: 15px;
+  font-weight: 600;
 }
 
-.receipt:hover { background: var(--hover); }
+.pay-timer[hidden] { display: none; }
 
-.receipt:focus-within { outline: 2px solid var(--mark); outline-offset: 2px; }
+.pay-timer strong { font-variant-numeric: tabular-nums; }
 
-.receipt.chosen { border-style: solid; border-color: var(--mark); }
+.pay .pay-timer.over { background: #fdeceb; color: #d13a2e; }
 
-.receipt input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-
-.receipt svg { flex: none; width: 28px; height: 28px; fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-
-.receipt.chosen svg { stroke: var(--mark); }
-
-.receipt span { display: grid; min-width: 0; }
-
-.receipt strong { overflow: hidden; font-size: 16px; text-overflow: ellipsis; white-space: nowrap; }
-
-.receipt small { color: var(--muted); font-size: 13px; }
+.pay-hint { color: var(--muted); font-size: 15px; line-height: 1.5; }
 
 .pay-field { display: grid; gap: 6px; color: var(--muted); font-size: 14px; font-weight: 600; }
 
