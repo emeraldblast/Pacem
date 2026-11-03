@@ -5,7 +5,7 @@
 const $ = (id) => document.getElementById(id);
 let mocks = [];
 let users = [];
-let me = null;
+let canManage = false;
 
 setupThemeButton($("theme"));
 
@@ -50,7 +50,7 @@ async function setAccess(user, mock, box) {
 
 // Admins can see every account and unlock anything, so making one is confirmed first
 async function setAdmin(user, box) {
-  if (box.checked && !confirm(`Make ${user.email} an admin? They will see every account and can unlock mocks and add admins.`)) {
+  if (box.checked && !confirm(`Make ${user.email} an admin? They will see every account and can unlock mocks.`)) {
     box.checked = false;
     return;
   }
@@ -92,8 +92,8 @@ function rows() {
     for (const mock of mocks) {
       row.append(toggle(user.unlocked.includes(mock.id), !user.verified, `${mock.title} for ${user.email}`, (box) => setAccess(user, mock, box)));
     }
-    // Your own switch is locked, so you can't remove yourself
-    row.append(toggle(user.admin, !user.verified || user.id === me.id, `${user.email} is an admin`, (box) => setAdmin(user, box)));
+    // Only the owner can change admins, and the owner's own switch stays on
+    row.append(toggle(user.admin, !canManage || !user.verified || user.owner, `${user.email} is an admin`, (box) => setAdmin(user, box)));
     return row;
   }));
   if (!shown.length) {
@@ -106,8 +106,7 @@ function rows() {
 }
 
 (async () => {
-  me = await setupAccount();
-  if (!me) {
+  if (!(await setupAccount())) {
     location.replace("login.html");
     return;
   }
@@ -120,6 +119,8 @@ function rows() {
   }
   mocks = data.mocks;
   users = data.users;
+  canManage = data.can_manage;
+  if (!canManage) $("saved").textContent = "Newest accounts first. Only the owner can add or remove admins.";
   $("message").hidden = true;
   $("admin-body").hidden = false;
   const head = document.createElement("tr");
