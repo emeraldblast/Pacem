@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=18">
-  <script src="theme.js?v=18"></script>
+  <link rel="stylesheet" href="style.css?v=19">
+  <script src="theme.js?v=19"></script>
 </head>
 <body>
 
@@ -145,13 +145,21 @@
     </section>
   </main>
 
+  <dialog class="buy" id="buy" aria-labelledby="buy-title">
+    <button class="buy-close" id="buy-close" type="button" aria-label="Close">×</button>
+    <h2 id="buy-title"></h2>
+    <p class="buy-price">It costs <strong id="buy-price"></strong></p>
+    <p class="buy-note" id="buy-note"></p>
+    <a class="get-started buy-button" id="buy-button" href="login.html?mode=register" rel="noopener" autofocus>Buy</a>
+  </dialog>
+
   <footer class="end wrap">
     <p>Pacemock is an independent study site, not connected to Nazarbayev University.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=18"></script>
-  <script src="auth.js?v=18"></script>
+  <script src="config.js?v=19"></script>
+  <script src="auth.js?v=19"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -203,26 +211,53 @@
     const owned = new Set();
     const EXCLUSIVE = new Set(Object.values(SUBJECTS).flatMap((s) => s.mocks.map((m) => m.exclusive)));
 
-    function subjectRow(mock) {
+    // Where Buy sends people: payment is arranged there, then the mock is unlocked with the bot
+    const BUY_LINK = "https://t.me/Pacemock";
+    const PRICE = "990 tenge";
+    let accountEmail = "";
+
+    function subjectRow(mock, subjectTitle) {
       const open = mock.href && (!mock.exclusive || owned.has(mock.exclusive));
-      if (mock.exclusive && !open) mock = { name: mock.name, note: "Exclusive" };
-      const row = document.createElement(open ? "a" : "div");
+      const locked = mock.exclusive && !open;
+      const row = document.createElement(open ? "a" : locked ? "button" : "div");
       const name = document.createElement("span");
       const note = document.createElement("span");
-      row.className = open ? "subject-mock" : "subject-mock soon";
+      row.className = open ? "subject-mock" : locked ? "subject-mock locked" : "subject-mock soon";
       if (open) row.href = mock.href;
+      if (locked) {
+        row.type = "button";
+        row.addEventListener("click", () => openBuy(`${subjectTitle} ${mock.name}`));
+      }
       name.className = "mock-name";
       name.textContent = mock.name;
       note.className = "mock-note";
-      note.textContent = mock.note;
+      note.textContent = locked ? `Exclusive · ${PRICE}` : mock.note;
       row.append(name, note);
       return row;
     }
 
+    const buy = document.getElementById("buy");
+
+    function openBuy(title) {
+      const button = document.getElementById("buy-button");
+      document.getElementById("buy-title").textContent = title;
+      document.getElementById("buy-price").textContent = PRICE;
+      // Signed-in buyers are told which email to send, so the right account gets unlocked
+      document.getElementById("buy-note").textContent = accountEmail
+        ? `After paying, send us your account email (${accountEmail}) and we'll unlock it.`
+        : "Create an account first, so we can unlock the mock for you after you pay.";
+      button.href = accountEmail ? BUY_LINK : "login.html?mode=register";
+      button.target = accountEmail ? "_blank" : "";
+      buy.showModal();
+    }
+
+    document.getElementById("buy-close").addEventListener("click", () => buy.close());
+    buy.addEventListener("click", (e) => { if (e.target === buy) buy.close(); });
+
     function openSubject(e) {
       const chosen = SUBJECTS[e.currentTarget.dataset.subject];
       document.getElementById("subject-title").textContent = chosen.title;
-      document.getElementById("subject-list").replaceChildren(...chosen.mocks.map(subjectRow));
+      document.getElementById("subject-list").replaceChildren(...chosen.mocks.map((mock) => subjectRow(mock, chosen.title)));
       hero.classList.add("in-subject");
       hero.querySelector(".card-text").inert = true;
       subject.inert = false;
@@ -240,6 +275,7 @@
 
     setupAccount().then((signedIn) => {
       if (!signedIn) return;
+      accountEmail = document.getElementById("profile-email").textContent;
       document.getElementById("get-started").hidden = true;
       addAccountMocks();
       showResults();
