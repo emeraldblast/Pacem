@@ -1045,6 +1045,92 @@ button.subject-mock { border: 0; font: inherit; text-align: left; cursor: pointe
 
 .switch input:disabled + .switch-track { opacity: 0.45; }
 
+/* Payments in the admin panel */
+.payments-count {
+  margin-left: 6px;
+  padding: 2px 9px;
+  background: #fff3d6;
+  border-radius: 999px;
+  color: #9a6a0c;
+  font-size: 13px;
+  font-weight: 600;
+  vertical-align: 2px;
+}
+
+.payments-count:empty { display: none; }
+
+.payments { display: grid; gap: 10px; }
+
+.payment {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid var(--bar-line);
+  border-radius: 16px;
+}
+
+.payment.pending { border-color: #f2c867; }
+
+.payment-receipt {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 80px;
+  overflow: hidden;
+  background: var(--hover);
+  border-radius: 10px;
+  color: var(--mark);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+span.payment-receipt { color: var(--muted); font-weight: 500; }
+
+.payment-receipt img { width: 100%; height: 100%; object-fit: cover; }
+
+.payment-info { display: grid; gap: 2px; min-width: 0; }
+
+.payment-info strong { overflow-wrap: anywhere; }
+
+.payment-info span { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+
+.payment-actions { display: flex; gap: 8px; }
+
+.payment-approve, .payment-reject {
+  height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.payment-approve { background: #22a35a; color: #fff; }
+
+.payment-approve:hover { background: #1b8a4b; }
+
+.payment-reject { background: var(--hover); color: var(--text); }
+
+.payment-reject:hover { color: #d13a2e; }
+
+.payment-approve:disabled, .payment-reject:disabled { opacity: 0.5; cursor: default; }
+
+.payment button:focus-visible, .payment-receipt:focus-visible { outline: 2px solid var(--mark); outline-offset: 2px; }
+
+.payment-status { font-size: 13px; font-weight: 600; }
+
+.payment-status.approved { color: #22a35a; }
+
+.payment-status.rejected { color: #d13a2e; }
+
+@media (max-width: 560px) {
+  .payment { grid-template-columns: 56px minmax(0, 1fr); gap: 12px; }
+  .payment-actions { grid-column: 1 / -1; }
+  .payment-actions button { flex: 1; }
+}
+
 .tip {
   position: absolute;
   z-index: 20;
