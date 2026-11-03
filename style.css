@@ -674,7 +674,7 @@ button.subject-mock { border: 0; font: inherit; text-align: left; cursor: pointe
 
 .pay p { margin: 0; }
 
-.pay-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pay-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
 
 .pay h2 { margin: 0; color: var(--mark); font-size: 28px; letter-spacing: -0.03em; }
 
@@ -693,12 +693,6 @@ button.subject-mock { border: 0; font: inherit; text-align: left; cursor: pointe
 .pay-close:hover { color: var(--text); }
 
 .pay-close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
-
-.pay-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 18px; }
-
-.pay-steps span { height: 5px; background: var(--bar-line); border-radius: 3px; transition: background 0.3s ease; }
-
-.pay-steps .done { background: var(--mark); }
 
 .pay-form, .pay-signin { display: grid; gap: 14px; margin-top: 14px; }
 
