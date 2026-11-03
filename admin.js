@@ -6,6 +6,8 @@ const $ = (id) => document.getElementById(id);
 let mocks = [];
 let users = [];
 let canManage = false;
+let payments = [];
+let receiptUrls = {};
 
 setupThemeButton($("theme"));
 
@@ -80,6 +82,100 @@ function toggle(checked, disabled, label, onChange) {
   return cell;
 }
 
+const STATUS = { approved: "Approved", rejected: "Rejected" };
+const dateTime = (when) => new Date(when).toLocaleString(undefined, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+
+// Receipts are private, so each one gets a link that works for an hour
+async function loadReceiptUrls() {
+  const paths = payments.map((p) => p.receipt_path);
+  if (!paths.length) return {};
+  const { data } = await db.storage.from("receipts").createSignedUrls(paths, 3600);
+  return Object.fromEntries((data || []).filter((d) => d.signedUrl).map((d) => [d.path, d.signedUrl]));
+}
+
+function receipt(payment) {
+  const url = receiptUrls[payment.receipt_path];
+  if (!url) return element("span", "payment-receipt", "No file");
+  const link = element("a", "payment-receipt");
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener";
+  if (/\.(png|jpe?g|webp)$/i.test(payment.receipt_path)) {
+    const image = document.createElement("img");
+    image.src = url;
+    image.alt = `Receipt from ${payment.email}`;
+    image.loading = "lazy";
+    link.append(image);
+  } else {
+    link.textContent = /\.pdf$/i.test(payment.receipt_path) ? "PDF" : "File";
+    link.setAttribute("aria-label", `Receipt from ${payment.email}`);
+  }
+  return link;
+}
+
+async function review(payment, approve, buttons) {
+  if (!approve && !confirm(`Reject the receipt from ${payment.email}? They'll be asked to send a new one.`)) return;
+  buttons.forEach((button) => { button.disabled = true; });
+  const { error } = await db.rpc("admin_review_payment", { payment: payment.id, approve });
+  if (error) {
+    buttons.forEach((button) => { button.disabled = false; });
+    $("payments-note").textContent = `Couldn't save: ${error.message}`;
+    return;
+  }
+  payment.status = approve ? "approved" : "rejected";
+  const user = users.find((u) => u.id === payment.user_id);
+  if (approve && user && !user.unlocked.includes(payment.mock_id)) {
+    user.unlocked = [...user.unlocked, payment.mock_id];
+    rows();
+    tiles();
+  }
+  $("payments-note").textContent = `${payment.mock_title || payment.mock_id} ${approve ? "unlocked for" : "rejected for"} ${payment.email}.`;
+  paymentRows();
+}
+
+function paymentRows() {
+  const waiting = payments.filter((p) => p.status === "pending").length;
+  $("payments-count").textContent = waiting ? `${waiting} waiting` : "";
+  if (!payments.length) {
+    $("payments").replaceChildren(element("p", "panel-empty", "No payments in the last 30 days."));
+    return;
+  }
+  $("payments").replaceChildren(...payments.map((payment) => {
+    const item = element("article", `payment ${payment.status}`);
+    const info = element("div", "payment-info");
+    info.append(
+      element("strong", "", payment.email),
+      element("span", "", `${payment.mock_title || payment.mock_id} · Kaspi name: ${payment.sender_name}`),
+      element("span", "", dateTime(payment.created_at)),
+    );
+    const actions = element("div", "payment-actions");
+    if (payment.status === "pending") {
+      const approve = element("button", "payment-approve", "Approve");
+      const reject = element("button", "payment-reject", "Reject");
+      approve.type = "button";
+      reject.type = "button";
+      approve.addEventListener("click", () => review(payment, true, [approve, reject]));
+      reject.addEventListener("click", () => review(payment, false, [approve, reject]));
+      actions.append(approve, reject);
+    } else {
+      actions.append(element("span", `payment-status ${payment.status}`, STATUS[payment.status]));
+    }
+    item.append(receipt(payment), info, actions);
+    return item;
+  }));
+}
+
+async function loadPayments() {
+  const { data, error } = await db.rpc("admin_payments");
+  if (error) {
+    $("payments").replaceChildren(element("p", "panel-empty", `Payments couldn't load: ${error.message}`));
+    return;
+  }
+  payments = data;
+  receiptUrls = await loadReceiptUrls();
+  paymentRows();
+}
+
 function rows() {
   const search = $("search").value.trim().toLowerCase();
   const shown = users.filter((u) => u.email.toLowerCase().includes(search));
@@ -129,4 +225,5 @@ function rows() {
   tiles();
   rows();
   $("search").addEventListener("input", rows);
+  loadPayments();
 })();

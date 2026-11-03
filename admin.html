@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=25">
-  <script src="theme.js?v=25"></script>
+  <link rel="stylesheet" href="style.css?v=26">
+  <script src="theme.js?v=26"></script>
 </head>
 <body>
 
@@ -44,7 +44,7 @@
     <section class="me">
       <div class="me-text">
         <h1>Admin panel</h1>
-        <p>Turn paid mocks on or off for each account. Changes save straight away.</p>
+        <p>Review Kaspi payments and turn paid mocks on or off for each account. Changes save straight away.</p>
       </div>
       <a class="me-home" href="account.html">← Your statistics</a>
     </section>
@@ -53,6 +53,12 @@
 
     <div id="admin-body" hidden>
       <div class="tiles" id="tiles"></div>
+
+      <section class="panel">
+        <h2>Payments <span class="payments-count" id="payments-count"></span></h2>
+        <p class="panel-note" id="payments-note" aria-live="polite">Check the transfer in Kaspi, then approve to unlock the mock. Waiting payments first.</p>
+        <div class="payments" id="payments"><p class="panel-empty">Loading…</p></div>
+      </section>
 
       <section class="panel">
         <div class="admin-tools">
@@ -71,8 +77,8 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=25"></script>
-  <script src="auth.js?v=25"></script>
-  <script src="admin.js?v=25"></script>
+  <script src="config.js?v=26"></script>
+  <script src="auth.js?v=26"></script>
+  <script src="admin.js?v=26"></script>
 </body>
 </html>

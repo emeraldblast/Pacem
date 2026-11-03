@@ -25,6 +25,6 @@ Then open http://localhost:8000/. Local logins use the live Supabase project, so
 
 An exclusive mock costs 1 290 ₸. Buyers transfer it by Kaspi and send the receipt from the mock's payment window. The price, phone number and recipient are in `PAYMENT` in `config.js`.
 
-1. Run `supabase/payments.sql` once in the Supabase SQL Editor.
-2. Receipts arrive in the `payments` table as `pending`, with the file in Storage > receipts. The SQL file has a query that lists them with each buyer's email.
-3. After checking the transfer in Kaspi, unlock the mock with the Telegram bot (`/unlock email math2`). That marks the payment approved. To turn a payment down, set its `status` to `rejected`, and the buyer is asked for a new receipt.
+1. Run `supabase/payments.sql`, then `supabase/admin-payments.sql`, once in the Supabase SQL Editor.
+2. New receipts show under Payments in the admin panel (`admin.html`), with the receipt, the buyer's email, the mock and their Kaspi name.
+3. Check the transfer in Kaspi, then press Approve to unlock the mock, or Reject to ask the buyer for a new receipt. Unlocking the mock with the Telegram bot or the Accounts switches also approves its payment.
