@@ -18,15 +18,9 @@ function payShowError(text) {
 
 function payShowView(view) {
   payEl("pay-form").hidden = view !== "form";
-  payEl("pay-steps").hidden = view !== "form";
   payEl("pay-done").hidden = view !== "done";
   payEl("pay-signin").hidden = view !== "signin";
   payEl("kaspi").hidden = view === "signin";
-}
-
-function payUpdateSteps() {
-  payEl("step-receipt").classList.toggle("done", payEl("receipt").files.length > 0);
-  payEl("step-name").classList.toggle("done", payEl("sender").value.trim().length >= 2);
 }
 
 function payChooseReceipt() {
@@ -35,7 +29,6 @@ function payChooseReceipt() {
   payEl("receipt-note").textContent = file ? "Tap to choose another file" : "Screenshot or PDF from Kaspi";
   payEl("receipt-box").classList.toggle("chosen", Boolean(file));
   payShowError("");
-  payUpdateSteps();
 }
 
 // What a locked mock says under its name
@@ -101,7 +94,6 @@ async function setupPayment(user) {
   // A click on the dimmed backdrop lands on the dialog itself
   sheet.addEventListener("click", (e) => { if (e.target === sheet) sheet.close(); });
   payEl("receipt").addEventListener("change", payChooseReceipt);
-  payEl("sender").addEventListener("input", payUpdateSteps);
   payEl("pay-form").addEventListener("submit", sendPayment);
 
   payEl("kaspi-copy").addEventListener("click", async () => {
