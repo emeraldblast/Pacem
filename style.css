@@ -388,8 +388,8 @@ h1 {
 .orb { position: absolute; z-index: 2; border-radius: 50%; }
 
 .orb-blue {
-  top: -20px;
-  left: -26px;
+  top: -34px;
+  left: -64px;
   width: 30px;
   height: 30px;
   background: radial-gradient(circle at 32% 30%, #cfe4ff, #5b93f0 45%, #1d4fb8);
@@ -405,25 +405,53 @@ h1 {
   box-shadow: 0 8px 18px rgba(6, 24, 70, 0.35);
 }
 
+/* A glass cube: three faces of a real 3D box */
 .cube {
   position: absolute;
-  right: calc(6% + min(20vw, 200px) + 28px);
-  bottom: 9%;
-  display: grid;
-  place-items: center;
-  width: 62px;
-  height: 62px;
-  background: linear-gradient(145deg, rgba(232, 242, 255, 0.95), rgba(138, 182, 245, 0.85));
-  border-radius: 14px;
-  box-shadow: inset -6px -6px 0 rgba(30, 90, 200, 0.25), 0 12px 24px rgba(6, 24, 70, 0.3);
-  color: #1e5bd0;
-  font-size: 20px;
-  font-weight: 700;
-  transform: rotate(-10deg);
+  right: calc(6% + min(20vw, 200px) + 40px);
+  bottom: 12%;
+  width: 66px;
+  height: 66px;
+  perspective: 500px;
   animation: float 7s ease-in-out -2s infinite;
 }
 
-.cube sup { font-size: 12px; }
+.cube-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(-22deg) rotateY(-34deg);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 10px;
+}
+
+.face.front {
+  background: linear-gradient(150deg, rgba(214, 233, 255, 0.92), rgba(120, 170, 245, 0.88));
+  color: #1e5bd0;
+  font-size: 22px;
+  font-weight: 700;
+  transform: translateZ(33px);
+}
+
+.face.front sup { font-size: 13px; }
+
+.face.side {
+  background: linear-gradient(150deg, rgba(150, 192, 250, 0.9), rgba(70, 125, 225, 0.9));
+  transform: rotateY(90deg) translateZ(33px);
+}
+
+.face.lid {
+  background: linear-gradient(150deg, rgba(240, 247, 255, 0.95), rgba(180, 210, 252, 0.9));
+  transform: rotateX(90deg) translateZ(33px);
+}
 
 @keyframes float {
   50% { translate: 0 -8px; }
@@ -643,6 +671,7 @@ a.subject-mock:hover { background: #e9f2ff; }
 
 @media (max-width: 1040px) {
   .preview { right: 30px; width: 240px; }
+  .cube { display: none; }
   .preview-options { gap: 4px; }
   .preview-options b { display: none; }
 }

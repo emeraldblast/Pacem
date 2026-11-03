@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
-  <script src="theme.js?v=14"></script>
+  <link rel="stylesheet" href="style.css?v=15">
+  <script src="theme.js?v=15"></script>
 </head>
 <body>
 
@@ -90,7 +90,13 @@
           </div>
         </div>
       </div>
-      <div class="cube" aria-hidden="true"><span>x<sup>2</sup></span></div>
+      <div class="cube" aria-hidden="true">
+        <div class="cube-body">
+          <span class="face front"><span>x<sup>2</sup></span></span>
+          <span class="face side"></span>
+          <span class="face lid"></span>
+        </div>
+      </div>
 
       <div class="card-text">
         <h1>Prepare for <span class="accent">NUET</span> with Pacemock</h1>
@@ -142,8 +148,8 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=14"></script>
-  <script src="auth.js?v=14"></script>
+  <script src="config.js?v=15"></script>
+  <script src="auth.js?v=15"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
