@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=36">
-  <script src="theme.js?v=36"></script>
+  <link rel="stylesheet" href="style.css?v=37">
+  <script src="theme.js?v=37"></script>
 </head>
 <body>
 
@@ -174,19 +174,11 @@
         </div>
         <button class="kaspi-copy" id="kaspi-copy" type="button">Copy</button>
       </div>
+      <p class="pay-timer" id="pay-timer"><span aria-hidden="true">⏳</span> <span id="pay-timer-label">Pay within</span> <strong id="pay-time">5:00</strong></p>
     </div>
 
     <form class="pay-form" id="pay-form" novalidate>
-      <p class="pay-hint">After the transfer, attach the receipt and enter the name your Kaspi account shows.</p>
-
-      <label class="receipt" id="receipt-box">
-        <input id="receipt" type="file" accept="image/png,image/jpeg,image/webp,image/heic,image/heif,application/pdf">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5l-8.3 8.3a5 5 0 0 1-7-7l8.6-8.6a3.4 3.4 0 0 1 4.8 4.8l-8.6 8.6a1.7 1.7 0 0 1-2.4-2.4l8-8"/></svg>
-        <span>
-          <strong id="receipt-title">Attach receipt</strong>
-          <small id="receipt-note">Screenshot or PDF from Kaspi</small>
-        </span>
-      </label>
+      <p class="pay-hint">After the transfer, enter the name your Kaspi account shows, so we can find your payment.</p>
 
       <label class="pay-field">Sender name in Kaspi
         <input id="sender" type="text" autocomplete="name" maxlength="80" placeholder="First and last name">
@@ -199,7 +191,7 @@
     <div class="pay-done" id="pay-done" hidden>
       <svg class="pay-done-mark" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M14 25l7 7 13-14"/></svg>
       <h3>Sent for review</h3>
-      <p>We'll check your transfer and unlock the mock on this account. It opens here once it's approved.</p>
+      <p>We'll find your transfer by your Kaspi name and unlock the mock on this account. It opens here once it's approved.</p>
       <button class="pay-submit" id="pay-ok" type="button">Done</button>
     </div>
 
@@ -214,9 +206,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=36"></script>
-  <script src="auth.js?v=36"></script>
-  <script src="pay.js?v=36"></script>
+  <script src="config.js?v=37"></script>
+  <script src="auth.js?v=37"></script>
+  <script src="pay.js?v=37"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -323,7 +315,7 @@
     const COMING_SOON = ["Mock 4", "Mock 5", "Mock 6"];
     const mockNote = (name) => {
       if (!isPaid(name)) return "Free";
-      if (!ownsAny(name) && paymentStatus.get(paidPartOf(name)) === "pending") return "Receipt under review";
+      if (!ownsAny(name) && paymentStatus.get(paidPartOf(name)) === "pending") return "Payment under review";
       // The price sits on the mock; its Math and Critical Thinking parts just say Exclusive
       return partsOf(name).every((m) => !m.exclusive || owned.has(m.exclusive)) ? "Unlocked" : PRICE;
     };
