@@ -193,25 +193,33 @@ function runExam() {
   save();
 }
 
+// A signed-in student's result goes to their account, for the profile menu
+function saveAttempt(score) {
+  if (!db || !window.accountId || !test.questions.length) return;
+  db.from("attempts").insert({ mock_id: subject, score, answers: state.answers }).then(() => {}, () => {});
+}
+
 function finish() {
   clearInterval(timer);
   if ($("confirm").open) $("confirm").close();
+
+  const worth = (q) => q.marks || 1;
+  const sum = (list) => list.reduce((all, q) => all + worth(q), 0);
+  const raw = sum(test.questions.filter((q, i) => "answer" in q && state.answers[i] === q.answer));
+  const scored = Math.round(raw / sum(test.questions) * outOf);
 
   // Kept in the saved state, so the results are still here after a refresh
   if (!state.finished) {
     state.finished = true;
     state.used = Math.min(test.minutes * 60000, test.minutes * 60000 - (state.endsAt - Date.now()));
     save();
+    saveAttempt(scored);
   }
   const rows = [
     ["Answered", `${answeredCount()} of ${total}`],
     ["Marked", markedCount()],
     ["Time used", formatTime(state.used)],
   ];
-  const worth = (q) => q.marks || 1;
-  const sum = (list) => list.reduce((all, q) => all + worth(q), 0);
-  const raw = sum(test.questions.filter((q, i) => "answer" in q && state.answers[i] === q.answer));
-  const scored = Math.round(raw / sum(test.questions) * outOf);
   if (test.questions.length) rows.unshift(["Score", `${scored} of ${outOf}`]);
   $("show-review").hidden = !test.questions.length;
   renderTopics(worth);

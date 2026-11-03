@@ -192,7 +192,7 @@ a:focus-visible, .top button:focus-visible {
   top: 50px;
   right: 0;
   z-index: 10;
-  width: min(260px, calc(100vw - 48px));
+  width: min(310px, calc(100vw - 48px));
   padding: 16px;
   background: var(--bar);
   border: 1px solid var(--bar-line);
@@ -203,6 +203,33 @@ a:focus-visible, .top button:focus-visible {
 .profile-label { margin: 0; color: var(--muted); font-size: 13px; }
 
 .profile-email { margin: 2px 0 12px; font-weight: 600; overflow-wrap: anywhere; }
+
+.results-list {
+  display: grid;
+  gap: 8px;
+  max-height: 260px;
+  margin: 6px 0 14px;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.results-list li:not(.results-empty) {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 10px;
+  padding: 9px 12px;
+  background: var(--hover);
+  border-radius: 12px;
+}
+
+.results-name { font-size: 14px; font-weight: 500; line-height: 1.35; }
+
+.results-list strong { color: var(--mark); font-size: 15px; }
+
+.results-note { grid-column: 1 / -1; color: var(--muted); font-size: 12px; }
+
+.results-empty { color: var(--muted); font-size: 14px; }
 
 /* Big blue card */
 .stage {
