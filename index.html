@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=29">
-  <script src="theme.js?v=29"></script>
+  <link rel="stylesheet" href="style.css?v=30">
+  <script src="theme.js?v=30"></script>
 </head>
 <body>
 
@@ -109,22 +109,6 @@
           </div>
 
           <div class="mocks" id="mocks" inert>
-            <button class="mock" data-subject="math" type="button">
-              <span class="mock-icon" aria-hidden="true">Σ</span>
-              <span class="mock-text">
-                <span class="mock-name">Math</span>
-                <span class="mock-note">3 mocks</span>
-              </span>
-              <span class="mock-arrow" aria-hidden="true">→</span>
-            </button>
-            <button class="mock" data-subject="crit" type="button">
-              <span class="mock-icon idea" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></span>
-              <span class="mock-text">
-                <span class="mock-name">Critical Thinking &amp; PS</span>
-                <span class="mock-note">2 mocks</span>
-              </span>
-              <span class="mock-arrow" aria-hidden="true">→</span>
-            </button>
             <button class="back" id="back" type="button">← Back</button>
           </div>
         </div>
@@ -199,9 +183,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
-  <script src="config.js?v=29"></script>
-  <script src="auth.js?v=29"></script>
-  <script src="pay.js?v=29"></script>
+  <script src="config.js?v=30"></script>
+  <script src="auth.js?v=30"></script>
+  <script src="pay.js?v=30"></script>
   <script>
     const hero = document.getElementById("hero");
     const startButton = document.getElementById("start-mock");
@@ -231,6 +215,7 @@
 
     // Add a line here for each new mock. A mock with no href shows as coming soon.
     // An exclusive mock is only a link for accounts that were given it.
+    // The home page lists mocks by name (Mock 1, Mock 2…); opening one shows its parts in each subject.
     const SUBJECTS = {
       math: {
         title: "Math",
@@ -254,6 +239,43 @@
     const owned = new Set();
     const EXCLUSIVE = new Set(Object.values(SUBJECTS).flatMap((s) => s.mocks.map((m) => m.exclusive)));
 
+    const MOCK_NAMES = [...new Set(Object.values(SUBJECTS).flatMap((s) => s.mocks.map((m) => m.name)))];
+    const partsOf = (name) => Object.values(SUBJECTS).flatMap((s) => s.mocks.filter((m) => m.name === name));
+    const isPaid = (name) => partsOf(name).some((m) => m.exclusive);
+    const mockNote = (name) => {
+      if (!isPaid(name)) return "Free";
+      return partsOf(name).every((m) => !m.exclusive || owned.has(m.exclusive)) ? "Unlocked" : "Exclusive";
+    };
+
+    function mockButton(name) {
+      const button = document.createElement("button");
+      const icon = document.createElement("span");
+      const text = document.createElement("span");
+      const title = document.createElement("span");
+      const note = document.createElement("span");
+      const arrow = document.createElement("span");
+      button.className = "mock";
+      button.type = "button";
+      button.dataset.mock = name;
+      icon.className = isPaid(name) ? "mock-icon paid" : "mock-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = name.replace(/\D/g, "");
+      text.className = "mock-text";
+      title.className = "mock-name";
+      title.textContent = name;
+      note.className = "mock-note";
+      note.textContent = mockNote(name);
+      arrow.className = "mock-arrow";
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "→";
+      text.append(title, note);
+      button.append(icon, text, arrow);
+      button.addEventListener("click", openMock);
+      return button;
+    }
+
+    document.getElementById("back").before(...MOCK_NAMES.map(mockButton));
+
     function subjectRow(mock, subjectTitle) {
       const open = mock.href && (!mock.exclusive || owned.has(mock.exclusive));
       const locked = mock.exclusive && !open;
@@ -267,30 +289,31 @@
         row.addEventListener("click", () => openPayment(mock.exclusive, `${subjectTitle} ${mock.name}`, note));
       }
       name.className = "mock-name";
-      name.textContent = mock.name;
+      name.textContent = subjectTitle;
       note.className = "mock-note";
       note.textContent = locked ? lockedNote(mock.exclusive) : mock.note;
       row.append(name, note);
       return row;
     }
 
-    function openSubject(e) {
-      const chosen = SUBJECTS[e.currentTarget.dataset.subject];
-      document.getElementById("subject-title").textContent = chosen.title;
-      document.getElementById("subject-list").replaceChildren(...chosen.mocks.map((mock) => subjectRow(mock, chosen.title)));
+    // A mock's Math and Critical Thinking parts take the place of the mock buttons
+    function openMock(e) {
+      const name = e.currentTarget.dataset.mock;
+      document.getElementById("subject-title").textContent = name;
+      document.getElementById("subject-list").replaceChildren(...Object.values(SUBJECTS).map((s) =>
+        subjectRow(s.mocks.find((m) => m.name === name) || { name, note: "Coming soon" }, s.title)));
       hero.classList.add("in-subject");
       hero.querySelector(".card-text").inert = true;
       subject.inert = false;
       if (e.detail === 0) document.getElementById("subject-back").focus({ preventScroll: true });
     }
 
-    document.querySelectorAll("[data-subject]").forEach((button) => button.addEventListener("click", openSubject));
 
     document.getElementById("subject-back").addEventListener("click", (e) => {
       hero.classList.remove("in-subject");
       subject.inert = true;
       hero.querySelector(".card-text").inert = false;
-      if (e.detail === 0) document.querySelector("[data-subject]").focus({ preventScroll: true });
+      if (e.detail === 0) document.querySelector("[data-mock]").focus({ preventScroll: true });
     });
 
     setupAccount().then((user) => {
@@ -321,6 +344,9 @@
         link.append(text);
         document.getElementById("back").before(link);
       }
+      document.querySelectorAll("[data-mock]").forEach((button) => {
+        button.querySelector(".mock-note").textContent = mockNote(button.dataset.mock);
+      });
     }
 
     document.getElementById("back").addEventListener("click", (e) => {

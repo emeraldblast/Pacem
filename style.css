@@ -484,7 +484,7 @@ h1 {
 /* The two mock tests */
 .mocks {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 14px;
   padding-top: 32px;
 }
@@ -505,7 +505,18 @@ h1 {
 }
 
 .card.open .mock { opacity: 1; transform: none; transition-delay: 0.14s, 0.14s, 0s; }
-.card.open .mock:nth-child(2) { transition-delay: 0.26s, 0.26s, 0s; }
+.card.open .mock:nth-child(2) { transition-delay: 0.22s, 0.22s, 0s; }
+.card.open .mock:nth-child(3) { transition-delay: 0.3s, 0.3s, 0s; }
+.card.open .mock:nth-child(4) { transition-delay: 0.38s, 0.38s, 0s; }
+
+/* Mock 1, Mock 2… sit three in a row, so they are a little more compact */
+.mocks .mock { gap: 12px; padding: 18px; }
+
+.mocks .mock-name { white-space: nowrap; }
+
+@media (max-width: 560px) {
+  .mocks { grid-template-columns: 1fr; }
+}
 
 .mock:hover { background: #e9f2ff; }
 
@@ -522,7 +533,7 @@ h1 {
   font-weight: 700;
 }
 
-.mock-icon.idea { background: linear-gradient(145deg, #ffd27a, #f0a92c); }
+.mock-icon.idea, .mock-icon.paid { background: linear-gradient(145deg, #ffd27a, #f0a92c); }
 
 .mock-icon svg { width: 22px; height: 22px; }
 
@@ -1212,6 +1223,6 @@ span.payment-receipt { color: var(--muted); font-weight: 500; }
 @media (prefers-reduced-motion: reduce) {
   .start, .start-area, .mock, .back, .card-text, .subject { transition: none; }
   .pay[open] { animation: none; }
-  .card.open .mock, .card.open .mock:nth-child(2), .card.open .back { transition-delay: 0s; }
+  .card.open .mock, .card.open .mock:nth-child(n), .card.open .back { transition-delay: 0s; }
   .card.open::after, .preview, .cube { animation: none; }
 }
